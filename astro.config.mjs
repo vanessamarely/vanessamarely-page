@@ -4,6 +4,8 @@ import react from "@astrojs/react";
 
 // https://astro.build/config
 export default defineConfig({
+  site: "https://vanessamarely.github.io",
+  base: "vanessamarely-page",
   devToolbar: {
     enabled: false,
   },
