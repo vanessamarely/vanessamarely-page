@@ -1,0 +1,59 @@
+:global(.light) .moon {
+  fill: transparent;
+}
+:global(.light) .sun {
+  fill: #1e1e2e;
+}
+
+#themeToggle {
+  border: 0;
+  background: none;
+}
+
+#themeToggle:hover {
+  cursor: pointer;
+  rotate: 10deg;
+}
+
+.moon {
+  fill: #fdebf3;
+}
+.sun {
+  fill: transparent;
+}
+
+/* Navigation Bar */
+.navbar {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin-top: 0.8rem;
+}
+
+.navbar__title {
+  font-family: var(--header);
+  font-size: 1.3rem;
+}
+
+.navbar__menu {
+  font-family: var(--body);
+  font-size: 1.1rem;
+  text-align: right;
+}
+
+.navbar__title > a,
+.navbar__menu > a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.navbar__menu > a {
+  margin: 0 10px;
+}
+
+.navbar__title > a:hover,
+.navbar__menu > a:hover,
+.navbar__menu > a:focus {
+  text-decoration: underline var(--underline);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
+}

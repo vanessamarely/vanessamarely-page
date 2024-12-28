@@ -1,0 +1,46 @@
+
+/* Cards */
+.card {
+  display: flex;
+  background-size: 400%;
+  padding: 20px;
+}
+
+.card__link {
+  width: 100%;
+  text-decoration: none;
+  line-height: 1.4;
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.card__image {
+  border-radius: 16px;
+}
+
+.card__title {
+  margin: 0;
+  font-family: var(--body);
+  font-size: 1.5rem;
+  font-weight: normal;
+  text-align: center;
+}
+
+.card__txt {
+  font-size: 1rem;
+  line-height: 1.5;
+  text-indent: 0;
+  text-align: center;
+  margin: 0.5rem 0 0;
+}
+
+.card__link:hover {
+  transform: scale(1.05);
+}
+
+.link-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(24ch, 1fr));
+  gap: 1rem;
+  padding: 0;
+}
