@@ -1,10 +1,11 @@
 /* Footer */
 
 .footer {
+  background-color: #ede8f2;
   cursor: default;
   list-style: none;
-  margin: 4rem 0;
-  padding: 0;
+  margin: 0;
+  padding: 1rem 0 4rem;
 }
 
 .footer__container {
@@ -12,7 +13,7 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: 0 1rem;
+  color: black;
 }
 
 .footer__link {
@@ -35,11 +36,10 @@
   display: flex;
   border-radius: 50%;
   border: 2px solid #fdebf3;
-  
+
   justify-content: center;
   padding: 0.5rem;
   text-decoration: none;
-  
 }
 
 .mail {

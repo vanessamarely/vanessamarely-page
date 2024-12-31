@@ -1,9 +1,13 @@
-
 /* Cards */
 .card {
   display: flex;
   background-size: 400%;
-  padding: 20px;
+  padding: 2rem;
+  flex-direction: column;
+  border: 1px solid #d1cbce;
+  border-radius: 1.5rem;
+  justify-content: center;
+  align-items: center;
 }
 
 .card__link {
