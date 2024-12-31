@@ -6,8 +6,8 @@ import tailwind from "@astrojs/tailwind";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://vanessamarely.github.io",
-  base: "/vanessamarely-page",
+  site: "https://vanessamarely.site/",
+  base: "/",
   devToolbar: {
     enabled: false,
   },
