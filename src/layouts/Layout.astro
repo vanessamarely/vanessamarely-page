@@ -1,7 +1,7 @@
 ---
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "../styles/global.css";
+
 const { pageTitle } = Astro.props;
 ---
 
@@ -11,6 +11,7 @@ const { pageTitle } = Astro.props;
     <meta charset="utf-8" />
     <meta name="description" content="Astro description" />
     <meta name="viewport" content="width=device-width" />
+    <link rel="stylesheet" href="/styles/global.css" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
 
