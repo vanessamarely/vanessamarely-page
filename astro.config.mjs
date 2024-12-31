@@ -2,10 +2,12 @@
 import { defineConfig } from "astro/config";
 import react from "@astrojs/react";
 
+import tailwind from "@astrojs/tailwind";
+
 // https://astro.build/config
 export default defineConfig({
   site: "https://vanessamarely.github.io",
-  base: "vanessamarely-page",
+  base: "/vanessamarely-page",
   devToolbar: {
     enabled: false,
   },
@@ -14,5 +16,6 @@ export default defineConfig({
     react({
       include: ["**/react/*"],
     }),
+    tailwind(),
   ],
 });

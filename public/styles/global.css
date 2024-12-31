@@ -23,7 +23,7 @@ body {
 
 h1,
 h2 {
-  font-family: "Fira Code", serif;
+  font-family: var(--header);
   font-weight: normal;
 }
 
@@ -52,11 +52,6 @@ p {
 small,
 li {
   font-family: var(--body);
-}
-
-.title {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
 }
 
 /* Gifs */

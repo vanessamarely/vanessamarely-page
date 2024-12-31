@@ -5,6 +5,13 @@
   fill: #1e1e2e;
 }
 
+.brand {
+  font-family: var(--header);
+  color: #a855f7;
+  font-size: 3rem;
+  margin: 0;
+}
+
 #themeToggle {
   border: 0;
   background: none;
@@ -24,6 +31,7 @@
 
 /* Navigation Bar */
 .navbar {
+  align-items: center;
   display: grid;
   grid-template-columns: 1fr 1fr;
   margin-top: 0.8rem;
