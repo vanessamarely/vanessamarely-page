@@ -8,9 +8,10 @@
     <svg class="art" viewBox="0 0 400 440" role="img" aria-labelledby="portrait-title">
       <title id="portrait-title">Ilustración de Vanessa: cabello largo castaño, labios rojos y blazer azul</title>
       <defs>
-        <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+        <!-- userSpaceOnUse: shade by position in the portrait, so every hair shape is dark at the top -->
+        <linearGradient id="hair" gradientUnits="userSpaceOnUse" x1="0" y1="90" x2="0" y2="440">
           <stop offset="0" stop-color="#2a1a16" />
-          <stop offset=".55" stop-color="#3d261d" />
+          <stop offset=".5" stop-color="#3a241c" />
           <stop offset="1" stop-color="#8a5a3b" />
         </linearGradient>
         <linearGradient id="blob" x1="0" y1="0" x2="1" y2="1">
@@ -50,7 +51,7 @@
         <path pathLength="1" class="ink line" style="--d:3" d="M170 314 L152 342 L182 420 M230 314 L248 342 L218 420" />
 
         <!-- neck -->
-        <path pathLength="1" class="ink" style="--d:3" fill="#e4a985" d="M176 268 L176 318 Q200 336 224 318 L224 268 Z" />
+        <path pathLength="1" class="ink" style="--d:3" fill="#e4a985" d="M176 268 L168 322 Q200 338 232 322 L224 268 Z" />
 
         <!-- face -->
         <path pathLength="1" class="ink" style="--d:4" fill="#f2c4a5" d="M200 116 C 246 116 274 150 274 200 C 274 242 258 270 232 285 C 216 294 184 294 168 285 C 142 270 126 242 126 200 C 126 150 154 116 200 116 Z" />
@@ -62,9 +63,14 @@
         <!-- hair (front strands + crown, middle part) -->
         <path pathLength="1" class="ink" style="--d:5" fill="url(#hair)" d="M150 132 C 118 170 114 238 120 300 C 124 350 110 392 96 430 C 128 430 152 412 162 386 C 170 340 150 300 148 250 C 146 200 156 166 176 136 Z" />
         <path pathLength="1" class="ink" style="--d:5" fill="url(#hair)" d="M250 132 C 282 170 286 238 280 300 C 276 350 290 392 304 430 C 272 430 248 412 238 386 C 230 340 250 300 252 250 C 254 200 244 166 224 136 Z" />
-        <path pathLength="1" class="ink" style="--d:6" fill="url(#hair)" d="M122 182 C 116 112 158 84 200 84 C 242 84 284 112 278 182 C 270 136 240 108 204 104 C 228 120 246 140 254 160 C 232 136 214 124 200 112 C 186 124 168 136 146 160 C 154 140 172 120 196 104 C 160 108 130 136 122 182 Z" />
-        <!-- hair highlights -->
-        <path pathLength="1" class="ink line soft" style="--d:7" d="M136 200 C 132 250 140 300 132 360 M264 200 C 268 250 260 300 268 360 M180 98 C 160 104 142 120 134 140" />
+        <!-- crown: solid cap whose lower edge is the hairline, so no forehead shows through -->
+        <path pathLength="1" class="ink" style="--d:6" fill="url(#hair)" d="M120 196 C 112 116 156 82 200 82 C 244 82 288 116 280 196 C 270 160 250 136 226 128 C 216 125 206 124 200 126 C 194 124 184 125 174 128 C 150 136 130 160 120 196 Z" />
+        <!-- curtain bangs falling from the middle part -->
+        <path pathLength="1" class="ink" style="--d:6" fill="url(#hair)" d="M201 116 C 168 116 132 136 124 194 C 146 162 172 144 201 138 Z" />
+        <path pathLength="1" class="ink" style="--d:6" fill="url(#hair)" d="M199 116 C 232 116 268 136 276 194 C 254 162 228 144 199 138 Z" />
+        <!-- middle part + hair highlights -->
+        <path pathLength="1" class="ink line soft" style="--d:7" d="M200 86 C 199 100 199 114 200 128" />
+        <path pathLength="1" class="ink line soft" style="--d:7" d="M136 200 C 132 250 140 300 132 360 M264 200 C 268 250 260 300 268 360 M180 96 C 160 102 142 118 134 140 M220 96 C 240 102 258 118 266 140" />
 
         <!-- brows -->
         <path pathLength="1" class="ink line brow" style="--d:7" d="M148 183 Q166 171 187 178" />
