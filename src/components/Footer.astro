@@ -1,0 +1,154 @@
+---
+import Icon from "./Icon.astro";
+import { social, email } from "../lib/social";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="footer" id="contacto">
+  <div class="wrap">
+    <div class="cta reveal">
+      <span class="eyebrow">Contacto</span>
+      <h2 class="cta__title">
+        ¿Tienes una idea, una charla <br />o un proyecto? <em class="serif">Hablemos.</em>
+      </h2>
+      <a class="mail" href={`mailto:${email}`}>
+        <span>{email}</span>
+        <Icon name="arrow" size={28} />
+      </a>
+    </div>
+
+    <ul class="socials">
+      {
+        social.map((s, i) => (
+          <li class="reveal" style={`--i:${i}`}>
+            <a href={s.href} target="_blank" rel="noopener me">
+              <Icon name={s.name} size={26} />
+              <span>{s.label}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="bottom">
+      <small>© {year} Vanessa Marely Aristizábal Ángel</small>
+      <small>Diseñado y dibujado en Medellín · Hecho con Astro</small>
+    </div>
+  </div>
+
+  <!-- decorative wavy line drawn across the footer -->
+  <svg class="wave" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 30 Q 50 0 100 30 T 200 30 T 300 30 T 400 30 T 500 30 T 600 30 T 700 30 T 800 30 T 900 30 T 1000 30 T 1100 30 T 1200 30" />
+  </svg>
+</footer>
+
+<style>
+  .footer {
+    position: relative;
+    margin-top: 40px;
+    padding: clamp(80px, 12vw, 140px) 0 32px;
+    background: var(--ink);
+    color: var(--bg);
+    border-radius: 48px 48px 0 0;
+    overflow: hidden;
+  }
+
+  .footer .eyebrow {
+    color: color-mix(in srgb, var(--bg) 60%, transparent);
+  }
+
+  .cta__title {
+    font-size: clamp(2.2rem, 6vw, 4.8rem);
+    margin: 18px 0 36px;
+    max-width: 16ch;
+  }
+
+  .cta__title em {
+    color: var(--sun);
+  }
+
+  .mail {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    font-size: clamp(1.15rem, 3vw, 2rem);
+    text-decoration: none;
+    padding-bottom: 6px;
+    background: linear-gradient(var(--coral), var(--coral)) 0 100% / 0 3px no-repeat;
+    transition: background-size 0.5s var(--ease);
+    word-break: break-all;
+  }
+
+  .mail:hover {
+    background-size: 100% 3px;
+  }
+
+  .mail :global(svg) {
+    flex: none;
+    transition: transform 0.4s var(--ease);
+  }
+  .mail:hover :global(svg) {
+    transform: translateX(8px) rotate(-30deg);
+  }
+
+  .socials {
+    list-style: none;
+    padding: 0;
+    margin: 64px 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+  }
+
+  .socials a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 20px;
+    border-radius: 20px;
+    border: 1px solid color-mix(in srgb, var(--bg) 18%, transparent);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s, color 0.3s, transform 0.4s var(--ease);
+  }
+
+  .socials a:hover {
+    background: var(--bg);
+    color: var(--ink);
+    transform: translateY(-4px) rotate(-1.5deg);
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding-top: 24px;
+    border-top: 1px solid color-mix(in srgb, var(--bg) 15%, transparent);
+    color: color-mix(in srgb, var(--bg) 60%, transparent);
+    font-family: var(--font-mono);
+  }
+
+  .wave {
+    position: absolute;
+    top: 28px;
+    left: 0;
+    width: 200%;
+    height: 40px;
+    animation: wave 18s linear infinite;
+  }
+
+  .wave path {
+    fill: none;
+    stroke: var(--violet);
+    stroke-width: 2;
+    opacity: 0.6;
+  }
+
+  @keyframes wave {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

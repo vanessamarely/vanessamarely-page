@@ -1,0 +1,159 @@
+---
+import { kindLabel, resourceLabel, type Talk } from "../data/talks";
+
+interface Props {
+  talk: Talk;
+}
+const { talk } = Astro.props;
+// Number repeated resource types ("Video 1", "Video 2")
+const totals = talk.resources.reduce<Record<string, number>>((acc, r) => ({ ...acc, [r.type]: (acc[r.type] ?? 0) + 1 }), {});
+const seen: Record<string, number> = {};
+const resources = talk.resources.map((r) => {
+  seen[r.type] = (seen[r.type] ?? 0) + 1;
+  return { ...r, label: totals[r.type] > 1 ? `${resourceLabel[r.type]} ${seen[r.type]}` : resourceLabel[r.type] };
+});
+const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short" }).format(new Date(`${talk.date}T12:00`));
+---
+
+<li class="talk" data-kind={talk.kind} data-has-resources={talk.resources.some((r) => r.type !== "event") ? "1" : "0"}>
+  <time datetime={talk.date}>{date}</time>
+  <div class="talk__main">
+    <h3>{talk.title}</h3>
+    <p>
+      <span class={`kind kind--${talk.kind}`}>{kindLabel[talk.kind]}</span>
+      {talk.event}
+    </p>
+  </div>
+  {
+    resources.length > 0 && (
+      <ul class="talk__res">
+        {resources.map((r) => (
+          <li>
+            <a href={r.url} target="_blank" rel="noopener" class={`res res--${r.type}`}>
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                {r.type === "slides" && <path d="M3 4h18M5 4v11h14V4M12 15v5M8 20h8" />}
+                {r.type === "video" && <path d="M4 6h12v12H4zM16 10l5-3v10l-5-3" />}
+                {r.type === "event" && <path d="M4 6h16v14H4zM4 10h16M8 3v5M16 3v5" />}
+                {r.type === "post" && <path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" />}
+                {r.type === "repo" && <path d="M6 3h11a2 2 0 0 1 2 2v16H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM4 17h15" />}
+                {r.type === "demo" && <path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" />}
+              </svg>
+              {r.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )
+  }
+</li>
+
+<style>
+  .talk {
+    display: grid;
+    grid-template-columns: 70px 1fr auto;
+    align-items: center;
+    gap: 18px;
+    padding: 18px 8px;
+    border-bottom: 1px solid var(--line);
+    transition: background 0.3s, padding 0.4s var(--ease);
+  }
+  .talk:hover {
+    background: var(--surface);
+    padding-inline: 18px;
+    border-radius: 18px;
+  }
+  .talk[hidden] {
+    display: none;
+  }
+
+  time {
+    font: 500 0.85rem var(--font-mono);
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  h3 {
+    font-size: 1.15rem;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+  }
+
+  .talk__main p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 0.95rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .kind {
+    font: 500 0.7rem var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 2px 8px;
+    border-radius: 999px;
+    color: #1d1727;
+    background: var(--sun);
+  }
+  .kind--taller {
+    background: var(--mint);
+  }
+  .kind--panel {
+    background: var(--sky);
+  }
+  .kind--mentoría {
+    background: var(--coral);
+  }
+  .kind--live {
+    background: color-mix(in srgb, var(--violet) 60%, white);
+  }
+
+  .talk__res {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: end;
+  }
+
+  .res {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    font: 500 0.8rem var(--font-sans);
+    text-decoration: none;
+    background: var(--bg);
+    transition: background 0.2s, color 0.2s, transform 0.3s var(--ease);
+  }
+  .res:hover {
+    background: var(--ink);
+    color: var(--bg);
+    transform: translateY(-2px);
+  }
+  .res svg {
+    width: 15px;
+    height: 15px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @media (max-width: 720px) {
+    .talk {
+      grid-template-columns: 56px 1fr;
+    }
+    .talk__res {
+      grid-column: 2;
+      justify-content: start;
+    }
+  }
+</style>

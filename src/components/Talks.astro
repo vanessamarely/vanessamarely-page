@@ -1,0 +1,278 @@
+---
+import Icon from "./Icon.astro";
+import TalkItem from "./TalkItem.astro";
+import { sortedTalks, impact, communities } from "../data/talks";
+
+const latest = sortedTalks.slice(0, 5);
+---
+
+<section class="section talks" id="charlas">
+  <div class="wrap">
+    <div class="talks__top">
+      <div class="reveal">
+        <span class="eyebrow">Charlas &amp; comunidad</span>
+        <h2 class="section-title">En el escenario <br /><em class="serif">y detrás de él</em></h2>
+        <p class="muted intro">
+          Desde 2018 comparto en conferencias, meetups y talleres por toda Latinoamérica: Angular, rendimiento web,
+          DevTools, accesibilidad y desarrollo con IA.
+        </p>
+      </div>
+
+      <svg class="mic reveal" style="--i:1" viewBox="0 0 260 240" aria-hidden="true">
+        <g class="mic__waves">
+          <path d="M70 70 Q50 100 70 130" /><path d="M48 54 Q16 100 48 146" />
+          <path d="M190 70 Q210 100 190 130" /><path d="M212 54 Q244 100 212 146" />
+        </g>
+        <g class="mic__body">
+          <rect x="106" y="30" width="48" height="96" rx="24" class="mic__head" />
+          <path d="M114 58 h32 M114 74 h32 M114 90 h32" class="mic__grill" />
+          <path d="M92 100 Q92 150 130 150 Q168 150 168 100" class="mic__arm" />
+          <path d="M130 150 V196 M100 200 H160" class="mic__arm" />
+        </g>
+        <path class="mic__star" d="M224 186 l5 11 12 1 -9 8 3 12 -11 -6 -11 6 3 -12 -9 -8 12 -1 Z" />
+      </svg>
+    </div>
+
+    <dl class="impact">
+      {
+        impact.map((s, i) => (
+          <div class="impact__item reveal" style={`--i:${i}`}>
+            <dd data-count={s.value}>{s.value}</dd>
+            <dt>
+              {s.label}
+              <small>{s.detail}</small>
+            </dt>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="talks__grid">
+      <div class="reveal">
+        <h3 class="sub">Charlas recientes</h3>
+        <ul class="list">
+          {latest.map((t) => <TalkItem talk={t} />)}
+        </ul>
+        <a class="btn" href="/charlas/">Ver todo el historial ({sortedTalks.length}) con recursos <Icon name="arrow" /></a>
+      </div>
+
+      <aside class="community reveal" style="--i:1">
+        <h3 class="sub">Comunidades</h3>
+        <ul>
+          {
+            communities.map((c) => (
+              <li>
+                <strong>{c.name}</strong>
+                <span>{c.role}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .talks {
+    background: var(--bg-2);
+    border-radius: 48px;
+    margin-inline: clamp(0px, 1.5vw, 16px);
+  }
+
+  .talks__top {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .intro {
+    margin-top: 20px;
+    max-width: 50ch;
+    color: var(--muted);
+  }
+
+  .mic {
+    width: min(100%, 300px);
+    justify-self: center;
+  }
+  .mic__head {
+    fill: var(--violet);
+    stroke: var(--ink);
+    stroke-width: 3;
+  }
+  .mic__grill {
+    stroke: var(--surface);
+    stroke-width: 3;
+    stroke-linecap: round;
+    opacity: 0.6;
+  }
+  .mic__arm,
+  .mic__waves path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+  .mic__waves path {
+    stroke: var(--coral);
+    animation: wave 2s ease-in-out infinite;
+  }
+  .mic__waves path:nth-child(2),
+  .mic__waves path:nth-child(4) {
+    animation-delay: 0.3s;
+  }
+  .mic__body {
+    transform-origin: 130px 200px;
+    animation: sway 4s ease-in-out infinite;
+  }
+  .mic__star {
+    fill: var(--sun);
+    stroke: var(--ink);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: twinkle 3s ease-in-out infinite;
+  }
+
+  .impact {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin: 56px 0;
+  }
+  .impact__item {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    padding: 24px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--line);
+  }
+  .impact dd {
+    margin: 0;
+    font-size: clamp(2.6rem, 5vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: -0.05em;
+    line-height: 1;
+  }
+  .impact dd::after {
+    content: "+";
+    color: var(--coral);
+  }
+  .impact dt {
+    margin-top: 8px;
+    font-weight: 600;
+    display: grid;
+  }
+  .impact small {
+    font: 400 0.8rem var(--font-mono);
+    color: var(--muted);
+  }
+
+  .talks__grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+  .talks__grid .btn {
+    margin-top: 28px;
+  }
+
+  .sub {
+    font: 500 0.8rem var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .community {
+    padding: 28px;
+    border-radius: var(--radius);
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .community .sub {
+    color: color-mix(in srgb, var(--bg) 60%, transparent);
+  }
+  .community ul {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0;
+  }
+  .community li {
+    display: grid;
+    padding: 12px 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--bg) 15%, transparent);
+  }
+  .community li:last-child {
+    border: 0;
+  }
+  .community span {
+    font-size: 0.9rem;
+    color: color-mix(in srgb, var(--bg) 65%, transparent);
+  }
+
+  @keyframes wave {
+    50% {
+      opacity: 0.25;
+      transform: scale(0.96);
+    }
+  }
+  @keyframes sway {
+    50% {
+      transform: rotate(-4deg);
+    }
+  }
+  @keyframes twinkle {
+    50% {
+      transform: scale(1.25) rotate(20deg);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .talks__top,
+    .talks__grid {
+      grid-template-columns: 1fr;
+    }
+    .mic {
+      display: none;
+    }
+    .impact {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>
+
+<script>
+  // Count-up for the impact numbers when they enter the viewport
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const nums = document.querySelectorAll<HTMLElement>(".impact [data-count]");
+  const io = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (!e.isIntersecting) continue;
+      io.unobserve(e.target);
+      const el = e.target as HTMLElement;
+      const end = Number(el.dataset.count);
+      const t0 = performance.now();
+      const tick = (t: number) => {
+        const p = Math.min(1, (t - t0) / 1400);
+        el.textContent = String(Math.round(end * (1 - Math.pow(1 - p, 3))));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    }
+  });
+  if (!reduce) nums.forEach((n) => io.observe(n));
+</script>

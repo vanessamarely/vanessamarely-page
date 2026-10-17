@@ -1,0 +1,287 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getPosts } from "../../lib/posts";
+
+const posts = await getPosts();
+const count = (fn: (p: (typeof posts)[number]) => boolean) => posts.filter(fn).length;
+
+const sources = [
+  { value: "all", label: "Todos", n: posts.length },
+  { value: "devto", label: "DEV", n: count((p) => p.source === "devto" || p.alsoOn?.source === "devto") },
+  { value: "medium", label: "Medium", n: count((p) => p.source === "medium" || p.alsoOn?.source === "medium") },
+];
+const langs = [
+  { value: "all", label: "ES + EN" },
+  { value: "es", label: "Español" },
+  { value: "en", label: "English" },
+];
+---
+
+<Layout
+  title="Artículos · Vanessa Marely"
+  description="Artículos de Vanessa Marely sobre Angular, React, TypeScript, GitHub y desarrollo web, publicados en DEV y Medium."
+>
+  <section class="blog">
+    <div class="wrap">
+      <header class="blog__head">
+        <span class="eyebrow">Blog</span>
+        <h1>Escritos sobre <em class="serif">la Web</em></h1>
+        <p class="muted">
+          Todo lo que publico en <a href="https://dev.to/vanessamarely" target="_blank" rel="noopener">DEV</a> y <a
+            href="https://medium.com/@vanessamarely"
+            target="_blank"
+            rel="noopener">Medium</a
+          >, en un solo lugar.
+        </p>
+        <svg class="blog__squiggle" viewBox="0 0 300 30" aria-hidden="true">
+          <path pathLength="1" d="M4 18 C 30 2, 50 30, 76 16 S 120 2, 148 16 S 196 30, 222 14 S 270 4, 296 16" />
+        </svg>
+      </header>
+
+      <div class="filters" role="search">
+        <div class="seg" role="group" aria-label="Plataforma">
+          {
+            sources.map((s, i) => (
+              <button type="button" data-filter="source" data-value={s.value} aria-pressed={i === 0 ? "true" : "false"}>
+                {s.label} <small>{s.n}</small>
+              </button>
+            ))
+          }
+        </div>
+        <div class="seg" role="group" aria-label="Idioma">
+          {
+            langs.map((l, i) => (
+              <button type="button" data-filter="lang" data-value={l.value} aria-pressed={i === 0 ? "true" : "false"}>
+                {l.label}
+              </button>
+            ))
+          }
+        </div>
+        <label class="search">
+          <span class="sr-only">Buscar artículos</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-4-4"></path></svg>
+          <input id="q" type="search" placeholder="Buscar: angular, github…" autocomplete="off" />
+        </label>
+      </div>
+
+      <p class="status" id="status" aria-live="polite"></p>
+
+      <div class="posts" id="posts">
+        {posts.map((post, i) => <PostCard post={post} index={i} />)}
+      </div>
+
+      <div class="empty" id="empty" hidden>
+        <svg viewBox="0 0 200 140" aria-hidden="true">
+          <path d="M40 110 h120 M60 110 V50 h80 v60 M60 50 l40 -24 40 24" />
+          <circle cx="100" cy="80" r="14" />
+          <path d="M110 90 l14 14" />
+        </svg>
+        <p>No encontré artículos con esos filtros.</p>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .blog {
+    padding: 150px 0 100px;
+  }
+
+  .blog__head {
+    position: relative;
+    margin-bottom: 48px;
+    max-width: 760px;
+  }
+  .blog__head h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin: 14px 0 18px;
+    letter-spacing: -0.05em;
+  }
+  .blog__head em {
+    color: var(--violet);
+  }
+  .muted {
+    color: var(--muted);
+    font-size: 1.15rem;
+  }
+  .blog__squiggle {
+    width: 220px;
+    margin-top: 18px;
+  }
+  .blog__squiggle path {
+    fill: none;
+    stroke: var(--coral);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 1.6s var(--ease) 0.3s forwards;
+  }
+
+  .filters {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px;
+    margin-bottom: 18px;
+    border-radius: 24px;
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .seg {
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    border-radius: 999px;
+    background: var(--bg-2);
+  }
+  .seg button {
+    font: 500 0.9rem var(--font-sans);
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+  }
+  .seg button small {
+    font-family: var(--font-mono);
+    opacity: 0.6;
+    margin-left: 2px;
+  }
+  .seg button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .search {
+    flex: 1;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: var(--bg-2);
+  }
+  .search svg {
+    width: 18px;
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+  .search input {
+    flex: 1;
+    border: 0;
+    background: transparent;
+    font: 1rem var(--font-sans);
+    color: var(--ink);
+    padding: 10px 0;
+    outline: none;
+    min-width: 0;
+  }
+
+  .status {
+    font: 500 0.85rem var(--font-mono);
+    color: var(--muted);
+    margin-bottom: 18px;
+  }
+
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 20px;
+  }
+
+  .empty {
+    text-align: center;
+    padding: 60px 0;
+    color: var(--muted);
+  }
+  .empty svg {
+    width: 160px;
+    margin: 0 auto 12px;
+  }
+  .empty path,
+  .empty circle {
+    fill: none;
+    stroke: var(--muted);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .filters {
+      top: 72px;
+      border-radius: 20px;
+    }
+    .seg {
+      flex: 1;
+      justify-content: space-between;
+    }
+    .seg button {
+      padding: 8px 10px;
+    }
+  }
+</style>
+
+<script>
+  const state = { source: "all", lang: "all", q: "" };
+  const cards = [...document.querySelectorAll<HTMLElement>("#posts .post")];
+  const status = document.getElementById("status")!;
+  const empty = document.getElementById("empty")!;
+  const q = document.getElementById("q") as HTMLInputElement;
+
+  function apply(reveal = true) {
+    let shown = 0;
+    for (const card of cards) {
+      const { source, also, lang, search } = card.dataset;
+      const ok =
+        (state.source === "all" || source === state.source || also === state.source) &&
+        (state.lang === "all" || lang === state.lang) &&
+        (!state.q || search!.includes(state.q));
+      card.hidden = !ok;
+      if (ok) {
+        shown++;
+        if (reveal) card.classList.add("is-in");
+      }
+    }
+    empty.hidden = shown > 0;
+    status.textContent = `${shown} ${shown === 1 ? "artículo" : "artículos"}`;
+  }
+
+  document.querySelectorAll<HTMLButtonElement>("[data-filter]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const key = btn.dataset.filter as "source" | "lang";
+      state[key] = btn.dataset.value!;
+      document
+        .querySelectorAll(`[data-filter="${key}"]`)
+        .forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      apply();
+    });
+  });
+
+  q.addEventListener("input", () => {
+    state.q = q.value.trim().toLowerCase();
+    apply();
+  });
+
+  apply(false);
+</script>

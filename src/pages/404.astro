@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="404 · Vanessa Marely">
+  <section class="lost">
+    <svg viewBox="0 0 320 200" aria-hidden="true">
+      <path class="trail" pathLength="1" d="M20 170 C 60 120 40 60 110 70 S 180 160 230 110 S 260 40 300 50" />
+      <g class="owl">
+        <ellipse cx="300" cy="62" rx="16" ry="20" />
+        <circle cx="294" cy="56" r="5" /><circle cx="306" cy="56" r="5" />
+        <path d="M300 62 l-3 4 h6 z" />
+      </g>
+    </svg>
+    <h1>404</h1>
+    <p>Esta página se perdió como una lechuza sin carta.</p>
+    <a class="btn btn--solid" href="/">Volver al inicio</a>
+  </section>
+</Layout>
+
+<style>
+  .lost {
+    min-height: 90svh;
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 16px;
+    text-align: center;
+    padding: 120px 16px 40px;
+  }
+  svg {
+    width: min(100%, 360px);
+  }
+  .trail {
+    fill: none;
+    stroke: var(--violet);
+    stroke-width: 3;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    stroke-linecap: round;
+    animation: draw 2s ease forwards;
+  }
+  .owl ellipse {
+    fill: var(--sun);
+    stroke: var(--ink);
+    stroke-width: 2.5;
+  }
+  .owl circle {
+    fill: var(--surface);
+    stroke: var(--ink);
+    stroke-width: 2.5;
+  }
+  .owl path {
+    fill: var(--coral);
+  }
+  .owl {
+    animation: hop 1.6s ease-in-out infinite;
+  }
+  h1 {
+    font-size: clamp(5rem, 18vw, 10rem);
+    letter-spacing: -0.06em;
+  }
+  p {
+    color: var(--muted);
+    font-size: 1.2rem;
+  }
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes hop {
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+</style>

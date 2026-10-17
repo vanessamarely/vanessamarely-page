@@ -1,61 +1,78 @@
 ---
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
 
-const { pageTitle } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Vanessa Marely · Fullstack developer, Angular & Web",
+  description = "Vanessa Marely Aristizábal — fullstack developer con foco en frontend en Medellín, Google Developer Expert en Angular y Web, GitHub Star, escritora, mentora, speaker e ilustradora.",
+} = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL("/images/vanessa.jpg", Astro.site);
 ---
 
 <!doctype html>
-<html transition:animate="none" lang="en">
+<html lang="es">
   <head>
     <meta charset="utf-8" />
-    <meta name="description" content="Astro description" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#f6f1ea" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:site" content="@vanessamarely" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="stylesheet" href="/styles/global.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="preload"
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Pacifico&display=swap"
-      as="style"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Pacifico&display=swap"
       rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap"
     />
-    <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-      rel="stylesheet"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Domine:wght@400..700&family=Fira+Code:wght@300..700&family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,500;1,700&display=swap"
-      rel="stylesheet"
-    />
-    <meta name="generator" content={Astro.generator} />
-    <title>{pageTitle}</title>
-  </head>
-  <body class="h-screen">
-    <Header />
-    <main class="mx-auto max-w-4xl px-4 md:px-0 container md:w-full md:m-auto">
-      <slot />
-      <Footer />
-    </main>
-    <script>
-      function colorMode() {
-        if (
-          localStorage.theme === "light" ||
-          (!("theme" in localStorage) &&
-            window.matchMedia("(prefers-color-scheme: light)").matches)
-        ) {
-          document.documentElement.classList.add("light");
-        } else {
-          document.documentElement.classList.remove("light");
-        }
-      }
 
-      colorMode();
-      document.addEventListener("astro:after-swap", colorMode);
+    <script is:inline>
+      (() => {
+        let t = null;
+        try { t = localStorage.getItem("theme"); } catch {}
+        if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        document.documentElement.dataset.theme = t;
+      })();
+    </script>
+    <meta name="generator" content={Astro.generator} />
+  </head>
+  <body>
+    <a class="sr-only" href="#main">Saltar al contenido</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      // Reveal elements as they scroll into view
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-in");
+              io.unobserve(e.target);
+            }
+          }
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" },
+      );
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
     </script>
   </body>
 </html>

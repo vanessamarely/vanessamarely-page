@@ -1,0 +1,378 @@
+---
+// Illustrated portrait: on load each shape is "inked" (stroke-dashoffset) and then painted (fill).
+// The eyes follow the cursor and blink; clicking reveals the real photo.
+---
+
+<figure class="portrait" id="portrait">
+  <button class="portrait__stage" type="button" aria-pressed="false" aria-label="Alternar entre ilustración y foto de Vanessa">
+    <svg class="art" viewBox="0 0 400 440" role="img" aria-labelledby="portrait-title">
+      <title id="portrait-title">Ilustración de Vanessa: cabello largo castaño, labios rojos y blazer azul</title>
+      <defs>
+        <linearGradient id="hair" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#2a1a16" />
+          <stop offset=".55" stop-color="#3d261d" />
+          <stop offset="1" stop-color="#8a5a3b" />
+        </linearGradient>
+        <linearGradient id="blob" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" style="stop-color: var(--violet)" />
+          <stop offset="1" style="stop-color: var(--coral)" />
+        </linearGradient>
+        <clipPath id="frame">
+          <path d="M200 20 C 300 20 380 90 380 210 C 380 340 300 440 200 440 C 100 440 20 340 20 210 C 20 90 100 20 200 20 Z" />
+        </clipPath>
+      </defs>
+
+      <!-- morphing background blob -->
+      <path class="blob" fill="url(#blob)">
+        <animate
+          attributeName="d"
+          dur="14s"
+          repeatCount="indefinite"
+          calcMode="spline"
+          keySplines=".45 0 .55 1; .45 0 .55 1; .45 0 .55 1"
+          values="
+          M200 40 C 300 30 370 110 365 215 C 360 330 290 420 195 415 C 95 410 30 330 35 215 C 40 105 110 48 200 40 Z;
+          M210 34 C 320 50 360 130 368 225 C 375 335 280 410 190 420 C 100 428 40 320 30 210 C 22 110 100 20 210 34 Z;
+          M190 46 C 290 20 380 100 360 205 C 340 320 300 425 205 410 C 100 395 20 345 40 225 C 58 115 95 70 190 46 Z;
+          M200 40 C 300 30 370 110 365 215 C 360 330 290 420 195 415 C 95 410 30 330 35 215 C 40 105 110 48 200 40 Z"
+        ></animate>
+      </path>
+
+      <g clip-path="url(#frame)">
+        <!-- hair (back) -->
+        <path pathLength="1" class="ink" style="--d:0" fill="url(#hair)" d="M200 82 C 128 82 96 140 98 215 C 100 285 86 345 64 405 C 100 418 140 410 158 392 L170 300 L230 300 L242 392 C 260 410 300 418 336 405 C 314 345 300 285 302 215 C 304 140 272 82 200 82 Z" />
+
+        <!-- top -->
+        <path pathLength="1" class="ink" style="--d:1" fill="#fbf7f2" d="M160 318 Q200 340 240 318 L222 445 L178 445 Z" />
+        <!-- blazer -->
+        <path pathLength="1" class="ink" style="--d:2" fill="#a9c6ec" d="M50 445 C 60 368 108 336 170 314 L194 445 Z" />
+        <path pathLength="1" class="ink" style="--d:2" fill="#a9c6ec" d="M350 445 C 340 368 292 336 230 314 L206 445 Z" />
+        <path pathLength="1" class="ink line" style="--d:3" d="M170 314 L152 342 L182 420 M230 314 L248 342 L218 420" />
+
+        <!-- neck -->
+        <path pathLength="1" class="ink" style="--d:3" fill="#e4a985" d="M176 268 L176 318 Q200 336 224 318 L224 268 Z" />
+
+        <!-- face -->
+        <path pathLength="1" class="ink" style="--d:4" fill="#f2c4a5" d="M200 116 C 246 116 274 150 274 200 C 274 242 258 270 232 285 C 216 294 184 294 168 285 C 142 270 126 242 126 200 C 126 150 154 116 200 116 Z" />
+
+        <!-- blush -->
+        <ellipse class="blush" cx="152" cy="238" rx="15" ry="8" />
+        <ellipse class="blush" cx="248" cy="238" rx="15" ry="8" />
+
+        <!-- hair (front strands + crown, middle part) -->
+        <path pathLength="1" class="ink" style="--d:5" fill="url(#hair)" d="M150 132 C 118 170 114 238 120 300 C 124 350 110 392 96 430 C 128 430 152 412 162 386 C 170 340 150 300 148 250 C 146 200 156 166 176 136 Z" />
+        <path pathLength="1" class="ink" style="--d:5" fill="url(#hair)" d="M250 132 C 282 170 286 238 280 300 C 276 350 290 392 304 430 C 272 430 248 412 238 386 C 230 340 250 300 252 250 C 254 200 244 166 224 136 Z" />
+        <path pathLength="1" class="ink" style="--d:6" fill="url(#hair)" d="M122 182 C 116 112 158 84 200 84 C 242 84 284 112 278 182 C 270 136 240 108 204 104 C 228 120 246 140 254 160 C 232 136 214 124 200 112 C 186 124 168 136 146 160 C 154 140 172 120 196 104 C 160 108 130 136 122 182 Z" />
+        <!-- hair highlights -->
+        <path pathLength="1" class="ink line soft" style="--d:7" d="M136 200 C 132 250 140 300 132 360 M264 200 C 268 250 260 300 268 360 M180 98 C 160 104 142 120 134 140" />
+
+        <!-- brows -->
+        <path pathLength="1" class="ink line brow" style="--d:7" d="M148 183 Q166 171 187 178" />
+        <path pathLength="1" class="ink line brow" style="--d:7" d="M213 178 Q234 171 252 183" />
+
+        <!-- eyes -->
+        <g class="eye" style="--d:8">
+          <path pathLength="1" class="ink" fill="#fff" d="M150 205 Q168 191 186 205 Q168 215 150 205 Z" />
+          <g class="pupil">
+            <circle cx="168" cy="204" r="6.5" fill="#4a2c1d" />
+            <circle cx="168" cy="204" r="3" fill="#130c08" />
+            <circle cx="170.5" cy="201.5" r="1.6" fill="#fff" />
+          </g>
+          <path pathLength="1" class="ink line lid" d="M148 204 Q168 188 188 204" />
+        </g>
+        <g class="eye" style="--d:8">
+          <path pathLength="1" class="ink" fill="#fff" d="M214 205 Q232 191 250 205 Q232 215 214 205 Z" />
+          <g class="pupil">
+            <circle cx="232" cy="204" r="6.5" fill="#4a2c1d" />
+            <circle cx="232" cy="204" r="3" fill="#130c08" />
+            <circle cx="234.5" cy="201.5" r="1.6" fill="#fff" />
+          </g>
+          <path pathLength="1" class="ink line lid" d="M212 204 Q232 188 252 204" />
+        </g>
+
+        <!-- nose -->
+        <path pathLength="1" class="ink line soft" style="--d:9" d="M201 212 Q197 232 192 240 Q199 246 209 241" />
+
+        <!-- lips -->
+        <path pathLength="1" class="ink" style="--d:9" fill="#c8323d" d="M180 259 Q190 251 200 256 Q210 251 220 259 Q200 263 180 259 Z" />
+        <path pathLength="1" class="ink" style="--d:9" fill="#d9404a" d="M180 259 Q200 277 220 259 Q200 265 180 259 Z" />
+
+        <!-- hoop earrings -->
+        <circle pathLength="1" class="ink line gold" style="--d:10" cx="131" cy="252" r="7" />
+        <circle pathLength="1" class="ink line gold" style="--d:10" cx="269" cy="252" r="7" />
+      </g>
+
+      <!-- orbit + doodles -->
+      <circle class="orbit" cx="200" cy="225" r="196" />
+      <g class="doodle doodle--code">
+        <path d="M30 96 l-16 14 16 14 M58 96 l16 14 -16 14 M50 92 l-12 36" />
+      </g>
+      <g class="doodle doodle--star">
+        <path d="M352 52 l7 17 18 1 -14 11 5 18 -16 -10 -16 10 5 -18 -14 -11 18 -1 Z" />
+      </g>
+      <g class="doodle doodle--spark">
+        <path d="M360 330 v24 M348 342 h24 M352 334 l16 16 M368 334 l-16 16" />
+      </g>
+      <g class="doodle doodle--pencil">
+        <path d="M24 360 l40 -40 10 10 -40 40 -14 4 z M58 326 l10 10" />
+      </g>
+    </svg>
+
+    <img class="photo" src="/images/vanessa.jpg" alt="Foto de Vanessa Marely" width="400" height="400" loading="lazy" />
+  </button>
+  <figcaption class="portrait__hint">
+    <svg viewBox="0 0 60 40" aria-hidden="true"><path d="M4 30 C 18 6, 38 4, 54 18 M54 18 l-10 -1 M54 18 l-3 -9" /></svg>
+    <span>toca para ver la foto real</span>
+  </figcaption>
+</figure>
+
+<style>
+  .portrait {
+    margin: 0;
+    position: relative;
+    width: min(100%, 460px);
+    justify-self: center;
+  }
+
+  .portrait__stage {
+    all: unset;
+    display: block;
+    position: relative;
+    cursor: pointer;
+    aspect-ratio: 400 / 440;
+    width: 100%;
+    border-radius: 40%;
+  }
+
+  .art,
+  .photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: clip-path 0.9s var(--ease), opacity 0.6s, transform 0.9s var(--ease);
+  }
+
+  .photo {
+    object-fit: cover;
+    width: 82%;
+    height: 76%;
+    inset: 12% 9%;
+    border-radius: 50% 50% 46% 46% / 54% 54% 46% 46%;
+    clip-path: circle(0% at 50% 50%);
+    box-shadow: 0 0 0 6px var(--surface), var(--shadow);
+  }
+
+  .portrait.is-photo .photo {
+    clip-path: circle(75% at 50% 50%);
+  }
+
+  .portrait.is-photo .art g[clip-path] {
+    opacity: 0;
+    transition: opacity 0.4s 0.3s;
+  }
+
+  /* inking animation */
+  .ink {
+    stroke: var(--ink-line, #1d1727);
+    stroke-width: 2;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    fill-opacity: 0;
+    animation:
+      draw 1.4s var(--ease) forwards,
+      paint 0.8s ease forwards;
+    animation-delay: calc(var(--d, 0) * 0.14s + 0.2s), calc(var(--d, 0) * 0.08s + 1.4s);
+  }
+
+  .eye .ink,
+  .eye {
+    --d: 8;
+  }
+
+  .line {
+    fill: none;
+  }
+  .soft {
+    stroke-width: 1.4;
+    opacity: 0.55;
+  }
+  .brow {
+    stroke: #2a1a16;
+    stroke-width: 5;
+  }
+  .gold {
+    stroke: #d9a63a;
+    stroke-width: 2.5;
+  }
+
+  .blush {
+    fill: #f08a8a;
+    opacity: 0;
+    animation: blush 1s ease 2.4s forwards;
+  }
+
+  .pupil {
+    opacity: 0;
+    animation: paint 0.6s ease 1.9s forwards;
+    transition: transform 0.25s ease-out;
+  }
+
+  .eye {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: blink 5.5s 3s infinite;
+  }
+
+  .blob {
+    opacity: 0.9;
+    transform-origin: center;
+    animation: pop 1.2s var(--ease) both;
+  }
+
+  .orbit {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.2;
+    stroke-dasharray: 3 9;
+    opacity: 0.35;
+    transform-origin: 200px 225px;
+    animation: spin 60s linear infinite;
+  }
+
+  .doodle path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .doodle {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: float 6s ease-in-out infinite;
+  }
+  .doodle--star path {
+    fill: var(--sun);
+  }
+  .doodle--star {
+    animation: float 6s ease-in-out infinite, spin 22s linear infinite;
+  }
+  .doodle--spark {
+    animation-delay: -2s;
+  }
+  .doodle--spark path {
+    stroke: var(--coral);
+  }
+  .doodle--pencil {
+    animation-delay: -4s;
+  }
+  .doodle--pencil path {
+    stroke: var(--violet);
+  }
+
+  .portrait__hint {
+    position: absolute;
+    left: -8px;
+    bottom: -6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--muted);
+    transform: rotate(-4deg);
+  }
+
+  .portrait__hint svg {
+    width: 44px;
+    transform: scaleX(-1) rotate(160deg);
+  }
+  .portrait__hint path {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+  }
+
+  @keyframes draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes paint {
+    to {
+      fill-opacity: 1;
+      opacity: 1;
+    }
+  }
+  @keyframes blush {
+    to {
+      opacity: 0.35;
+    }
+  }
+  @keyframes blink {
+    0%,
+    92%,
+    100% {
+      transform: scaleY(1);
+    }
+    95% {
+      transform: scaleY(0.08);
+    }
+  }
+  @keyframes pop {
+    from {
+      transform: scale(0.6);
+      opacity: 0;
+    }
+  }
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes float {
+    50% {
+      transform: translateY(-10px) rotate(6deg);
+    }
+  }
+</style>
+
+<script>
+  const root = document.getElementById("portrait")!;
+  const stage = root.querySelector<HTMLButtonElement>(".portrait__stage")!;
+  const svg = root.querySelector<SVGSVGElement>(".art")!;
+  const pupils = root.querySelectorAll<SVGGElement>(".pupil");
+
+  stage.addEventListener("click", () => {
+    const on = root.classList.toggle("is-photo");
+    stage.setAttribute("aria-pressed", String(on));
+  });
+
+  // Eyes follow the pointer (max ~4px inside the eye)
+  let raf = 0;
+  window.addEventListener(
+    "pointermove",
+    (e) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const box = svg.getBoundingClientRect();
+        const cx = box.left + box.width / 2;
+        const cy = box.top + box.height * 0.46;
+        const dx = e.clientX - cx;
+        const dy = e.clientY - cy;
+        const dist = Math.hypot(dx, dy) || 1;
+        const k = Math.min(1, dist / 400);
+        const tx = (dx / dist) * 4.5 * k;
+        const ty = (dy / dist) * 2.5 * k;
+        pupils.forEach((p) => (p.style.transform = `translate(${tx}px, ${ty}px)`));
+      });
+    },
+    { passive: true },
+  );
+</script>

@@ -1,0 +1,220 @@
+---
+const inner = [
+  { id: "angular", label: "Angular" },
+  { id: "react", label: "React" },
+  { id: "typescript", label: "TypeScript" },
+  { id: "javascript", label: "JavaScript" },
+];
+const outer = [
+  { id: "html5", label: "HTML" },
+  { id: "css3", label: "CSS" },
+  { id: "sass", label: "Sass" },
+  { id: "nextjs", label: "Next.js" },
+  { id: "nodejs", label: "Node.js" },
+  { id: "firebase", label: "Firebase" },
+  { id: "git", label: "Git" },
+  { id: "figma", label: "Figma" },
+];
+const all = [...inner, ...outer];
+---
+
+<section class="section stack" id="stack">
+  <div class="wrap stack__grid">
+    <div class="stack__copy reveal">
+      <span class="eyebrow">Stack</span>
+      <h2 class="section-title">Mi caja de <em class="serif">herramientas</em></h2>
+      <p class="muted">
+        Fullstack con corazón frontend: componentes accesibles, reactividad, rendimiento y buen diseño, respaldados por APIs, bases de datos y agentes de IA. Pasa el cursor por la órbita
+        para pausarla.
+      </p>
+      <ul class="stack__list" aria-label="Tecnologías">
+        {all.map((s) => <li class="chip">{s.label}</li>)}
+      </ul>
+    </div>
+
+    <div class="orbit reveal" style="--i:1" aria-hidden="true">
+      <svg class="orbit__rings" viewBox="0 0 500 500">
+        <circle cx="250" cy="250" r="120" />
+        <circle cx="250" cy="250" r="220" />
+      </svg>
+      <div class="orbit__core">
+        <span>&lt;vm/&gt;</span>
+      </div>
+      <div class="ring ring--inner" style={`--n:${inner.length}`}>
+        {
+          inner.map((s, i) => (
+            <div class="planet" style={`--k:${i}`} data-label={s.label}>
+              <img src={`/icons/${s.id}.svg`} alt="" width="40" height="40" loading="lazy" />
+            </div>
+          ))
+        }
+      </div>
+      <div class="ring ring--outer" style={`--n:${outer.length}`}>
+        {
+          outer.map((s, i) => (
+            <div class="planet" style={`--k:${i}`} data-label={s.label}>
+              <img src={`/icons/${s.id}.svg`} alt="" width="40" height="40" loading="lazy" />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .stack {
+    overflow: clip;
+  }
+
+  .stack__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    align-items: center;
+    gap: 48px;
+  }
+
+  .stack__copy p {
+    margin: 20px 0 28px;
+    max-width: 42ch;
+    color: var(--muted);
+  }
+
+  .stack__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .stack__list .chip {
+    font-size: 0.85rem;
+    color: var(--ink);
+    background: var(--surface);
+    padding: 6px 12px;
+  }
+
+  .orbit {
+    --size: min(100%, 500px);
+    position: relative;
+    width: var(--size);
+    aspect-ratio: 1;
+    justify-self: center;
+    container-type: inline-size;
+  }
+
+  .orbit__rings {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .orbit__rings circle {
+    fill: none;
+    stroke: var(--ink);
+    stroke-opacity: 0.2;
+    stroke-width: 1.5;
+    stroke-dasharray: 4 8;
+  }
+
+  .orbit__core {
+    position: absolute;
+    inset: 37%;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--bg);
+    font: 600 clamp(1rem, 4cqi, 1.6rem) var(--font-mono);
+    box-shadow: 0 0 0 10px color-mix(in srgb, var(--violet) 25%, transparent), 0 0 0 22px color-mix(in srgb, var(--violet) 10%, transparent);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  .ring {
+    position: absolute;
+    inset: 0;
+    animation: spin var(--dur) linear infinite;
+  }
+  .ring--inner {
+    --r: 24cqi;
+    --dur: 30s;
+  }
+  .ring--outer {
+    --r: 44cqi;
+    --dur: 50s;
+    animation-direction: reverse;
+  }
+
+  .planet {
+    --angle: calc(360deg / var(--n) * var(--k));
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: clamp(46px, 13cqi, 64px);
+    aspect-ratio: 1;
+    margin: calc(clamp(46px, 13cqi, 64px) / -2);
+    transform: rotate(var(--angle)) translate(var(--r)) rotate(calc(-1 * var(--angle)));
+  }
+
+  .planet img {
+    width: 100%;
+    height: 100%;
+    padding: 22%;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+    animation: spin var(--dur) linear infinite reverse;
+    transition: scale 0.35s var(--ease);
+  }
+  .ring--outer .planet img {
+    animation-direction: normal;
+  }
+
+  .planet::after {
+    content: attr(data-label);
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    translate: -50% 6px;
+    font: 500 0.75rem var(--font-mono);
+    background: var(--ink);
+    color: var(--bg);
+    padding: 3px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+
+  .orbit:hover .ring,
+  .orbit:hover .planet img {
+    animation-play-state: paused;
+  }
+  .planet:hover img {
+    scale: 1.2;
+  }
+  .planet:hover::after {
+    opacity: 1;
+  }
+
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+  @keyframes pulse {
+    50% {
+      box-shadow: 0 0 0 14px color-mix(in srgb, var(--violet) 22%, transparent), 0 0 0 30px color-mix(in srgb, var(--violet) 6%, transparent);
+    }
+  }
+
+  @media (max-width: 860px) {
+    .stack__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

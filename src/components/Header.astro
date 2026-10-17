@@ -1,0 +1,187 @@
+---
+import Icon from "./Icon.astro";
+
+const path = Astro.url.pathname;
+const links = [
+  { href: "/#sobre-mi", label: "Sobre mí" },
+  { href: "/charlas/", label: "Charlas" },
+  { href: "/proyectos/", label: "Proyectos" },
+  { href: "/blog/", label: "Artículos" },
+  { href: "/#contacto", label: "Contacto" },
+];
+---
+
+<header class="nav">
+  <div class="nav__inner">
+    <a href="/" class="brand" aria-label="Inicio">
+      <span class="brand__bracket">&lt;</span>vm<span class="brand__slash">/</span><span class="brand__bracket">&gt;</span>
+    </a>
+    <nav aria-label="Principal">
+      <ul>
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} aria-current={l.href.startsWith("/") && !l.href.includes("#") && path.startsWith(l.href) ? "page" : undefined}>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <button class="theme" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro">
+      <span class="theme__sun"><Icon name="sun" size={20} /></span>
+      <span class="theme__moon"><Icon name="moon" size={20} /></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .nav {
+    position: fixed;
+    top: 14px;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    display: flex;
+    justify-content: center;
+    padding-inline: 16px;
+    pointer-events: none;
+  }
+
+  .nav__inner {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 6px 6px 18px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 72%, transparent);
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .brand {
+    font: 600 1.05rem var(--font-mono);
+    text-decoration: none;
+    margin-right: 8px;
+    white-space: nowrap;
+  }
+
+  .brand__bracket {
+    color: var(--violet);
+    display: inline-block;
+    transition: transform 0.4s var(--ease);
+  }
+
+  .brand__slash {
+    color: var(--coral);
+  }
+
+  .brand:hover .brand__bracket:first-child {
+    transform: translateX(-3px);
+  }
+  .brand:hover .brand__bracket:last-child {
+    transform: translateX(3px);
+  }
+
+  ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  nav a {
+    display: block;
+    padding: 8px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+
+  nav a:hover,
+  nav a[aria-current="page"] {
+    background: var(--bg-2);
+  }
+
+  .theme {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 0;
+    background: var(--ink);
+    color: var(--bg);
+    cursor: pointer;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .theme span {
+    position: absolute;
+    transition: transform 0.5s var(--ease), opacity 0.3s;
+  }
+
+  .theme__moon {
+    transform: translateY(30px) rotate(-60deg);
+    opacity: 0;
+  }
+
+  :global([data-theme="dark"]) .theme__sun {
+    transform: translateY(-30px) rotate(60deg);
+    opacity: 0;
+  }
+  :global([data-theme="dark"]) .theme__moon {
+    transform: none;
+    opacity: 1;
+  }
+
+  @media (max-width: 640px) {
+    .nav__inner {
+      padding-left: 14px;
+    }
+    nav a {
+      padding: 8px 9px;
+      font-size: 0.85rem;
+    }
+    li:first-child,
+    li:last-child {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const btn = document.getElementById("themeToggle")!;
+  const root = document.documentElement;
+
+  btn.addEventListener("click", (event) => {
+    const next = root.dataset.theme === "dark" ? "light" : "dark";
+    const apply = () => {
+      root.dataset.theme = next;
+      try {
+        localStorage.setItem("theme", next);
+      } catch {}
+    };
+
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || reduce) return apply();
+
+    // Circular wipe that grows from the button
+    const x = event.clientX;
+    const y = event.clientY;
+    const r = Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y));
+    document.startViewTransition(apply).ready.then(() => {
+      root.animate(
+        { clipPath: [`circle(0px at ${x}px ${y}px)`, `circle(${r}px at ${x}px ${y}px)`] },
+        { duration: 650, easing: "cubic-bezier(.2,.8,.2,1)", pseudoElement: "::view-transition-new(root)" },
+      );
+    });
+  });
+</script>

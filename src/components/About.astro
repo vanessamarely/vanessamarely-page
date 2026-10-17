@@ -1,0 +1,511 @@
+---
+interface Props {
+  postCount: number;
+}
+const { postCount } = Astro.props;
+---
+
+<section class="section" id="sobre-mi">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Sobre mí</span>
+        <h2 class="section-title">Código, comunidad <br /><em class="serif">y muchos lápices</em></h2>
+      </div>
+    </div>
+
+    <div class="bento">
+      <!-- Intro -->
+      <article class="card card--intro reveal">
+        <p class="lead">
+          Soy una programadora <strong>curiosa</strong>, apasionada por la tecnología y enamorada de la Web. Soy fullstack
+          con foco en frontend: construyo interfaces con <strong>Angular</strong> y <strong>React</strong>, y también
+          los servicios y APIs que las sostienen con <strong>Node.js</strong>. Me encanta compartir lo que aprendo en
+          artículos, charlas y mentorías.
+        </p>
+        <p class="muted">
+          Me interesan el desarrollo web, el diseño, la ilustración y la animación. Cuando no estoy programando, estoy
+          leyendo, viajando o volviendo a ver Harry Potter.
+        </p>
+        <dl class="stats">
+          <div><dt>Repos públicos</dt><dd>190</dd></div>
+          <div><dt>Artículos</dt><dd>{postCount}</dd></div>
+          <div><dt>Base</dt><dd>MDE</dd></div>
+        </dl>
+      </article>
+
+      <!-- Medellín -->
+      <article class="card card--city reveal" style="--i:1">
+        <svg viewBox="0 0 300 170" class="city" aria-hidden="true">
+          <circle class="city__sun" cx="230" cy="60" r="22" />
+          <path class="city__m3" d="M0 120 C 40 70 80 60 120 90 C 160 60 210 40 300 95 L300 170 L0 170 Z" />
+          <path class="city__m2" d="M0 135 C 50 100 90 105 140 125 C 190 100 240 100 300 125 L300 170 L0 170 Z" />
+          <g class="city__houses">
+            <rect x="34" y="118" width="10" height="9" style="fill: var(--coral)" /><rect x="48" y="114" width="9" height="11" style="fill: var(--sun)" />
+            <rect x="62" y="116" width="11" height="9" style="fill: var(--violet)" /><rect x="200" y="112" width="10" height="11" style="fill: var(--mint)" />
+            <rect x="214" y="115" width="9" height="9" style="fill: var(--coral)" /><rect x="228" y="112" width="11" height="12" style="fill: var(--sun)" />
+            <rect x="243" y="116" width="9" height="9" style="fill: var(--violet)" />
+          </g>
+          <path class="city__m1" d="M0 150 C 60 135 120 140 170 152 C 220 140 260 140 300 148 L300 170 L0 170 Z" />
+          <!-- metrocable -->
+          <path id="cable" class="city__cable" d="M-10 40 L 310 112" />
+          <g class="city__car">
+            <line x1="0" y1="-12" x2="0" y2="0" />
+            <rect x="-9" y="0" width="18" height="14" rx="3" />
+            <rect x="-6" y="3" width="12" height="5" rx="1" class="win" />
+            <animateMotion dur="9s" repeatCount="indefinite" path="M-10 40 L 310 112" />
+          </g>
+        </svg>
+        <div class="card__label">
+          <span class="chip">06.25° N, 75.56° O</span>
+          <h3>Desde Medellín, Colombia</h3>
+        </div>
+      </article>
+
+      <!-- GDE -->
+      <article class="card card--gde reveal" style="--i:2">
+        <svg viewBox="0 0 120 120" class="badge" aria-hidden="true">
+          <path class="badge__shield" pathLength="1" d="M60 10 L100 24 L94 78 C 90 92 74 104 60 110 C 46 104 30 92 26 78 L20 24 Z" />
+          <path class="badge__code" pathLength="1" d="M48 50 L36 62 L48 74 M72 50 L84 62 L72 74 M64 46 L56 78" />
+        </svg>
+        <h3>Google Developer Expert</h3>
+        <p class="muted">Angular &amp; Web Technologies</p>
+      </article>
+
+      <!-- GitHub Star -->
+      <article class="card card--star reveal" style="--i:3">
+        <svg viewBox="0 0 120 120" class="star" aria-hidden="true">
+          <g class="star__rays">
+            <path d="M60 4 v12 M60 104 v12 M4 60 h12 M104 60 h12 M20 20 l9 9 M91 91 l9 9 M100 20 l-9 9 M29 91 l-9 9" />
+          </g>
+          <path class="star__body" d="M60 22 L71 47 L98 49 L77 66 L84 93 L60 78 L36 93 L43 66 L22 49 L49 47 Z" />
+          <circle class="star__eye" cx="53" cy="60" r="2.6" /><circle class="star__eye" cx="67" cy="60" r="2.6" />
+          <path class="star__smile" d="M54 68 Q60 73 66 68" />
+        </svg>
+        <h3>GitHub Star</h3>
+        <p class="muted">Open source y comunidad</p>
+      </article>
+
+      <!-- Doodle pad -->
+      <article class="card card--pad reveal" style="--i:4">
+        <div class="pad__head">
+          <div>
+            <h3>Ilustradora</h3>
+            <p class="muted">Dibuja algo aquí, prometo no juzgar.</p>
+          </div>
+          <button type="button" class="pad__clear" id="padClear">borrar</button>
+        </div>
+        <svg class="pad" id="pad" viewBox="0 0 400 200" aria-label="Lienzo para dibujar" role="img">
+          <path class="pad__demo" pathLength="1" d="M40 140 C 60 60 120 60 130 120 C 140 170 190 160 200 110 C 210 60 270 50 290 100 C 305 140 340 150 365 110" />
+        </svg>
+      </article>
+
+      <!-- Interests -->
+      <article class="card card--magic reveal" style="--i:5">
+        <svg viewBox="0 0 220 140" class="magic" aria-hidden="true">
+          <!-- books -->
+          <g class="books">
+            <rect x="20" y="104" width="86" height="16" rx="3" style="fill: var(--violet)" />
+            <rect x="28" y="88" width="74" height="16" rx="3" style="fill: var(--coral)" />
+            <rect x="16" y="72" width="80" height="16" rx="3" style="fill: var(--mint)" />
+            <path d="M30 80 h40 M40 96 h36 M34 112 h50" />
+          </g>
+          <!-- glasses -->
+          <g class="glasses">
+            <circle cx="44" cy="54" r="11" /><circle cx="74" cy="54" r="11" /><path d="M55 54 h8 M33 52 l-8 -4 M85 52 l8 -4" />
+          </g>
+          <!-- wand -->
+          <g class="wand">
+            <path d="M130 120 L190 48" class="wand__stick" />
+            <path d="M186 53 L194 44" class="wand__tip" />
+          </g>
+          <g class="sparks">
+            <path d="M196 30 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3 Z" />
+            <path d="M172 22 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2 Z" />
+            <path d="M206 64 l2 4 4 2 -4 2 -2 4 -2 -4 -4 -2 4 -2 Z" />
+          </g>
+          <!-- lightning -->
+          <path class="bolt" d="M150 14 L140 34 L150 34 L142 52" />
+        </svg>
+        <h3>Lectora, viajera y fan de Harry Potter</h3>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 16px;
+  }
+
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: clamp(22px, 3vw, 32px);
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+  }
+
+  .card h3 {
+    font-size: 1.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .muted {
+    color: var(--muted);
+  }
+
+  .card--intro {
+    grid-column: span 4;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .card--city {
+    grid-column: span 2;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--sky) 55%, var(--surface)), var(--surface));
+  }
+  .card--gde,
+  .card--star {
+    grid-column: span 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .card--pad {
+    grid-column: span 2;
+  }
+  .card--magic {
+    grid-column: span 2;
+  }
+
+  .lead {
+    font-size: clamp(1.25rem, 2.2vw, 1.6rem);
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .lead strong {
+    font-weight: 600;
+    background: linear-gradient(transparent 62%, color-mix(in srgb, var(--sun) 70%, transparent) 62%);
+  }
+
+  .stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 40px;
+    margin: auto 0 0;
+    padding-top: 12px;
+  }
+  .stats dt {
+    font: 500 0.75rem var(--font-mono);
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .stats dd {
+    margin: 0;
+    font-size: 2.6rem;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+  }
+
+  /* city */
+  .city {
+    width: 100%;
+    flex: 1;
+  }
+  .city__sun {
+    fill: var(--sun);
+    animation: bob 7s ease-in-out infinite;
+  }
+  .city__m3 {
+    fill: color-mix(in srgb, var(--mint) 45%, var(--surface));
+  }
+  .city__m2 {
+    fill: color-mix(in srgb, var(--mint) 70%, var(--ink));
+    opacity: 0.85;
+  }
+  .city__m1 {
+    fill: color-mix(in srgb, var(--mint) 40%, var(--ink));
+  }
+  .city__cable {
+    stroke: var(--ink);
+    stroke-width: 1.2;
+    opacity: 0.6;
+  }
+  .city__car line {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+  .city__car rect {
+    fill: var(--coral);
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+  .city__car .win {
+    fill: var(--surface);
+  }
+  .card__label {
+    padding: 0 24px 22px;
+    display: grid;
+    gap: 8px;
+    justify-items: start;
+  }
+
+  /* badge */
+  .badge,
+  .star {
+    width: 92px;
+    margin-bottom: 8px;
+  }
+  .badge__shield,
+  .badge__code {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 3.5;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    transition: stroke-dashoffset 1.6s var(--ease);
+  }
+  .badge__shield {
+    fill: color-mix(in srgb, var(--violet) 18%, transparent);
+  }
+  .badge__code {
+    stroke: var(--violet);
+    transition-delay: 0.6s;
+  }
+  .is-in .badge__shield,
+  .is-in .badge__code {
+    stroke-dashoffset: 0;
+  }
+
+  /* star */
+  .star__body {
+    fill: var(--sun);
+    stroke: var(--ink);
+    stroke-width: 3;
+    stroke-linejoin: round;
+    transform-origin: 60px 60px;
+    transition: transform 0.6s var(--ease);
+  }
+  .star__eye {
+    fill: var(--ink);
+  }
+  .star__smile,
+  .star__rays path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .star__rays {
+    transform-origin: 60px 60px;
+    opacity: 0.25;
+    transition: transform 0.6s var(--ease), opacity 0.3s;
+  }
+  .card--star:hover .star__body {
+    transform: rotate(-12deg) scale(1.08);
+  }
+  .card--star:hover .star__rays {
+    opacity: 1;
+    transform: scale(1.1) rotate(22deg);
+    stroke: var(--coral);
+  }
+
+  /* pad */
+  .pad__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 12px;
+  }
+  .pad__clear {
+    font: 500 0.8rem var(--font-mono);
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .pad {
+    margin-top: 14px;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 1;
+    border-radius: 18px;
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--line) 1.2px, transparent 1.2px);
+    background-size: 18px 18px;
+    cursor: crosshair;
+    touch-action: none;
+  }
+  .pad :global(path) {
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 5;
+  }
+  .pad__demo {
+    stroke: var(--violet);
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    opacity: 0.5;
+  }
+  .is-in .pad__demo {
+    animation: drawDemo 3s var(--ease) 0.4s forwards;
+  }
+
+  /* magic */
+  .magic {
+    width: 100%;
+    max-height: 150px;
+    margin-bottom: 10px;
+  }
+  .books rect {
+    stroke: var(--ink);
+    stroke-width: 2;
+  }
+  .books path,
+  .glasses circle,
+  .glasses path,
+  .bolt,
+  .wand__stick,
+  .wand__tip {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 2.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .books path {
+    stroke: var(--surface);
+    opacity: 0.7;
+  }
+  .wand__stick {
+    stroke: #8a5a3b;
+    stroke-width: 6;
+  }
+  .wand__tip {
+    stroke: #f3e7d3;
+    stroke-width: 6;
+  }
+  .wand {
+    transform-origin: 130px 120px;
+    transition: transform 0.5s var(--ease);
+  }
+  .sparks path {
+    fill: var(--sun);
+    transform-box: fill-box;
+    transform-origin: center;
+    opacity: 0;
+    transform: scale(0.2);
+    transition: transform 0.5s var(--ease), opacity 0.3s;
+  }
+  .sparks path:nth-child(2) {
+    transition-delay: 0.08s;
+  }
+  .sparks path:nth-child(3) {
+    transition-delay: 0.16s;
+  }
+  .bolt {
+    stroke: var(--sun);
+    stroke-width: 4;
+  }
+  .card--magic:hover .wand {
+    transform: rotate(-14deg);
+    animation: wave 0.6s ease 2;
+  }
+  .card--magic:hover .sparks path {
+    opacity: 1;
+    transform: scale(1) rotate(45deg);
+  }
+
+  @keyframes bob {
+    50% {
+      transform: translateY(8px);
+    }
+  }
+  @keyframes drawDemo {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes wave {
+    50% {
+      transform: rotate(8deg);
+    }
+  }
+
+  @media (max-width: 980px) {
+    .bento {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .card--intro,
+    .card--city,
+    .card--pad,
+    .card--magic {
+      grid-column: span 2;
+    }
+    .card--city {
+      min-height: 280px;
+    }
+  }
+</style>
+
+<script>
+  // Freehand doodle pad (SVG paths, pointer events)
+  const pad = document.getElementById("pad") as unknown as SVGSVGElement | null;
+  const clear = document.getElementById("padClear");
+  const colors = ["var(--violet)", "var(--coral)", "var(--mint)", "var(--sun)", "var(--ink)"];
+  let stroke = 0;
+  let current: SVGPathElement | null = null;
+  let d = "";
+
+  function point(e: PointerEvent) {
+    const r = pad!.getBoundingClientRect();
+    return [((e.clientX - r.left) / r.width) * 400, ((e.clientY - r.top) / r.height) * 200].map((n) => n.toFixed(1));
+  }
+
+  if (pad && clear) {
+    pad.addEventListener("pointerdown", (e) => {
+      pad.querySelector(".pad__demo")?.remove();
+      pad.setPointerCapture(e.pointerId);
+      current = document.createElementNS("http://www.w3.org/2000/svg", "path");
+      current.style.stroke = colors[stroke++ % colors.length];
+      const [x, y] = point(e);
+      d = `M${x} ${y} L${x} ${y}`;
+      current.setAttribute("d", d);
+      pad.appendChild(current);
+    });
+    pad.addEventListener("pointermove", (e) => {
+      if (!current) return;
+      const [x, y] = point(e);
+      d += ` L${x} ${y}`;
+      current.setAttribute("d", d);
+    });
+    const end = () => (current = null);
+    pad.addEventListener("pointerup", end);
+    pad.addEventListener("pointercancel", end);
+    clear.addEventListener("click", () => {
+      pad.querySelectorAll("path").forEach((p) => p.remove());
+    });
+  }
+</script>

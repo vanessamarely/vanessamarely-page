@@ -1,13 +1,20 @@
-# Astro + React Example
+# vanessamarely.dev
+
+Sitio personal de Vanessa Marely, hecho con [Astro](https://astro.build).
+
+## Desarrollo
 
 ```sh
-npm create astro@latest -- --template framework-react
+npm install
+npm run dev      # http://localhost:4321
+npm run build    # genera dist/
 ```
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/withastro/astro/tree/latest/examples/framework-react)
-[![Open with CodeSandbox](https://assets.codesandbox.io/github/button-edit-lime.svg)](https://codesandbox.io/p/sandbox/github/withastro/astro/tree/latest/examples/framework-react)
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://codespaces.new/withastro/astro?devcontainer_path=.devcontainer/framework-react/devcontainer.json)
+## Contenido
 
-This example showcases Astro working with [React](https://react.dev).
-
-Write your React components as `.jsx` or `.tsx` files in your project.
+- **Artículos**: se leen en tiempo de build desde la API de DEV y el RSS de Medium (`src/lib/posts.ts`).
+  El sitio publicado es HTML estático, y GitHub Actions lo reconstruye a diario (`.github/workflows/deploy.yml`) para traer los posts nuevos.
+- **Charlas**: `src/data/talks.ts`. Una línea por charla con `t(...)` y sus recursos (slides, video, repo, demo, evento, post).
+- **Proyectos**: `src/data/projects.ts` (catálogo curado; las estrellas se leen de GitHub en el build).
+- **Redes**: `src/lib/social.ts`.
+- **Ilustración del perfil**: `src/components/Portrait.astro` (SVG animado; al hacer clic se muestra la foto `public/images/vanessa.jpg`).

@@ -1,0 +1,276 @@
+// Catálogo curado de repositorios (sin forks, prácticas ni pruebas de concepto).
+// Las estrellas se leen de la API de GitHub en tiempo de build (src/lib/github.ts).
+//
+// category: "open-source" (proyectos para la comunidad, abiertos a contribuciones)
+//           "tool"        (herramientas y apps reutilizables)
+//           "talk"        (código y demos usados en charlas y talleres)
+
+export type ProjectCategory = "open-source" | "tool" | "talk";
+
+export type Project = {
+  repo: string; // nombre en github.com/vanessamarely
+  title: string;
+  description: string;
+  category: ProjectCategory;
+  tags: string[];
+  demo?: string;
+  docs?: string;
+  talk?: string; // charla o taller donde se usó
+  featured?: boolean;
+};
+
+export const projects: Project[] = [
+  // ---------- Open source & comunidad ----------
+  {
+    repo: "recursos-frontend",
+    title: "Recursos Frontend",
+    description:
+      "Guía colaborativa con recursos para aprender Frontend: cursos, documentación, herramientas, comunidades y más. Abierta a contribuciones.",
+    category: "open-source",
+    tags: ["Frontend", "Comunidad", "Astro"],
+    demo: "https://vanessamarely.github.io/recursos-frontend/",
+    featured: true,
+  },
+  {
+    repo: "angular-challenges",
+    title: "Angular Challenges",
+    description: "Gitbook con conceptos de Angular y retos prácticos en mini apps para aprender haciendo.",
+    category: "open-source",
+    tags: ["Angular", "Gitbook"],
+    featured: true,
+  },
+  {
+    repo: "metamorfosis-angular",
+    title: "Metamorfosis de Angular",
+    description:
+      "Guía de talleres por niveles (oruga, crisálida, mariposa) para quienes empiezan con Angular. Participó en Hacktoberfest.",
+    category: "open-source",
+    tags: ["Angular", "Talleres", "Hacktoberfest"],
+    talk: "She Codes Angular · 2020",
+    featured: true,
+  },
+  {
+    repo: "be-me",
+    title: "Be-Me",
+    description: "Programa de mentorías «Be my Mentor, Be my Mentee»: temario de React, hooks, routing, Context API y proyectos prácticos.",
+    category: "open-source",
+    tags: ["React", "Mentoría"],
+    docs: "https://be-me.gitbook.io/be-me/",
+  },
+  {
+    repo: "react-notes",
+    title: "React Notes",
+    description: "Gitbook con mis notas de React y talleres para poner los conceptos en práctica.",
+    category: "open-source",
+    tags: ["React", "Gitbook"],
+  },
+  {
+    repo: "frontend-notes",
+    title: "Frontend Notes",
+    description: "Guía de lenguajes, herramientas y conceptos que se usan día a día en el perfil front-end.",
+    category: "open-source",
+    tags: ["Frontend", "Gitbook"],
+  },
+  {
+    repo: "bitacora-codigo",
+    title: "Bitácora de Código",
+    description: "Ejercicios de HTML, CSS y JavaScript para seguir practicando, acompañados de transmisiones en vivo.",
+    category: "open-source",
+    tags: ["HTML", "CSS", "JavaScript"],
+  },
+
+  // ---------- Herramientas ----------
+  {
+    repo: "profile-generator",
+    title: "README Profile Generator",
+    description: "Crea READMEs para tu perfil de GitHub con una interfaz drag & drop y vista previa en tiempo real, sin escribir Markdown.",
+    category: "tool",
+    tags: ["GitHub", "TypeScript"],
+    demo: "https://profile-generator-umber.vercel.app",
+    featured: true,
+  },
+  {
+    repo: "vscode-checksemantic",
+    title: "Semantic HTML Checker",
+    description: "Extensión de VS Code que detecta y ayuda a corregir problemas de semántica y accesibilidad en HTML según WCAG 2.2.",
+    category: "tool",
+    tags: ["VS Code", "Accesibilidad"],
+    featured: true,
+  },
+  {
+    repo: "ai-playbook-reposito",
+    title: "AI Playbook",
+    description: "Guía de referencia y paquete de ejemplo para estructurar agentes, skills, prompts, comandos y políticas en un repositorio.",
+    category: "tool",
+    tags: ["IA", "Agentes"],
+    demo: "https://ai-playbook-reposito.vercel.app",
+  },
+  {
+    repo: "job-tracker",
+    title: "Job Tracker",
+    description:
+      "App para gestionar postulaciones (Next.js + Drizzle) que sirve como referencia de una configuración avanzada de GitHub Copilot: agentes, prompts, skills y specs.",
+    category: "tool",
+    tags: ["GitHub Copilot", "Next.js"],
+  },
+
+  // ---------- Charlas y talleres ----------
+  {
+    repo: "fluid-generative-ui",
+    title: "Fast AI, Fluid UI",
+    description: "Dos apps para la charla sobre UI generada por IA sin layout shifts ni latencia: performance, salidas estructuradas y WebMCP.",
+    category: "talk",
+    tags: ["IA", "Performance", "WebMCP"],
+    talk: "DevFest Santo Domingo 2026",
+    featured: true,
+  },
+  {
+    repo: "web-performance-gen-ui",
+    title: "Web performance en la era de la UI generativa",
+    description: "Demo de la charla sobre cómo optimizar el rendimiento de interfaces generadas dinámicamente por IA.",
+    category: "talk",
+    tags: ["Performance", "IA"],
+    talk: "DevFest Guatemala 2026",
+  },
+  {
+    repo: "webmcp-action",
+    title: "WebMCP in Action",
+    description: "Demo de WebMCP, el estándar propuesto para que una página exponga sus funciones como herramientas a los agentes de IA.",
+    category: "talk",
+    tags: ["WebMCP", "IA"],
+    demo: "https://web-two-xi-71.vercel.app",
+    talk: "DevFest Quito 2026",
+    featured: true,
+  },
+  {
+    repo: "agentic-web-starter",
+    title: "Agentic Web Starter",
+    description: "Monorepo con un cliente offline-first con Gemini Nano, un orquestador multi-agente en la nube con Gemini Flash y un codelab.",
+    category: "talk",
+    tags: ["Gemini", "Agentes", "Monorepo"],
+    talk: "GoFest Bogotá 2026",
+  },
+  {
+    repo: "multi-agent-workflow",
+    title: "AI Travel Planner (Google ADK)",
+    description: "Planificador de viajes full-stack con Google Agent Development Kit en TypeScript: agentes en paralelo y en secuencia.",
+    category: "talk",
+    tags: ["Gemini ADK", "React", "Node.js"],
+    demo: "https://travel-planner-multiagent.vercel.app",
+    talk: "Build with AI · GDG Quito 2026",
+    featured: true,
+  },
+  {
+    repo: "contextual-ai-panel",
+    title: "Panel de ayuda contextual con Built-in AI",
+    description: "Panel que resume la página y genera FAQs con las APIs Summarizer y Prompt del navegador, más View Transitions y Anchor Positioning.",
+    category: "talk",
+    tags: ["Built-in AI", "CSS"],
+    demo: "https://contextual-ai-panel.vercel.app",
+    talk: "Build with AI · GDG Santa Cruz 2026",
+  },
+  {
+    repo: "hypercart-lab",
+    title: "HyperCart Lab",
+    description: "E-commerce en React con problemas de rendimiento activables para practicar debugging con Chrome DevTools.",
+    category: "talk",
+    tags: ["DevTools", "Performance", "React"],
+    demo: "https://hypercart-lab.vercel.app",
+    talk: "Web MCP & Debugging · GDG Barranquilla 2026",
+  },
+  {
+    repo: "web-mcp-debugging",
+    title: "Web MCP & Debugging (slides)",
+    description: "Presentación web de 22 diapositivas sobre Web MCP y debugging moderno con IA.",
+    category: "talk",
+    tags: ["Slides", "MCP"],
+    demo: "https://vanessamarely.github.io/web-mcp-debugging/",
+    talk: "GDG Barranquilla 2026",
+  },
+  {
+    repo: "dev-tools-workshop",
+    title: "Chrome DevTools Workshop",
+    description: "Laboratorio interactivo para practicar la detección y solución de problemas web comunes con Chrome DevTools.",
+    category: "talk",
+    tags: ["DevTools"],
+    talk: "MedellinJS 2025",
+  },
+  {
+    repo: "taller-github-copilot",
+    title: "Taller de GitHub Copilot",
+    description: "Módulos paso a paso para potenciar tu productividad con IA generativa: del autocompletado a los agentes.",
+    category: "talk",
+    tags: ["GitHub Copilot"],
+  },
+  {
+    repo: "github-workshop-guid",
+    title: "Guía práctica de GitHub y Copilot",
+    description: "Repositorios, ramas, pull requests, issues, workflows y GitHub Copilot explicados con ejercicios.",
+    category: "talk",
+    tags: ["GitHub", "GitHub Copilot"],
+    demo: "https://github-workshop-guid.vercel.app",
+  },
+  {
+    repo: "angular-cf-taller",
+    title: "Taller práctico de Angular: Mini Tienda",
+    description: "Construye paso a paso una tienda con catálogo, detalle, formulario con validación y despliegue.",
+    category: "talk",
+    tags: ["Angular"],
+    demo: "https://angular-cf-taller.vercel.app",
+    talk: "Angular Fundamentals 2025",
+  },
+  {
+    repo: "angular-evolution",
+    title: "Cookies Gemini Chat: la evolución de Angular",
+    description: "Taller en el que se construye un chat de recetas con la API de Gemini usando lo más nuevo de Angular.",
+    category: "talk",
+    tags: ["Angular", "Gemini"],
+    demo: "https://angular-evolution.vercel.app",
+  },
+  {
+    repo: "agent-js",
+    title: "Agente de cocina saludable",
+    description: "Ejemplo práctico de un agente en JavaScript que genera planes de alimentación, en versiones con Gemini y con OpenAI.",
+    category: "talk",
+    tags: ["Agentes", "JavaScript", "Gemini"],
+    talk: "MedellinJS 2025",
+  },
+  {
+    repo: "barranqui-ia",
+    title: "Gemini en React",
+    description: "Chat y text prompt con la API de Gemini en React, con slides y artículos paso a paso.",
+    category: "talk",
+    tags: ["Gemini", "React"],
+    demo: "https://barranqui-ia.vercel.app",
+    talk: "BarranquIA 2024",
+  },
+  {
+    repo: "angular-kanban-workshop",
+    title: "Kanban Board en Angular",
+    description: "Workshop para crear un tablero Kanban repasando componentes, directivas, módulos, servicios, routing y CDK.",
+    category: "talk",
+    tags: ["Angular", "CDK"],
+    talk: "Angular Honduras 2021",
+  },
+  {
+    repo: "typescript-talk",
+    title: "TypeScript desde cero",
+    description: "Código de los ejemplos del webinar de TypeScript: configuración, tipos e interfaces.",
+    category: "talk",
+    tags: ["TypeScript"],
+  },
+  {
+    repo: "angular-material-cdk",
+    title: "Angular Material CDK",
+    description: "App de demostración de Angular Material y el Component Dev Kit.",
+    category: "talk",
+    tags: ["Angular", "CDK"],
+    talk: "Angular Week · Globant 2018",
+  },
+];
+
+export const categoryLabel: Record<ProjectCategory, string> = {
+  "open-source": "Open source",
+  tool: "Herramientas",
+  talk: "Charlas y talleres",
+};

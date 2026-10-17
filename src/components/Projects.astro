@@ -1,0 +1,41 @@
+---
+import Icon from "./Icon.astro";
+import ProjectCard from "./ProjectCard.astro";
+import { projects } from "../data/projects";
+import { getRepoStats } from "../lib/github";
+
+const stats = await getRepoStats();
+const featured = projects.filter((p) => p.featured).slice(0, 6);
+---
+
+<section class="section" id="proyectos">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <div>
+        <span class="eyebrow">Open source</span>
+        <h2 class="section-title">Proyectos <em class="serif">para compartir</em></h2>
+        <p class="intro">
+          Guías abiertas a la comunidad, herramientas y el código de mis charlas, listos para clonar, aprender y contribuir.
+        </p>
+      </div>
+      <a class="btn" href="/proyectos/">Ver los {projects.length} proyectos <Icon name="arrow" /></a>
+    </div>
+
+    <div class="grid">
+      {featured.map((p, i) => <ProjectCard project={p} stats={stats.get(p.repo)} index={i} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro {
+    margin-top: 18px;
+    max-width: 52ch;
+    color: var(--muted);
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 20px;
+  }
+</style>
