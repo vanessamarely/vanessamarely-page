@@ -89,13 +89,23 @@ const latestByYear = Object.entries(grouped)
       </div>
 
       <aside class="community reveal" style="--i:1">
-        <h3 class="sub">Comunidades</h3>
+        <h3 class="sub">Comunidades en las que participé</h3>
         <ul>
           {
             communities.map((c) => (
               <li>
-                <strong>{c.name}</strong>
-                <span>{c.role}</span>
+                <strong>
+                  {c.url ? (
+                    <a href={c.url} target="_blank" rel="noopener">
+                      {c.name}
+                    </a>
+                  ) : (
+                    c.name
+                  )}
+                </strong>
+                <span>
+                  {c.role} · <time>{c.years}</time>
+                </span>
               </li>
             ))
           }
@@ -273,6 +283,17 @@ const latestByYear = Object.entries(grouped)
   }
   .community li:last-child {
     border: 0;
+  }
+  .community a {
+    text-decoration: none;
+  }
+  .community a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--sun);
+  }
+  .community time {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
   }
   .community span {
     font-size: 0.9rem;

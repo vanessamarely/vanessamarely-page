@@ -212,7 +212,7 @@ export const talks: Talk[] = [
     repo("cooking-chat"),
     gdg("google-gdg-quito-presents-google-io-extended-ecuador-2024/cohost-gdg-quito"),
   ], "quito"),
-  t("2024-07-27", "charla", "Project IDX and Gemini", "I/O Extended · GDG Sincelejo", ["Gemini", "IDX"], [video("https://www.youtube.com/live/lQpgEPhPxUE")], on),
+  t("2024-07-27", "charla", "Project IDX and Gemini", "I/O Extended · GDG Sincelejo", ["Gemini", "IDX"], [slides("https://drive.google.com/file/d/1oNw375C5WjT-san3OkVQ66isL_KmxGIV/view"), video("https://www.youtube.com/live/lQpgEPhPxUE")], on),
   t("2024-07-13", "charla", "Cooking a chat with Google IDX and Gemini", "Google I/O Extended Cali", ["Gemini", "IDX", "Firebase"], [
     slides("https://www.canva.com/design/DAGKaDbMCM0/kci7pdQCP63Lsqf7KeRwVw/view"),
     repo("cooking-chat"),
@@ -225,7 +225,7 @@ export const talks: Talk[] = [
     post("https://vanessamarely.medium.com/gu%C3%ADa-para-construir-un-chat-con-la-api-gemini-ai-con-react-ac655702947b"),
     event("https://barranquiia.com/"),
   ], "barranquilla"),
-  t("2024-04-29", "taller", "Integrando la API de Gemini en React", "Build with AI · GDG Guayaquil", ["Gemini", "React"], [
+  t("2024-04-29", "taller", "Integrando la API de Gemini en React", "Build with AI · GDG Guayaquil", ["Gemini", "React"], [slides("https://docs.google.com/presentation/d/1XaREdRcuHBPlvHwyv9WF4TlY87vA51__9ZeI8mca-r0/view?resourcekey=0-b_nCEIKPabBnfOsPP9B2JA"), 
     repo("gemini-chat"),
     demo("https://gemini-chat-mu.vercel.app"),
     post("https://vanessamarely.medium.com/c%C3%B3mo-crear-un-text-prompt-con-la-libreria-generative-ai-en-react-9c15b5107a53"),
@@ -308,7 +308,7 @@ export const talks: Talk[] = [
 
   // ---------- 2022 ----------
   t("2022-12-12", "live", "Ser mamá en la industria de software", "YouTube Live", ["Diversidad"], [video("arJPXSL83Rk")]),
-  t("2022-11-26", "charla", "Tips & trucos para usar las Developer Tools", "DevFest Campeche", ["DevTools"], [event("https://devfestcampeche.com/")], "campeche"),
+  t("2022-11-26", "charla", "Tips & trucos para usar las Developer Tools", "DevFest Campeche", ["DevTools"], [slides("https://docs.google.com/presentation/d/1pfygjy6P3zdM52JZUjaPpP3OS4YvRGmMvr3beBpqfqY/view?resourcekey=0-qjICiB5AD7wXNm-6haLvlw"), event("https://devfestcampeche.com/")], "campeche"),
   t("2022-10-31", "live", "Practiquemos JavaScript con el DOM y el CSSOM", "Bitácora de Código", ["JavaScript"], [
     video("8-d6uo3PD8U"),
     video("Q6RnOO-pkeA"),
@@ -331,7 +331,7 @@ export const talks: Talk[] = [
   ]),
   t("2022-06-11", "live", "Hablemos del roadmap en Frontend", "YouTube Live", ["Frontend", "Carrera"], [video("gNNRaeyvcXo")]),
   t("2022-05-24", "mentoría", "Road to GDE: mentoría en Web Technologies (3 sesiones)", "Road to GDE · Google", ["Web"], [], on),
-  t("2022-05-21", "charla", "Web Vitals", "GDSC Fest Perú", ["Performance", "Core Web Vitals"], [
+  t("2022-05-21", "charla", "Web Vitals", "GDSC Fest Perú", ["Performance", "Core Web Vitals"], [slides("https://docs.google.com/presentation/d/1RgfSHA4c__EDfN1Y4l_gas5mQDoL_su_7LS5CM3EpMQ/view"), 
     video("https://www.facebook.com/watch/live/?v=683623102871140"),
   ], on),
   t("2022-04-23", "charla", "Síndromes del developer", "Charla online", ["Carrera"], [video("https://youtu.be/-K32CP_mEEY")], on),
@@ -373,7 +373,7 @@ export const talks: Talk[] = [
   t("2021-04-24", "charla", "Arquitectura de nuestras apps", "Angular Bogotá", ["Angular", "Arquitectura"], [video("https://youtu.be/CI_fO3NZf_g?t=193")], on),
   t("2021-03-25", "charla", "Creando aplicaciones web", "Charla online", ["Web"], [video("eqPra5Qea2M")], on),
   t("2021-03-15", "taller", "Taller de React", "Comfeco", ["React"], [video("gA8R5nyayxI"), video("veId2d1L39M")], on),
-  t("2021-03-12", "charla", "Tips para conseguir un buen trabajo como dev", "IWD LATAM", ["Carrera"], [video("https://youtu.be/6wiCxQgVnn4?t=10651")], on),
+  t("2021-03-12", "charla", "Tips para conseguir un buen trabajo como dev", "IWD LATAM", ["Carrera"], [slides("https://docs.google.com/presentation/d/1N67EDYSadYEychVqABIa-9D6kj-_5vEO0F-Sm4TPJNo/view"), video("https://youtu.be/6wiCxQgVnn4?t=10651")], on),
   t("2021-03-10", "charla", "Desde los fundamentos en Angular", "Angular Bolivia", ["Angular"], [
     video("https://www.youtube.com/watch?v=wnksvWJrKxI&t=2925s"),
   ], on),
@@ -388,7 +388,7 @@ export const talks: Talk[] = [
   t("2020-07-18", "taller", "Metamorfosis de Angular: niveles oruga, crisálida y mariposa", "She Codes Angular", ["Angular"], [
     repo("metamorfosis-angular"),
   ], on),
-  t("2020-04-16", "charla", "Contando una historia sobre JavaScript", "Charla online", ["JavaScript"], [video("fIVTX-ayKXg")], on),
+  t("2020-04-16", "charla", "Contando una historia sobre JavaScript", "Charla online", ["JavaScript"], [slides("https://drive.google.com/file/d/1SfSK8Q1plgr773xliWUDJDkJ8DUKZPhy/view"), video("fIVTX-ayKXg")], on),
 
   // ---------- 2019 ----------
   t("2019-11-09", "taller", "She Codes Angular Workshop", "She Codes Angular", ["Angular"], [
@@ -396,7 +396,7 @@ export const talks: Talk[] = [
   ], "medellin"),
   t("2019-11-09", "charla", "Intro to Angular", "She Codes Angular", ["Angular"], [event("https://www.meetup.com/She-Codes-Angular/events/264380822/")], "medellin"),
   t("2019-10-19", "panel", "Panel de expertos", "JSConf Colombia", ["Frontend"], [event("https://jsconf.co/")], "medellin"),
-  t("2019-10-18", "charla", "Contando una historia", "JSConf Colombia", ["JavaScript", "Storytelling"], [event("https://jsconf.co/")], "medellin"),
+  t("2019-10-18", "charla", "Contando una historia", "JSConf Colombia", ["JavaScript", "Storytelling"], [slides("https://drive.google.com/file/d/1r4WCPS5ji0eV-JAaBldM4YI0rEFQY8X-/view"), event("https://jsconf.co/")], "medellin"),
   t("2019-09-14", "taller", "Angular: componentes, directivas y routing", "Taller", ["Angular"], [post("https://www.instagram.com/p/B2MVCkZnamH/")], "medellin"),
   t("2019-09-14", "charla", "Introducción a Angular: componentes, directivas y routing", "Charla", ["Angular"], [post("https://www.instagram.com/p/B2MVCkZnamH/")], "medellin"),
   t("2019-09-07", "charla", "Frontend & Backend en la Web", "ITM Medellín", ["Web"], [slides("https://tinyurl.com/y3qx2e3l")], "medellin"),
@@ -441,12 +441,15 @@ export const talks: Talk[] = [
   ], "medellin"),
 ];
 
+// Comunidades en las que participé (ya no soy parte activa). Años según GitHub Stars, el gist y Advocu.
 export const communities = [
-  { name: "GDG Medellín", role: "Organizadora" },
-  { name: "She Codes Angular", role: "Organizadora y mentora" },
-  { name: "NgGirls Colombia", role: "Organizadora y mentora" },
-  { name: "Women Techmakers", role: "Embajadora" },
-  { name: "DevFest Medellín", role: "Organizadora" },
+  { name: "GitTogether Medellín", role: "Co-organizadora · comunidad de GitHub", years: "2024 – 2025", url: "https://www.meetup.com/gittogether-medellin/" },
+  { name: "JSConf Colombia", role: "Co-organizadora", years: "2023", url: "https://www.jsconf.co/" },
+  { name: "GDG Medellín", role: "Organizadora", years: "2018 – 2023", url: "https://gdg.community.dev/gdg-medellin/" },
+  { name: "DevFest Medellín", role: "Organizadora", years: "2018 · 2022" },
+  { name: "She Codes Angular", role: "Organizadora y mentora", years: "2019 – 2020", url: "https://www.meetup.com/She-Codes-Angular/" },
+  { name: "Women Techmakers", role: "Embajadora", years: "2019" },
+  { name: "NgGirls Colombia", role: "Organizadora y mentora", years: "2018" },
 ];
 
 export const resourceLabel: Record<ResourceType, string> = {
