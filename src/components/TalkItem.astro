@@ -1,5 +1,6 @@
 ---
 import { kindLabel, resourceLabel, type Talk } from "../data/talks";
+import { places } from "../data/places";
 
 interface Props {
   talk: Talk;
@@ -12,6 +13,7 @@ const resources = talk.resources.map((r) => {
   seen[r.type] = (seen[r.type] ?? 0) + 1;
   return { ...r, label: totals[r.type] > 1 ? `${resourceLabel[r.type]} ${seen[r.type]}` : resourceLabel[r.type] };
 });
+const place = talk.where && talk.where !== "online" ? places[talk.where] : null;
 const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short" }).format(new Date(`${talk.date}T12:00`));
 ---
 
@@ -22,6 +24,15 @@ const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short" }
     <p>
       <span class={`kind kind--${talk.kind}`}>{kindLabel[talk.kind]}</span>
       {talk.event}
+      {
+        place && (
+          <span class="where">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" class="pin"><path d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12z" /><circle cx="12" cy="9" r="2.5" /></svg>
+            {place.city}, {place.country}
+          </span>
+        )
+      }
+      {talk.where === "online" && <span class="where where--online">Online</span>}
     </p>
   </div>
   {
@@ -37,6 +48,7 @@ const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short" }
                 {r.type === "post" && <path d="M5 4h14v16H5zM8 8h8M8 12h8M8 16h5" />}
                 {r.type === "repo" && <path d="M6 3h11a2 2 0 0 1 2 2v16H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zM4 17h15" />}
                 {r.type === "demo" && <path d="M14 4h6v6M20 4l-9 9M18 14v6H4V6h6" />}
+                {r.type === "codelab" && <path d="M8 8l-5 4 5 4M16 8l5 4-5 4M14 5l-4 14" />}
               </svg>
               {r.label}
             </a>
@@ -86,6 +98,26 @@ const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short" }
     flex-wrap: wrap;
     align-items: center;
     gap: 8px;
+  }
+
+  .where {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    font: 500 0.78rem var(--font-mono);
+    color: var(--ink);
+  }
+  .where::before {
+    content: "·";
+    margin-right: 4px;
+    color: var(--muted);
+  }
+  .where .pin {
+    flex: none;
+    color: var(--coral);
+  }
+  .where--online {
+    color: var(--muted);
   }
 
   .kind {

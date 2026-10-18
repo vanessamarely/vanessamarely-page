@@ -1,0 +1,447 @@
+---
+// Travel map: cities where I gave in-person talks, filterable by year.
+// Arcs start at home (Medellín); dot size grows with the number of talks in that city.
+import { countries, project } from "../data/americas-map";
+import { places, HOME, type PlaceKey } from "../data/places";
+import { sortedTalks } from "../data/talks";
+
+type Stop = { key: PlaceKey; counts: Record<string, number>; total: number; x: number; y: number };
+
+const stops = new Map<PlaceKey, Stop>();
+let online = 0;
+const onlineByYear: Record<string, number> = {};
+for (const t of sortedTalks) {
+  const year = t.date.slice(0, 4);
+  if (t.where === "online") {
+    online++;
+    onlineByYear[year] = (onlineByYear[year] ?? 0) + 1;
+    continue;
+  }
+  if (!t.where) continue;
+  const p = places[t.where];
+  const stop = stops.get(t.where) ?? { key: t.where, counts: {}, total: 0, ...project(p.lat, p.lon) };
+  stop.counts[year] = (stop.counts[year] ?? 0) + 1;
+  stop.total++;
+  stops.set(t.where, stop);
+}
+
+const list = [...stops.values()].sort((a, b) => b.total - a.total);
+const years = [...new Set(list.flatMap((s) => Object.keys(s.counts)))].sort().reverse();
+const home = project(places[HOME].lat, places[HOME].lon);
+const radius = (n: number) => 3.5 + Math.sqrt(n) * 2.6;
+
+// Curved arc from home to a stop, bending to the side
+function arc(x: number, y: number) {
+  const mx = (home.x + x) / 2;
+  const my = (home.y + y) / 2;
+  const dx = x - home.x;
+  const dy = y - home.y;
+  const bend = 0.25;
+  return `M${home.x.toFixed(1)} ${home.y.toFixed(1)} Q${(mx - dy * bend).toFixed(1)} ${(my + dx * bend).toFixed(1)} ${x.toFixed(1)} ${y.toFixed(1)}`;
+}
+
+const visitedCountries = (year: string) =>
+  [...new Set(list.filter((s) => year === "all" || s.counts[year]).map((s) => places[s.key].code))];
+const countryYears = new Map<string, string[]>();
+for (const s of list) {
+  const code = places[s.key].code;
+  countryYears.set(code, [...new Set([...(countryYears.get(code) ?? []), ...Object.keys(s.counts)])]);
+}
+
+const payload = {
+  stops: Object.fromEntries(list.map((s) => [s.key, s.counts])),
+  online: onlineByYear,
+  onlineTotal: online,
+};
+---
+
+<div class="tmap" id="talksMap">
+  <div class="tmap__map">
+    <svg viewBox="40 0 450 500" role="img" aria-labelledby="tmap-title">
+      <title id="tmap-title">Mapa de las ciudades donde Vanessa ha dado charlas presenciales</title>
+      <defs>
+        <pattern id="tmap-dots" width="6" height="6" patternUnits="userSpaceOnUse">
+          <circle cx="1" cy="1" r="0.8" class="tmap__grid" />
+        </pattern>
+      </defs>
+      <rect x="40" y="0" width="450" height="500" fill="url(#tmap-dots)" />
+      <g class="tmap__countries">
+        {
+          countries.map((c) => (
+            <path d={c.d} data-code={c.code} data-years={(countryYears.get(c.code) ?? []).join(" ")} class={countryYears.has(c.code) ? "is-visited" : undefined}>
+              <title>{c.name}</title>
+            </path>
+          ))
+        }
+      </g>
+      <g class="tmap__arcs">
+        {
+          list
+            .filter((s) => s.key !== HOME)
+            .map((s) => <path d={arc(s.x, s.y)} pathLength="1" data-key={s.key} data-years={Object.keys(s.counts).join(" ")} />)
+        }
+      </g>
+      <g class="tmap__stops">
+        {
+          list.map((s) => (
+            <g class="stop" data-key={s.key} data-years={Object.keys(s.counts).join(" ")} transform={`translate(${s.x.toFixed(1)} ${s.y.toFixed(1)})`}>
+              <circle class="stop__pulse" r={radius(s.total)} />
+              <circle class="stop__dot" r={radius(s.total)} />
+              <text class="stop__label" x={radius(s.total) + 4} y="4">
+                {places[s.key].city}
+              </text>
+              <title>{`${places[s.key].city}, ${places[s.key].country}: ${s.total} ${s.total === 1 ? "charla" : "charlas"}`}</title>
+            </g>
+          ))
+        }
+      </g>
+      <g class="tmap__home" transform={`translate(${home.x.toFixed(1)} ${home.y.toFixed(1)})`}>
+        <path d="M0 -9 L2.6 -2.8 9 -2.8 3.8 1.2 5.8 7.6 0 3.8 -5.8 7.6 -3.8 1.2 -9 -2.8 -2.6 -2.8 Z" />
+      </g>
+    </svg>
+  </div>
+
+  <aside class="tmap__panel">
+    <div class="tmap__years" role="group" aria-label="Filtrar por año">
+      <button type="button" data-year="all" aria-pressed="true">Todos</button>
+      {years.map((y) => <button type="button" data-year={y} aria-pressed="false">{y}</button>)}
+    </div>
+
+    <p class="tmap__summary" aria-live="polite">
+      <strong data-summary="talks">{list.reduce((n, s) => n + s.total, 0)}</strong> charlas presenciales en
+      <strong data-summary="cities">{list.length}</strong> ciudades de
+      <strong data-summary="countries">{visitedCountries("all").length}</strong> países
+      <span class="tmap__online">+ <span data-summary="online">{online}</span> online</span>
+    </p>
+
+    <ul class="tmap__list">
+      {
+        list.map((s) => (
+          <li data-key={s.key}>
+            <span class="tmap__city">
+              {places[s.key].city}
+              <small>{places[s.key].country}</small>
+            </span>
+            <span class="tmap__count" data-count>{s.total}</span>
+          </li>
+        ))
+      }
+    </ul>
+    <p class="tmap__legend">
+      <svg viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0 -9 L2.6 -2.8 9 -2.8 3.8 1.2 5.8 7.6 0 3.8 -5.8 7.6 -3.8 1.2 -9 -2.8 -2.6 -2.8 Z" /></svg>
+      Casa: Medellín · el tamaño del punto es el número de charlas
+    </p>
+  </aside>
+  <script type="application/json" id="talksMapData" set:html={JSON.stringify(payload)} />
+</div>
+
+<style>
+  .tmap {
+    display: grid;
+    grid-template-columns: 1.25fr 1fr;
+    gap: 24px;
+    padding: clamp(16px, 2.5vw, 28px);
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+
+  .tmap__map svg {
+    width: 100%;
+    height: auto;
+    max-height: 560px;
+  }
+
+  .tmap__grid {
+    fill: var(--line);
+  }
+
+  .tmap__countries path {
+    fill: color-mix(in srgb, var(--ink) 7%, var(--surface));
+    stroke: var(--surface);
+    stroke-width: 0.8;
+    stroke-linejoin: round;
+    transition: fill 0.4s;
+  }
+  .tmap__countries path.is-visited {
+    fill: color-mix(in srgb, var(--violet) 22%, var(--surface));
+  }
+  .tmap__countries path.is-dim {
+    fill: color-mix(in srgb, var(--ink) 7%, var(--surface));
+  }
+
+  .tmap__arcs path {
+    fill: none;
+    stroke: var(--coral);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    opacity: 0.85;
+  }
+  .tmap.is-drawn .tmap__arcs path:not(.is-hidden) {
+    animation: arc-draw 1.4s var(--ease) forwards;
+    animation-delay: calc(var(--n, 0) * 70ms);
+  }
+  .tmap__arcs path.is-hidden {
+    opacity: 0;
+  }
+
+  .stop {
+    transition: opacity 0.4s;
+  }
+  .stop.is-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  .stop__dot {
+    fill: var(--coral);
+    stroke: var(--surface);
+    stroke-width: 1.6;
+    transition: r 0.4s var(--ease);
+  }
+  .stop__pulse {
+    fill: var(--coral);
+    opacity: 0.35;
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: pulse-dot 2.4s ease-out infinite;
+  }
+  .stop__label {
+    font: 600 10px var(--font-sans);
+    fill: var(--ink);
+    paint-order: stroke;
+    stroke: var(--surface);
+    stroke-width: 3px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+  }
+  .stop:hover .stop__label,
+  .stop.is-focus .stop__label {
+    opacity: 1;
+  }
+
+  .tmap__home path,
+  .tmap__legend path {
+    fill: var(--sun);
+    stroke: var(--ink);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+
+  .tmap__panel {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    min-width: 0;
+  }
+
+  .tmap__years {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tmap__years button {
+    font: 500 0.85rem var(--font-mono);
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    padding: 6px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s;
+  }
+  .tmap__years button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+
+  .tmap__summary {
+    font-size: 1.15rem;
+    line-height: 1.45;
+  }
+  .tmap__summary strong {
+    font-size: 1.6rem;
+    letter-spacing: -0.03em;
+  }
+  .tmap__online {
+    display: block;
+    font: 500 0.85rem var(--font-mono);
+    color: var(--muted);
+  }
+
+  .tmap__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 16px;
+    max-height: 300px;
+    overflow: auto;
+  }
+  .tmap__list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 4px;
+    border-bottom: 1px solid var(--line);
+    cursor: default;
+  }
+  .tmap__list li[hidden] {
+    display: none;
+  }
+  .tmap__list li:hover,
+  .tmap__list li.is-focus {
+    color: var(--coral);
+  }
+  .tmap__city {
+    display: grid;
+    font-weight: 600;
+    font-size: 0.92rem;
+    line-height: 1.2;
+  }
+  .tmap__city small {
+    font: 400 0.72rem var(--font-mono);
+    color: var(--muted);
+  }
+  .tmap__count {
+    font: 600 0.85rem var(--font-mono);
+    min-width: 26px;
+    text-align: center;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--coral) 18%, transparent);
+  }
+
+  .tmap__legend {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font: 400 0.75rem var(--font-mono);
+    color: var(--muted);
+  }
+  .tmap__legend svg {
+    width: 16px;
+    height: 16px;
+    flex: none;
+  }
+
+  @keyframes arc-draw {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  @keyframes pulse-dot {
+    from {
+      transform: scale(1);
+      opacity: 0.4;
+    }
+    to {
+      transform: scale(2.4);
+      opacity: 0;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .tmap {
+      grid-template-columns: 1fr;
+    }
+    .tmap__map svg {
+      max-height: 440px;
+    }
+  }
+</style>
+
+<script>
+  const root = document.getElementById("talksMap");
+  if (root) {
+    const data = JSON.parse(document.getElementById("talksMapData")!.textContent!) as {
+      stops: Record<string, Record<string, number>>;
+      online: Record<string, number>;
+      onlineTotal: number;
+    };
+    const radius = (n: number) => 3.5 + Math.sqrt(n) * 2.6;
+    const $ = <T extends Element>(sel: string) => [...root.querySelectorAll<T>(sel)];
+    const summary = (k: string) => root.querySelector(`[data-summary="${k}"]`)!;
+
+    function show(year: string) {
+      const count = (key: string) =>
+        year === "all"
+          ? Object.values(data.stops[key]).reduce((a, b) => a + b, 0)
+          : (data.stops[key][year] ?? 0);
+
+      let talks = 0;
+      let cities = 0;
+      $<SVGGElement>(".stop").forEach((g) => {
+        const n = count(g.dataset.key!);
+        g.classList.toggle("is-hidden", n === 0);
+        if (n) {
+          talks += n;
+          cities++;
+          g.querySelectorAll("circle").forEach((c) => c.setAttribute("r", String(radius(n))));
+          g.querySelector("text")!.setAttribute("x", String(radius(n) + 4));
+        }
+      });
+      let i = 0;
+      $<SVGPathElement>(".tmap__arcs path").forEach((p) => {
+        const on = count(p.dataset.key!) > 0;
+        p.classList.toggle("is-hidden", !on);
+        if (on) p.style.setProperty("--n", String(i++));
+      });
+      const visited = new Set<string>();
+      $<SVGPathElement>(".tmap__countries path.is-visited").forEach((p) => {
+        const on = year === "all" || p.dataset.years!.split(" ").includes(year);
+        p.classList.toggle("is-dim", !on);
+        if (on) visited.add(p.dataset.code!);
+      });
+      $<HTMLLIElement>(".tmap__list li").forEach((li) => {
+        const n = count(li.dataset.key!);
+        li.hidden = n === 0;
+        li.querySelector("[data-count]")!.textContent = String(n);
+      });
+
+      summary("talks").textContent = String(talks);
+      summary("cities").textContent = String(cities);
+      summary("countries").textContent = String(visited.size);
+      summary("online").textContent = String(year === "all" ? data.onlineTotal : (data.online[year] ?? 0));
+
+      // restart arc drawing
+      root!.classList.remove("is-drawn");
+      void root!.getBoundingClientRect();
+      root!.classList.add("is-drawn");
+    }
+
+    $<HTMLButtonElement>("[data-year]").forEach((b) =>
+      b.addEventListener("click", () => {
+        $("[data-year]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
+        show(b.dataset.year!);
+      }),
+    );
+
+    // Hovering a city in the list highlights it on the map (and vice versa)
+    const focus = (key: string | undefined, on: boolean) => {
+      if (!key) return;
+      root.querySelectorAll(`[data-key="${key}"]`).forEach((el) => el.classList.toggle("is-focus", on));
+    };
+    $<HTMLElement>(".tmap__list li, .stop").forEach((el) => {
+      el.addEventListener("pointerenter", () => focus(el.dataset.key, true));
+      el.addEventListener("pointerleave", () => focus(el.dataset.key, false));
+    });
+
+    new IntersectionObserver(
+      ([e], obs) => {
+        if (e.isIntersecting) {
+          root.classList.add("is-drawn");
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.3 },
+    ).observe(root);
+  }
+</script>

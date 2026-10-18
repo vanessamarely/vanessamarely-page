@@ -3,6 +3,8 @@ export const social = [
   { name: "linkedin", label: "LinkedIn", href: "https://www.linkedin.com/in/vanessa-marely-aristizabal-angel/" },
   { name: "instagram", label: "Instagram", href: "https://www.instagram.com/vanessamarelycode/" },
   { name: "youtube", label: "YouTube", href: "https://www.youtube.com/@vanessamarely" },
+  { name: "tiktok", label: "TikTok", href: "https://www.tiktok.com/@vanessamarely" },
+  { name: "bluesky", label: "Bluesky", href: "https://bsky.app/profile/vanessamarely.bsky.social" },
   { name: "devto", label: "DEV", href: "https://dev.to/vanessamarely" },
   { name: "medium", label: "Medium", href: "https://medium.com/@vanessamarely" },
   { name: "x", label: "X", href: "https://x.com/vanessamarely" },

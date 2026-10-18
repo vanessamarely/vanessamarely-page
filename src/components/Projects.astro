@@ -5,7 +5,11 @@ import { projects } from "../data/projects";
 import { getRepoStats } from "../lib/github";
 
 const stats = await getRepoStats();
-const featured = projects.filter((p) => p.featured).slice(0, 6);
+const pushed = (repo: string) => stats.get(repo)?.pushedAt ?? "";
+const featured = projects
+  .filter((p) => p.featured)
+  .sort((a, b) => pushed(b.repo).localeCompare(pushed(a.repo)))
+  .slice(0, 6);
 ---
 
 <section class="section" id="proyectos">

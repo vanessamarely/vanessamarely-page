@@ -6,8 +6,9 @@ import { getRepoStats } from "../lib/github";
 
 const stats = await getRepoStats();
 const categories = Object.keys(categoryLabel) as ProjectCategory[];
-const byStars = [...projects].sort((a, b) => (stats.get(b.repo)?.stars ?? 0) - (stats.get(a.repo)?.stars ?? 0));
-const ordered = categories.flatMap((c) => byStars.filter((p) => p.category === c));
+// Most recently updated first
+const pushed = (repo: string) => stats.get(repo)?.pushedAt ?? "";
+const ordered = [...projects].sort((a, b) => pushed(b.repo).localeCompare(pushed(a.repo)));
 ---
 
 <Layout
@@ -20,7 +21,7 @@ const ordered = categories.flatMap((c) => byStars.filter((p) => p.category === c
         <span class="eyebrow">GitHub</span>
         <h1>Proyectos <em class="serif">open source</em></h1>
         <p class="muted">
-          Una selección de mis repositorios: guías abiertas a contribuciones, herramientas y el código de charlas y talleres.
+          Una selección de mis repositorios, del más recientemente actualizado al más antiguo: guías abiertas a contribuciones, herramientas y el código de charlas y talleres.
           El resto está en <a href="https://github.com/vanessamarely" target="_blank" rel="noopener">github.com/vanessamarely</a>.
         </p>
       </header>

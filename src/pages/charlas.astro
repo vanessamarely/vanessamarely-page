@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import TalkItem from "../components/TalkItem.astro";
+import TalksMap from "../components/TalksMap.astro";
 import { sortedTalks, impact, kindLabel, type TalkKind } from "../data/talks";
 
 const byYear = new Map<string, typeof sortedTalks>();
@@ -28,6 +29,10 @@ const kinds = Object.keys(kindLabel) as TalkKind[];
           {impact.map((s) => <li><strong>{s.value}+</strong> {s.label} <small>· {s.detail}</small></li>)}
         </ul>
       </header>
+
+      <div class="map">
+        <TalksMap />
+      </div>
 
       <div class="filters" role="group" aria-label="Filtrar charlas">
         <button type="button" data-kind="all" aria-pressed="true">Todo</button>
@@ -97,6 +102,10 @@ const kinds = Object.keys(kindLabel) as TalkKind[];
   .impact small {
     color: var(--muted);
     font-family: var(--font-mono);
+  }
+
+  .map {
+    margin-bottom: 40px;
   }
 
   .filters {

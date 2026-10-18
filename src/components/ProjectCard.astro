@@ -10,6 +10,9 @@ interface Props {
 }
 const { project: p, stats, index = 0 } = Astro.props;
 const repoUrl = `https://github.com/vanessamarely/${p.repo}`;
+const updated = stats?.pushedAt
+  ? new Intl.DateTimeFormat("es-CO", { month: "short", year: "numeric" }).format(new Date(stats.pushedAt))
+  : null;
 ---
 
 <article class={`proj proj--${p.category} reveal`} style={`--i:${index % 3}`} data-category={p.category}>
@@ -41,6 +44,7 @@ const repoUrl = `https://github.com/vanessamarely/${p.repo}`;
   <h3><a href={repoUrl} target="_blank" rel="noopener" class="proj__title">{p.title}</a></h3>
   <p class="proj__desc">{p.description}</p>
   {p.talk && <p class="proj__talk">Usado en: {p.talk}</p>}
+  {updated && <p class="proj__updated">Actualizado: <time datetime={stats!.pushedAt}>{updated}</time></p>}
 
   <ul class="proj__tags">
     {p.tags.map((t) => <li>{t}</li>)}
@@ -147,6 +151,11 @@ const repoUrl = `https://github.com/vanessamarely/${p.repo}`;
     color: var(--ink);
     padding-left: 10px;
     border-left: 3px solid var(--accent);
+  }
+
+  .proj__updated {
+    font: 400 0.75rem var(--font-mono);
+    color: var(--muted);
   }
 
   .proj__tags {

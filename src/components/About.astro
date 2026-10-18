@@ -34,8 +34,114 @@ const { postCount } = Astro.props;
         </dl>
       </article>
 
-      <!-- Medellín -->
-      <article class="card card--city reveal" style="--i:1">
+      <!-- Places: born in Fredonia, live in Envigado, work in Medellín -->
+      <article class="card card--city reveal" style="--i:1" id="places">
+        <div class="places__tabs" role="tablist" aria-label="Mis lugares">
+          <button type="button" role="tab" id="tab-fredonia" aria-controls="place-fredonia" aria-selected="true">
+            <small>Nací</small>Fredonia
+          </button>
+          <button type="button" role="tab" id="tab-envigado" aria-controls="place-envigado" aria-selected="false" tabindex="-1">
+            <small>Vivo</small>Envigado
+          </button>
+          <button type="button" role="tab" id="tab-medellin" aria-controls="place-medellin" aria-selected="false" tabindex="-1">
+            <small>Trabajo</small>Medellín
+          </button>
+        </div>
+
+        <div class="places__stage">
+          <!-- Fredonia -->
+          <div class="place is-active" role="tabpanel" id="place-fredonia" aria-labelledby="tab-fredonia">
+            <svg viewBox="0 0 300 170" class="city" aria-hidden="true">
+              <circle class="city__sun" cx="58" cy="50" r="18" />
+              <g class="fre__cloud">
+                <ellipse cx="120" cy="40" rx="18" ry="7" /><ellipse cx="132" cy="34" rx="12" ry="8" />
+              </g>
+              <g class="fre__cloud fre__cloud--2">
+                <ellipse cx="230" cy="58" rx="16" ry="6" /><ellipse cx="240" cy="53" rx="10" ry="7" />
+              </g>
+              <path class="city__m3" d="M0 124 C 30 108 60 108 92 122 L92 170 L0 170 Z M210 122 C 240 106 272 104 300 114 L300 170 L210 170 Z" />
+              <!-- Cerro Bravo -->
+              <path class="fre__combia" d="M40 152 C 88 134 116 74 140 40 C 148 29 158 29 166 40 C 188 74 214 130 264 152 Z" />
+              <path class="fre__ridge" d="M153 34 C 150 70 140 104 118 136 M166 44 C 176 76 190 106 214 132" />
+              <!-- church -->
+              <g class="fre__church">
+                <path d="M226 118 h30 v24 h-30 z" />
+                <path d="M224 118 L241 106 L258 118 Z" class="roof" />
+                <path d="M236 92 h10 v26 h-10 z" />
+                <path d="M234 92 L241 80 L248 92 Z" class="roof" />
+                <path d="M241 80 V72 M238 75 h6" class="cross" />
+                <path d="M238 142 v-9 a3 3 0 0 1 6 0 v9" class="door" />
+                <circle cx="241" cy="100" r="2.2" class="door" />
+              </g>
+              <!-- coffee hill -->
+              <path class="fre__hill" d="M0 142 C 60 120 140 124 196 140 C 236 132 272 130 300 136 L300 170 L0 170 Z" />
+              <path class="fre__row" d="M6 152 C 60 134 128 136 186 150" />
+              <path class="fre__row" d="M0 162 C 70 146 150 148 214 160" />
+              <path class="fre__row" d="M196 152 C 230 144 268 142 300 146" />
+              <path class="fre__beans" d="M6 152 C 60 134 128 136 186 150" />
+              <path class="fre__beans" d="M0 162 C 70 146 150 148 214 160" />
+              <!-- birds -->
+              <g class="fre__birds">
+                <path d="M0 0 q4 -4 8 0 q4 -4 8 0 M14 8 q3 -3 6 0 q3 -3 6 0" />
+                <animateMotion dur="14s" repeatCount="indefinite" path="M-30 70 C 60 40 160 60 330 30" />
+              </g>
+            </svg>
+            <div class="card__label">
+              <span class="chip">05.93° N, 75.67° O</span>
+              <h3>Nací en Fredonia, Antioquia</h3>
+              <p class="muted">Tierra cafetera del suroeste antioqueño, con el Cerro Bravo en el paisaje.</p>
+            </div>
+          </div>
+
+          <!-- Envigado -->
+          <div class="place" role="tabpanel" id="place-envigado" aria-labelledby="tab-envigado" inert>
+            <svg viewBox="0 0 300 170" class="city" aria-hidden="true">
+              <circle class="city__sun" cx="246" cy="44" r="18" />
+              <!-- Loma del Escobero -->
+              <path class="city__m3" d="M0 108 C 50 70 112 66 162 92 C 204 70 252 62 300 84 L300 170 L0 170 Z" />
+              <!-- towers -->
+              <g class="env__towers">
+                <rect x="168" y="70" width="26" height="72" class="t1" />
+                <rect x="198" y="84" width="22" height="58" class="t2" />
+                <rect x="224" y="62" width="28" height="80" class="t3" />
+                <rect x="256" y="90" width="22" height="52" class="t1" />
+              </g>
+              <g class="env__windows">
+                <rect x="173" y="78" width="5" height="5" /><rect x="184" y="78" width="5" height="5" class="on" />
+                <rect x="173" y="92" width="5" height="5" class="on o2" /><rect x="184" y="92" width="5" height="5" />
+                <rect x="173" y="106" width="5" height="5" /><rect x="184" y="106" width="5" height="5" class="on o3" />
+                <rect x="203" y="92" width="5" height="5" class="on o2" /><rect x="211" y="92" width="5" height="5" />
+                <rect x="203" y="106" width="5" height="5" /><rect x="211" y="106" width="5" height="5" class="on" />
+                <rect x="229" y="70" width="6" height="5" class="on o3" /><rect x="241" y="70" width="6" height="5" />
+                <rect x="229" y="84" width="6" height="5" /><rect x="241" y="84" width="6" height="5" class="on o2" />
+                <rect x="229" y="98" width="6" height="5" class="on" /><rect x="241" y="98" width="6" height="5" />
+                <rect x="261" y="98" width="5" height="5" /><rect x="269" y="98" width="5" height="5" class="on o3" />
+              </g>
+              <!-- church and park -->
+              <g class="fre__church">
+                <path d="M58 116 h36 v26 h-36 z" />
+                <path d="M56 116 L76 102 L96 116 Z" class="roof" />
+                <path d="M70 84 h12 v32 h-12 z" />
+                <path d="M68 84 L76 70 L84 84 Z" class="roof" />
+                <path d="M76 70 V62 M73 65 h6" class="cross" />
+                <circle cx="76" cy="94" r="3" class="door" />
+                <path d="M72 142 v-10 a4 4 0 0 1 8 0 v10" class="door" />
+              </g>
+              <g class="env__trees">
+                <path d="M22 142 v-14 M128 142 v-16 M150 142 v-12" />
+                <circle cx="22" cy="122" r="10" /><circle cx="128" cy="118" r="12" /><circle cx="150" cy="124" r="9" />
+              </g>
+              <path class="city__m1" d="M0 142 H300 V170 H0 Z" />
+            </svg>
+            <div class="card__label">
+              <span class="chip">06.17° N, 75.59° O</span>
+              <h3>Vivo en Envigado</h3>
+              <p class="muted">Entre montañas y verde, a un paso de Medellín.</p>
+            </div>
+          </div>
+
+          <!-- Medellín -->
+          <div class="place" role="tabpanel" id="place-medellin" aria-labelledby="tab-medellin" inert>
         <svg viewBox="0 0 300 170" class="city" aria-hidden="true">
           <circle class="city__sun" cx="230" cy="60" r="22" />
           <path class="city__m3" d="M0 120 C 40 70 80 60 120 90 C 160 60 210 40 300 95 L300 170 L0 170 Z" />
@@ -46,7 +152,31 @@ const { postCount } = Astro.props;
             <rect x="214" y="115" width="9" height="9" style="fill: var(--coral)" /><rect x="228" y="112" width="11" height="12" style="fill: var(--sun)" />
             <rect x="243" y="116" width="9" height="9" style="fill: var(--violet)" />
           </g>
+          <!-- Biblioteca España (Santo Domingo): three dark rocks on the hill -->
+          <g class="med__rocks">
+            <path d="M246 121 L252 107 L263 110 L260 123 Z" />
+            <path d="M260 123 L265 104 L277 108 L273 124 Z" />
+            <path d="M273 124 L279 110 L289 114 L286 126 Z" />
+          </g>
+          <!-- skyline: Coltejer, EPM building and towers -->
+          <g class="med__skyline">
+            <rect x="110" y="98" width="15" height="44" class="b1" />
+            <path d="M131 142 V74 L138.5 52 L146 74 V142 Z" class="coltejer" />
+            <path d="M138.5 52 V40" class="spire" />
+            <rect x="151" y="100" width="32" height="42" class="epm" />
+            <path d="M151 110 h32 M151 120 h32 M151 130 h32 M159 100 v42 M167 100 v42 M175 100 v42" class="grid" />
+            <rect x="187" y="110" width="13" height="32" class="b2" />
+            <path d="M115 106 h5 M115 116 h5 M115 126 h5 M135 84 h7 M135 96 h7 M135 108 h7 M135 120 h7 M190 118 h7 M190 128 h7" class="lit" />
+          </g>
           <path class="city__m1" d="M0 150 C 60 135 120 140 170 152 C 220 140 260 140 300 148 L300 170 L0 170 Z" />
+          <!-- Metro de Medellín on its viaduct -->
+          <path class="env__track" d="M0 156 H300 M40 156 V170 M120 156 V170 M200 156 V170 M280 156 V170" />
+          <g class="env__train">
+            <rect x="0" y="145" width="34" height="10" rx="3" />
+            <rect x="36" y="145" width="34" height="10" rx="3" />
+            <rect x="72" y="145" width="34" height="10" rx="3" />
+            <path d="M5 148 h24 M41 148 h24 M77 148 h24" class="win" />
+          </g>
           <!-- metrocable -->
           <path id="cable" class="city__cable" d="M-10 40 L 310 112" />
           <g class="city__car">
@@ -56,9 +186,12 @@ const { postCount } = Astro.props;
             <animateMotion dur="9s" repeatCount="indefinite" path="M-10 40 L 310 112" />
           </g>
         </svg>
-        <div class="card__label">
-          <span class="chip">06.25° N, 75.56° O</span>
-          <h3>Desde Medellín, Colombia</h3>
+            <div class="card__label">
+              <span class="chip">06.25° N, 75.56° O</span>
+              <h3>Trabajo en Medellín</h3>
+              <p class="muted">Donde construyo software y comunidad tech.</p>
+            </div>
+          </div>
         </div>
       </article>
 
@@ -86,22 +219,8 @@ const { postCount } = Astro.props;
         <p class="muted">Open source y comunidad</p>
       </article>
 
-      <!-- Doodle pad -->
-      <article class="card card--pad reveal" style="--i:4">
-        <div class="pad__head">
-          <div>
-            <h3>Ilustradora</h3>
-            <p class="muted">Dibuja algo aquí, prometo no juzgar.</p>
-          </div>
-          <button type="button" class="pad__clear" id="padClear">borrar</button>
-        </div>
-        <svg class="pad" id="pad" viewBox="0 0 400 200" aria-label="Lienzo para dibujar" role="img">
-          <path class="pad__demo" pathLength="1" d="M40 140 C 60 60 120 60 130 120 C 140 170 190 160 200 110 C 210 60 270 50 290 100 C 305 140 340 150 365 110" />
-        </svg>
-      </article>
-
       <!-- Interests -->
-      <article class="card card--magic reveal" style="--i:5">
+      <article class="card card--magic reveal" style="--i:4">
         <svg viewBox="0 0 220 140" class="magic" aria-hidden="true">
           <!-- books -->
           <g class="books">
@@ -128,6 +247,7 @@ const { postCount } = Astro.props;
           <path class="bolt" d="M150 14 L140 34 L150 34 L142 52" />
         </svg>
         <h3>Lectora, viajera y fan de Harry Potter</h3>
+        <p class="muted">También hago journaling viajero: dibujos, boletos y notas de cada viaje.</p>
       </article>
     </div>
   </div>
@@ -186,11 +306,8 @@ const { postCount } = Astro.props;
     align-items: center;
     gap: 6px;
   }
-  .card--pad {
-    grid-column: span 2;
-  }
   .card--magic {
-    grid-column: span 2;
+    grid-column: span 4;
   }
 
   .lead {
@@ -266,6 +383,255 @@ const { postCount } = Astro.props;
     gap: 8px;
     justify-items: start;
   }
+  .card__label p {
+    font-size: 0.95rem;
+    margin-top: -4px;
+  }
+
+  /* places tabs */
+  .places__tabs {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    z-index: 2;
+    display: flex;
+    gap: 4px;
+    padding: 4px;
+    width: fit-content;
+    max-width: calc(100% - 28px);
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 78%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid var(--line);
+  }
+  .places__tabs button {
+    display: grid;
+    line-height: 1.1;
+    text-align: left;
+    padding: 6px 12px;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    font: 600 0.85rem var(--font-sans);
+    cursor: pointer;
+    transition: background 0.25s, color 0.25s;
+  }
+  .places__tabs small {
+    font: 500 0.62rem var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    opacity: 0.65;
+  }
+  .places__tabs [aria-selected="true"] {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .places__stage {
+    display: grid;
+    flex: 1;
+  }
+  .place {
+    grid-area: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(16px);
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease), visibility 0s 0.6s;
+  }
+  .place.is-active {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+  }
+
+  /* Fredonia */
+  .fre__combia {
+    fill: color-mix(in srgb, var(--mint) 55%, var(--ink));
+  }
+  .fre__ridge {
+    fill: none;
+    stroke: var(--surface);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    opacity: 0.35;
+  }
+  .fre__hill {
+    fill: color-mix(in srgb, var(--mint) 42%, var(--ink));
+  }
+  .fre__row,
+  .fre__beans {
+    fill: none;
+    stroke-linecap: round;
+  }
+  .fre__row {
+    stroke: color-mix(in srgb, var(--mint) 80%, white);
+    stroke-width: 6;
+    stroke-dasharray: 0.1 10;
+  }
+  .fre__beans {
+    stroke: var(--coral);
+    stroke-width: 2.6;
+    stroke-dasharray: 0.1 20;
+    stroke-dashoffset: -5;
+  }
+  .fre__cloud ellipse {
+    fill: var(--surface);
+    opacity: 0.9;
+  }
+  .fre__cloud {
+    animation: drift-x 16s ease-in-out infinite alternate;
+  }
+  .fre__cloud--2 {
+    animation-duration: 22s;
+    animation-direction: alternate-reverse;
+  }
+  .fre__church path,
+  .fre__church circle {
+    fill: var(--surface);
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+  .fre__church .roof {
+    fill: var(--coral);
+  }
+  .fre__church .door {
+    fill: color-mix(in srgb, var(--ink) 75%, var(--coral));
+  }
+  .fre__church .cross {
+    fill: none;
+    stroke-linecap: round;
+  }
+  .fre__birds path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+  }
+
+  /* Envigado */
+  .env__towers rect {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+  .env__towers .t1 {
+    fill: var(--surface);
+  }
+  .env__towers .t2 {
+    fill: color-mix(in srgb, var(--sun) 55%, var(--surface));
+  }
+  .env__towers .t3 {
+    fill: color-mix(in srgb, var(--violet) 35%, var(--surface));
+  }
+  .env__windows rect {
+    fill: color-mix(in srgb, var(--ink) 25%, var(--surface));
+  }
+  .env__windows .on {
+    fill: var(--sun);
+    animation: twinkle-win 5s ease-in-out infinite;
+  }
+  .env__windows .o2 {
+    animation-delay: -1.6s;
+  }
+  .env__windows .o3 {
+    animation-delay: -3.2s;
+  }
+  .env__trees path {
+    stroke: var(--ink);
+    stroke-width: 2;
+  }
+  .env__trees circle {
+    fill: var(--mint);
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+  .med__rocks path {
+    fill: color-mix(in srgb, var(--ink) 85%, var(--violet));
+    stroke: var(--ink);
+    stroke-width: 1.2;
+    stroke-linejoin: round;
+  }
+  .med__skyline rect,
+  .med__skyline .coltejer {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    stroke-linejoin: round;
+  }
+  .med__skyline .b1 {
+    fill: var(--surface);
+  }
+  .med__skyline .b2 {
+    fill: color-mix(in srgb, var(--violet) 30%, var(--surface));
+  }
+  .med__skyline .coltejer {
+    fill: color-mix(in srgb, var(--sky) 60%, var(--surface));
+  }
+  .med__skyline .epm {
+    fill: color-mix(in srgb, var(--mint) 45%, var(--surface));
+  }
+  .med__skyline .grid {
+    stroke: var(--ink);
+    stroke-width: 0.6;
+    opacity: 0.45;
+  }
+  .med__skyline .spire,
+  .med__skyline .lit {
+    stroke: var(--ink);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+  }
+  .med__skyline .lit {
+    stroke: var(--sun);
+    stroke-width: 2.2;
+    animation: twinkle-win 5s ease-in-out infinite;
+  }
+
+  .env__track {
+    stroke: var(--ink);
+    stroke-width: 2;
+    opacity: 0.7;
+  }
+  .env__train rect {
+    fill: var(--surface);
+    stroke: var(--ink);
+    stroke-width: 1.5;
+  }
+  .env__train .win {
+    stroke: var(--mint);
+    stroke-width: 3;
+    stroke-linecap: round;
+  }
+  .env__train {
+    animation: train 9s linear infinite;
+  }
+
+  @keyframes drift-x {
+    to {
+      transform: translateX(24px);
+    }
+  }
+  @keyframes twinkle-win {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.25;
+    }
+  }
+  @keyframes train {
+    from {
+      transform: translateX(-120px);
+    }
+    to {
+      transform: translateX(320px);
+    }
+  }
 
   /* badge */
   .badge,
@@ -327,50 +693,6 @@ const { postCount } = Astro.props;
     opacity: 1;
     transform: scale(1.1) rotate(22deg);
     stroke: var(--coral);
-  }
-
-  /* pad */
-  .pad__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: start;
-    gap: 12px;
-  }
-  .pad__clear {
-    font: 500 0.8rem var(--font-mono);
-    border: 1px solid var(--line);
-    background: var(--bg);
-    color: var(--ink);
-    padding: 6px 12px;
-    border-radius: 999px;
-    cursor: pointer;
-  }
-  .pad {
-    margin-top: 14px;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 2 / 1;
-    border-radius: 18px;
-    background-color: var(--bg);
-    background-image: radial-gradient(var(--line) 1.2px, transparent 1.2px);
-    background-size: 18px 18px;
-    cursor: crosshair;
-    touch-action: none;
-  }
-  .pad :global(path) {
-    fill: none;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 5;
-  }
-  .pad__demo {
-    stroke: var(--violet);
-    stroke-dasharray: 1;
-    stroke-dashoffset: 1;
-    opacity: 0.5;
-  }
-  .is-in .pad__demo {
-    animation: drawDemo 3s var(--ease) 0.4s forwards;
   }
 
   /* magic */
@@ -443,11 +765,6 @@ const { postCount } = Astro.props;
       transform: translateY(8px);
     }
   }
-  @keyframes drawDemo {
-    to {
-      stroke-dashoffset: 0;
-    }
-  }
   @keyframes wave {
     50% {
       transform: rotate(8deg);
@@ -460,7 +777,6 @@ const { postCount } = Astro.props;
     }
     .card--intro,
     .card--city,
-    .card--pad,
     .card--magic {
       grid-column: span 2;
     }
@@ -471,41 +787,54 @@ const { postCount } = Astro.props;
 </style>
 
 <script>
-  // Freehand doodle pad (SVG paths, pointer events)
-  const pad = document.getElementById("pad") as unknown as SVGSVGElement | null;
-  const clear = document.getElementById("padClear");
-  const colors = ["var(--violet)", "var(--coral)", "var(--mint)", "var(--sun)", "var(--ink)"];
-  let stroke = 0;
-  let current: SVGPathElement | null = null;
-  let d = "";
+  // Places tabs: click / arrow keys; auto-advance while visible until the user interacts
+  const places = document.getElementById("places");
+  if (places) {
+    const tabs = [...places.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+    const panels = tabs.map((t) => document.getElementById(t.getAttribute("aria-controls")!)!);
+    let current = 0;
+    let timer = 0;
+    let touched = false;
 
-  function point(e: PointerEvent) {
-    const r = pad!.getBoundingClientRect();
-    return [((e.clientX - r.left) / r.width) * 400, ((e.clientY - r.top) / r.height) * 200].map((n) => n.toFixed(1));
-  }
+    const select = (i: number, focus = false) => {
+      current = (i + tabs.length) % tabs.length;
+      tabs.forEach((t, k) => {
+        const on = k === current;
+        t.setAttribute("aria-selected", String(on));
+        t.tabIndex = on ? 0 : -1;
+        panels[k].classList.toggle("is-active", on);
+        panels[k].inert = !on;
+      });
+      if (focus) tabs[current].focus();
+    };
+    const stop = () => {
+      touched = true;
+      clearInterval(timer);
+    };
 
-  if (pad && clear) {
-    pad.addEventListener("pointerdown", (e) => {
-      pad.querySelector(".pad__demo")?.remove();
-      pad.setPointerCapture(e.pointerId);
-      current = document.createElementNS("http://www.w3.org/2000/svg", "path");
-      current.style.stroke = colors[stroke++ % colors.length];
-      const [x, y] = point(e);
-      d = `M${x} ${y} L${x} ${y}`;
-      current.setAttribute("d", d);
-      pad.appendChild(current);
+    tabs.forEach((t, i) =>
+      t.addEventListener("click", () => {
+        stop();
+        select(i);
+      }),
+    );
+    places.querySelector('[role="tablist"]')!.addEventListener("keydown", (e) => {
+      const key = (e as KeyboardEvent).key;
+      if (key !== "ArrowRight" && key !== "ArrowLeft") return;
+      stop();
+      select(current + (key === "ArrowRight" ? 1 : -1), true);
     });
-    pad.addEventListener("pointermove", (e) => {
-      if (!current) return;
-      const [x, y] = point(e);
-      d += ` L${x} ${y}`;
-      current.setAttribute("d", d);
-    });
-    const end = () => (current = null);
-    pad.addEventListener("pointerup", end);
-    pad.addEventListener("pointercancel", end);
-    clear.addEventListener("click", () => {
-      pad.querySelectorAll("path").forEach((p) => p.remove());
-    });
+    places.addEventListener("pointerenter", () => clearInterval(timer));
+    places.addEventListener("pointerleave", () => !touched && start());
+
+    const start = () => {
+      clearInterval(timer);
+      timer = window.setInterval(() => select(current + 1), 5000);
+    };
+    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      new IntersectionObserver(([e]) => (e.isIntersecting && !touched ? start() : clearInterval(timer)), {
+        threshold: 0.4,
+      }).observe(places);
+    }
   }
 </script>

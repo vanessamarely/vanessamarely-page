@@ -1,6 +1,6 @@
 ---
 import Icon from "./Icon.astro";
-import { social, email } from "../lib/social";
+import { social } from "../lib/social";
 
 const year = new Date().getFullYear();
 ---
@@ -8,14 +8,9 @@ const year = new Date().getFullYear();
 <footer class="footer" id="contacto">
   <div class="wrap">
     <div class="cta reveal">
-      <span class="eyebrow">Contacto</span>
-      <h2 class="cta__title">
-        ¿Tienes una idea, una charla <br />o un proyecto? <em class="serif">Hablemos.</em>
-      </h2>
-      <a class="mail" href={`mailto:${email}`}>
-        <span>{email}</span>
-        <Icon name="arrow" size={28} />
-      </a>
+      <span class="eyebrow">Redes</span>
+      <h2 class="cta__title">Encuéntrame en <em class="serif">la comunidad</em></h2>
+      <p class="cta__lede">Comparto lo que aprendo en charlas, artículos, transmisiones en vivo y repositorios abiertos.</p>
     </div>
 
     <ul class="socials">
@@ -64,33 +59,16 @@ const year = new Date().getFullYear();
     max-width: 16ch;
   }
 
+  .cta__lede {
+    max-width: 46ch;
+    font-size: 1.15rem;
+    color: color-mix(in srgb, var(--bg) 70%, transparent);
+  }
+
   .cta__title em {
     color: var(--sun);
   }
 
-  .mail {
-    display: inline-flex;
-    align-items: center;
-    gap: 16px;
-    font-size: clamp(1.15rem, 3vw, 2rem);
-    text-decoration: none;
-    padding-bottom: 6px;
-    background: linear-gradient(var(--coral), var(--coral)) 0 100% / 0 3px no-repeat;
-    transition: background-size 0.5s var(--ease);
-    word-break: break-all;
-  }
-
-  .mail:hover {
-    background-size: 100% 3px;
-  }
-
-  .mail :global(svg) {
-    flex: none;
-    transition: transform 0.4s var(--ease);
-  }
-  .mail:hover :global(svg) {
-    transform: translateX(8px) rotate(-30deg);
-  }
 
   .socials {
     list-style: none;
