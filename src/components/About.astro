@@ -73,6 +73,20 @@ const { postCount } = Astro.props;
                 <path d="M238 142 v-9 a3 3 0 0 1 6 0 v9" class="door" />
                 <circle cx="241" cy="100" r="2.2" class="door" />
               </g>
+              <!-- colorful Antioquian houses with wooden balconies -->
+              <g class="fre__houses">
+                <path d="M261 117 h21 v25 h-21 z" class="wall" />
+                <path d="M258 118 L271.5 108 L285 118 Z" class="tile" />
+                <path d="M261 126 h21 v3 h-21 z" class="balcony b1" />
+                <path d="M264 126 v-4 M268 126 v-4 M272 126 v-4 M276 126 v-4 M280 126 v-4 M262 122 h19" class="rail" />
+                <path d="M266 132 h5 v10 h-5 z" class="door d1" />
+                <path d="M275 132 h4 v5 h-4 z" class="door d2" />
+                <path d="M284 121 h14 v21 h-14 z" class="wall w2" />
+                <path d="M282 122 L291 114.5 L300 122 Z" class="tile" />
+                <path d="M284 129 h14 v3 h-14 z" class="balcony b2" />
+                <path d="M287 129 v-4 M291 129 v-4 M295 129 v-4 M285 125 h12" class="rail" />
+                <path d="M288.5 134 h5 v8 h-5 z" class="door d3" />
+              </g>
               <!-- coffee hill -->
               <path class="fre__hill" d="M0 142 C 60 120 140 124 196 140 C 236 132 272 130 300 136 L300 170 L0 170 Z" />
               <path class="fre__row" d="M6 152 C 60 134 128 136 186 150" />
@@ -80,6 +94,25 @@ const { postCount } = Astro.props;
               <path class="fre__row" d="M196 152 C 230 144 268 142 300 146" />
               <path class="fre__beans" d="M6 152 C 60 134 128 136 186 150" />
               <path class="fre__beans" d="M0 162 C 70 146 150 148 214 160" />
+              <!-- plantain plant -->
+              <g class="fre__plantain">
+                <path d="M16 162 V128" class="stem" />
+                <path d="M16 132 C 6 126 -2 116 2 108 C 8 114 12 122 16 132 Z" />
+                <path d="M16 130 C 26 122 36 116 38 106 C 30 108 22 118 16 130 Z" />
+                <path d="M16 140 C 4 138 -4 134 -6 128 C 4 128 10 132 16 140 Z" />
+                <path d="M16 138 C 28 138 34 134 38 128 C 28 128 22 132 16 138 Z" />
+              </g>
+              <!-- chiva (escalera bus) driving over the coffee hills -->
+              <g class="fre__chiva">
+                <path d="M-15 -17 h30 v3 h-30 z" class="rack" />
+                <circle cx="-9" cy="-19" r="2.2" class="bag" /><circle cx="-3" cy="-19.5" r="2.4" class="bag b2" /><circle cx="4" cy="-19" r="2.2" class="bag" /><circle cx="10" cy="-19" r="2" class="bag b2" />
+                <path d="M-15 -14 h30 v11 h-30 z" class="body" />
+                <path d="M-15 -10 h30" class="stripe s1" />
+                <path d="M-15 -6.5 h30" class="stripe s2" />
+                <path d="M-12 -13 h5 v3 h-5 z M-5 -13 h5 v3 h-5 z M2 -13 h5 v3 h-5 z M9 -13 h4 v3 h-4 z" class="win" />
+                <circle cx="-8" cy="-2" r="3" class="wheel" /><circle cx="8" cy="-2" r="3" class="wheel" />
+                <animateMotion dur="16s" repeatCount="indefinite" rotate="auto" path="M-30 150 C 40 126 120 120 196 140 C 236 132 272 130 330 137" />
+              </g>
               <!-- birds -->
               <g class="fre__birds">
                 <path d="M0 0 q4 -4 8 0 q4 -4 8 0 M14 8 q3 -3 6 0 q3 -3 6 0" />
@@ -127,11 +160,26 @@ const { postCount } = Astro.props;
                 <circle cx="76" cy="94" r="3" class="door" />
                 <path d="M72 142 v-10 a4 4 0 0 1 8 0 v10" class="door" />
               </g>
+              <!-- Casa Museo Otraparte (Fernando González) -->
+              <g class="env__otraparte">
+                <path d="M103 119 h42 v23 h-42 z" class="wall" />
+                <path d="M99 120 L124 105 L149 120 Z" class="tile" />
+                <path d="M103 119 h42" class="eave" />
+                <path d="M107 125 h8 v8 h-8 z M133 125 h8 v8 h-8 z" class="window" />
+                <path d="M120 142 v-11 a4 4 0 0 1 8 0 v11" class="door" />
+                <path d="M103 136 h14 M131 136 h14" class="trim" />
+              </g>
               <g class="env__trees">
-                <path d="M22 142 v-14 M128 142 v-16 M150 142 v-12" />
-                <circle cx="22" cy="122" r="10" /><circle cx="128" cy="118" r="12" /><circle cx="150" cy="124" r="9" />
+                <path d="M22 142 v-14 M157 142 v-12" />
+                <circle cx="22" cy="122" r="10" /><circle cx="157" cy="124" r="9" />
               </g>
               <path class="city__m1" d="M0 142 H300 V170 H0 Z" />
+              <!-- Parque Ditaires lake with a duck -->
+              <ellipse class="env__pond" cx="48" cy="157" rx="36" ry="7" />
+              <g class="env__duck">
+                <path d="M0 0 C 0 -4 3 -5 6 -4 C 7 -7 11 -7 11 -4 L 14 -3.5 L 11 -2.5 C 11 1 8 2 4 2 C 1 2 0 1.5 0 0 Z" />
+                <circle cx="9.2" cy="-5" r="0.7" class="eye" />
+              </g>
             </svg>
             <div class="card__label">
               <span class="chip">06.17° N, 75.59° O</span>
@@ -514,7 +562,142 @@ const { postCount } = Astro.props;
     stroke-linecap: round;
   }
 
+  .fre__houses .wall {
+    fill: var(--surface);
+    stroke: var(--ink);
+    stroke-width: 1.3;
+  }
+  .fre__houses .w2 {
+    fill: color-mix(in srgb, var(--sun) 45%, var(--surface));
+  }
+  .fre__houses .tile {
+    fill: var(--coral);
+    stroke: var(--ink);
+    stroke-width: 1.3;
+    stroke-linejoin: round;
+  }
+  .fre__houses .balcony {
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .fre__houses .b1 {
+    fill: var(--mint);
+  }
+  .fre__houses .b2 {
+    fill: var(--violet);
+  }
+  .fre__houses .rail {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .fre__houses .door {
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .fre__houses .d1,
+  .fre__houses .d3 {
+    fill: var(--violet);
+  }
+  .fre__houses .d2 {
+    fill: var(--mint);
+  }
+  .fre__plantain path {
+    fill: color-mix(in srgb, var(--mint) 70%, var(--ink));
+    stroke: var(--ink);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+  .fre__plantain .stem {
+    fill: none;
+    stroke: color-mix(in srgb, var(--mint) 40%, var(--ink));
+    stroke-width: 3;
+  }
+  .fre__plantain {
+    transform-origin: 16px 162px;
+    animation: sway-leaf 5s ease-in-out infinite;
+  }
+  .fre__chiva .body {
+    fill: var(--sun);
+    stroke: var(--ink);
+    stroke-width: 1.3;
+  }
+  .fre__chiva .rack {
+    fill: var(--ink);
+  }
+  .fre__chiva .bag {
+    fill: var(--coral);
+    stroke: var(--ink);
+    stroke-width: 0.8;
+  }
+  .fre__chiva .bag.b2 {
+    fill: var(--mint);
+  }
+  .fre__chiva .stripe {
+    stroke-width: 1.8;
+  }
+  .fre__chiva .s1 {
+    stroke: var(--coral);
+  }
+  .fre__chiva .s2 {
+    stroke: var(--violet);
+  }
+  .fre__chiva .win {
+    fill: var(--surface);
+    stroke: var(--ink);
+    stroke-width: 0.6;
+  }
+  .fre__chiva .wheel {
+    fill: var(--ink);
+    stroke: var(--surface);
+    stroke-width: 1;
+  }
+
   /* Envigado */
+  .env__otraparte .wall {
+    fill: color-mix(in srgb, var(--sun) 35%, var(--surface));
+    stroke: var(--ink);
+    stroke-width: 1.4;
+  }
+  .env__otraparte .tile {
+    fill: var(--coral);
+    stroke: var(--ink);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+  }
+  .env__otraparte .eave,
+  .env__otraparte .trim {
+    stroke: var(--ink);
+    stroke-width: 1;
+    opacity: 0.6;
+  }
+  .env__otraparte .window {
+    fill: color-mix(in srgb, var(--mint) 60%, var(--surface));
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .env__otraparte .door {
+    fill: color-mix(in srgb, var(--ink) 70%, var(--coral));
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .env__pond {
+    fill: color-mix(in srgb, var(--sky) 80%, var(--surface));
+    stroke: color-mix(in srgb, var(--ink) 40%, transparent);
+    stroke-width: 1;
+  }
+  .env__duck path {
+    fill: var(--surface);
+    stroke: var(--ink);
+    stroke-width: 1;
+    stroke-linejoin: round;
+  }
+  .env__duck .eye {
+    fill: var(--ink);
+  }
+  .env__duck {
+    animation: swim 9s ease-in-out infinite alternate;
+  }
   .env__towers rect {
     stroke: var(--ink);
     stroke-width: 1.5;
@@ -610,6 +793,19 @@ const { postCount } = Astro.props;
     animation: train 9s linear infinite;
   }
 
+  @keyframes sway-leaf {
+    50% {
+      transform: rotate(-3deg);
+    }
+  }
+  @keyframes swim {
+    from {
+      transform: translate(18px, 156px);
+    }
+    to {
+      transform: translate(66px, 156px);
+    }
+  }
   @keyframes drift-x {
     to {
       transform: translateX(24px);
