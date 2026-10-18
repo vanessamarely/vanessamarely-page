@@ -446,9 +446,9 @@ export const communities = [
   { name: "GitTogether Medellín", role: "Co-organizadora · comunidad de GitHub", years: "2024 – 2025", url: "https://www.meetup.com/gittogether-medellin/" },
   { name: "JSConf Colombia", role: "Co-organizadora", years: "2023", url: "https://www.jsconf.co/" },
   { name: "GDG Medellín", role: "Organizadora", years: "2018 – 2023", url: "https://gdg.community.dev/gdg-medellin/" },
-  { name: "DevFest Medellín", role: "Organizadora", years: "2018 · 2022" },
+  { name: "DevFest Medellín", role: "Organizadora", years: "2018 – 2022" },
   { name: "She Codes Angular", role: "Organizadora y mentora", years: "2019 – 2020", url: "https://www.meetup.com/She-Codes-Angular/" },
-  { name: "Women Techmakers", role: "Embajadora", years: "2019" },
+  { name: "Women Techmakers", role: "Embajadora · eventos con GDG Medellín", years: "2019 – 2025" },
   { name: "NgGirls Colombia", role: "Organizadora y mentora", years: "2018" },
 ];
 
