@@ -1,5 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="18" fill="#1d1727"/>
-  <path d="M20 22 L10 32 L20 42 M44 22 L54 32 L44 42" fill="none" stroke="#a597ff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M36 18 L28 46" stroke="#ff8a80" stroke-width="5" stroke-linecap="round"/>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="vm"><title>vm</title><style>.t{fill:#1d1727}.s{stroke:#f3eef8}.c{fill:#ff8a80}@media (prefers-color-scheme:dark){.t{fill:#f6f1ea}.s{stroke:#6b5ce7}.c{fill:#f2665f}}</style><rect class="t" width="120" height="120" rx="32"/><g transform="translate(0.5 0)"><path class="s" d="M16 44 L30 82 L44 48 C48 37 64 37 64 51 L64 82 L64 51 C64 37 82 37 82 51 L82 82" fill="none" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/><rect class="c" x="92" y="76" width="17" height="13" rx="5"/></g></svg>
