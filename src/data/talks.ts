@@ -71,7 +71,7 @@ export const talks: Talk[] = [
   t("2026-08-27", "charla", "Orchestrating Multi-Agent Workflows with Gemini Flash", "GoFest Bogotá", ["Agentes", "Gemini"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
   t("2026-08-27", "charla", "Interactive Web Apps with Gemini Nano & WebMCP", "GoFest Bogotá", ["Gemini Nano", "WebMCP"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
   t("2026-08-26", "charla", "Local Agents with Gemma, Gemini Nano and WebMCP", "GoFest Bogotá", ["Gemma", "Gemini Nano", "WebMCP"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
-  t("2026-08-26", "mentoría", "Mentoría técnica: Invima & Google AI Hackathon", "GoFest Bogotá", ["IA", "Hackathon"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
+  t("2026-08-26", "mentoría", "Mentoría técnica: Invima & Google AI Hackathon", "GoFest Bogotá", ["IA", "Hackathon"], [slides("https://github-workshop-guid.vercel.app"), repo("github-workshop-guid"), gofestCodelab, event("https://gofest.com.co/")], "bogota"),
   t("2026-08-21", "charla", "Rapid Web Prototyping & Interactive Visuals with Google AI Studio", "GoFest Bogotá", ["AI Studio"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
   t("2026-08-04", "live", "Software Factories y agentes de IA", "YouTube Live", ["IA", "Agentes"], [video("Wr51o9bK26M")]),
   t("2026-07-25", "charla", "Orchestrating Multi-Agent", "Hackathon Colsubsidio · GDG Bogotá", ["Agentes", "IA"], [

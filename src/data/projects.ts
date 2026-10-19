@@ -209,6 +209,7 @@ export const projects: Project[] = [
     category: "talk",
     tags: ["GitHub", "GitHub Copilot"],
     demo: "https://github-workshop-guid.vercel.app",
+    talk: "Mentoría Invima & Google AI Hackathon · GoFest Bogotá 2026",
   },
   {
     repo: "angular-cf-taller",
