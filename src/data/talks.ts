@@ -35,8 +35,8 @@ const repo = (name: string): Resource => ({ type: "repo", url: `https://github.c
 const demo = (url: string): Resource => ({ type: "demo", url });
 const codelab = (url: string): Resource => ({ type: "codelab", url });
 
-// Codelab used across all GoFest Bogotá 2026 sessions
-const gofestCodelab = codelab("https://github.com/vanessamarely/multi-agent-workflow");
+// Codelabs used across all GoFest Bogotá 2026 sessions
+const gofestCodelab = codelab("https://github.com/vanessamarely/agentic-web-starter");
 
 const t = (
   date: string,
@@ -64,7 +64,7 @@ export const talks: Talk[] = [
     demo("https://web-two-xi-71.vercel.app"),
     gdg("google-gdg-quito-presents-devfest-2026-innovating-together"),
   ], "quito"),
-  t("2026-09-26", "charla", "Building Agentic Apps with Gemini Flash and Nano", "GoFest Bogotá", ["IA", "Gemini", "Agentes"], [gofestCodelab, repo("agentic-web-starter"), event("https://gofest.com.co/")], "bogota"),
+  t("2026-09-26", "charla", "Building Agentic Apps with Gemini Flash and Nano", "GoFest Bogotá", ["IA", "Gemini", "Agentes"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
   t("2026-09-21", "live", "Cómo destacar y conseguir tu primer empleo como desarrollador", "YouTube Live", ["Carrera"], [video("buh8YUnFC9c")]),
   t("2026-09-14", "live", "3D, WebXR y Web3: la nueva era", "YouTube Live", ["WebXR", "3D"], [video("jlL55PsHCo4")]),
   t("2026-08-28", "charla", "Effective Prompting & Workflows with Gemini", "GoFest Bogotá", ["Gemini", "Prompting"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),

@@ -1,14 +1,13 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import ProjectCard from "../components/ProjectCard.astro";
-import { projects, categoryLabel, type ProjectCategory } from "../data/projects";
+import { visibleProjects, categoryLabel, type ProjectCategory } from "../data/projects";
 import { getRepoStats } from "../lib/github";
 
 const stats = await getRepoStats();
 const categories = Object.keys(categoryLabel) as ProjectCategory[];
-// Most recently updated first
-const pushed = (repo: string) => stats.get(repo)?.pushedAt ?? "";
-const ordered = [...projects].sort((a, b) => pushed(b.repo).localeCompare(pushed(a.repo)));
+// Most recently updated first; private repos stay hidden
+const ordered = visibleProjects(stats);
 ---
 
 <Layout
@@ -21,17 +20,19 @@ const ordered = [...projects].sort((a, b) => pushed(b.repo).localeCompare(pushed
         <span class="eyebrow">GitHub</span>
         <h1>Proyectos <em class="serif">open source</em></h1>
         <p class="muted">
-          Una selección de mis repositorios, del más recientemente actualizado al más antiguo: guías abiertas a contribuciones, herramientas y el código de charlas y talleres.
-          El resto está en <a href="https://github.com/vanessamarely" target="_blank" rel="noopener">github.com/vanessamarely</a>.
+          Tengo más de 150 repositorios públicos en
+          <a href="https://github.com/vanessamarely" target="_blank" rel="noopener">github.com/vanessamarely</a>. Aquí
+          destaco proyectos open source y el código de mis charlas y talleres, del más recientemente actualizado al más
+          antiguo.
         </p>
       </header>
 
       <div class="filters" role="group" aria-label="Filtrar proyectos">
-        <button type="button" data-cat="all" aria-pressed="true">Todos <small>{projects.length}</small></button>
+        <button type="button" data-cat="all" aria-pressed="true">Todos <small>{ordered.length}</small></button>
         {
           categories.map((c) => (
             <button type="button" data-cat={c} aria-pressed="false">
-              {categoryLabel[c]} <small>{projects.filter((p) => p.category === c).length}</small>
+              {categoryLabel[c]} <small>{ordered.filter((p) => p.category === c).length}</small>
             </button>
           ))
         }

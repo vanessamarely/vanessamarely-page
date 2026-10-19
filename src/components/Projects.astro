@@ -1,15 +1,12 @@
 ---
 import Icon from "./Icon.astro";
 import ProjectCard from "./ProjectCard.astro";
-import { projects } from "../data/projects";
+import { visibleProjects } from "../data/projects";
 import { getRepoStats } from "../lib/github";
 
 const stats = await getRepoStats();
-const pushed = (repo: string) => stats.get(repo)?.pushedAt ?? "";
-const featured = projects
-  .filter((p) => p.featured)
-  .sort((a, b) => pushed(b.repo).localeCompare(pushed(a.repo)))
-  .slice(0, 6);
+// The six most recently updated projects
+const featured = visibleProjects(stats).slice(0, 6);
 ---
 
 <section class="section" id="proyectos">
@@ -19,10 +16,10 @@ const featured = projects
         <span class="eyebrow">Open source</span>
         <h2 class="section-title">Proyectos <em class="serif">para compartir</em></h2>
         <p class="intro">
-          Guías abiertas a la comunidad, herramientas y el código de mis charlas, listos para clonar, aprender y contribuir.
+          Proyectos open source, herramientas y el código de mis charlas, listos para clonar, aprender y contribuir.
         </p>
       </div>
-      <a class="btn" href="/proyectos/">Ver los {projects.length} proyectos <Icon name="arrow" /></a>
+      <a class="btn" href="/proyectos/">Ver todos los proyectos <Icon name="arrow" /></a>
     </div>
 
     <div class="grid">
