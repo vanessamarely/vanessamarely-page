@@ -1,6 +1,6 @@
 // Catálogo curado de repositorios: proyectos open source y código usado en charlas y talleres.
 // El orden en el sitio es por última actualización (pushed_at), leída de la API de GitHub en el build
-// (src/lib/github.ts). Un repo que GitHub no devuelve (p. ej. privado) no se muestra hasta que sea público.
+// (src/lib/github.ts). Solo se incluyen repos públicos; uno que GitHub no devuelva no se muestra.
 //
 // category: "open-source" (proyectos para la comunidad, abiertos a contribuciones)
 //           "tool"        (herramientas y apps)
@@ -17,7 +17,6 @@ export type Project = {
   demo?: string;
   docs?: string;
   talk?: string; // charla o taller donde se usó
-  pendingPublic?: boolean; // privado por ahora: solo se muestra cuando GitHub lo devuelve como público
 };
 
 export const projects: Project[] = [
@@ -38,14 +37,6 @@ export const projects: Project[] = [
     tags: ["WebMCP", "IA"],
     demo: "https://web-two-xi-71.vercel.app",
     talk: "DevFest Quito 2026",
-  },
-  {
-    repo: "presentacin-interact",
-    pendingPublic: true,
-    title: "Presentación interactiva",
-    description: "Presentación web interactiva usada en charla técnica, con participación del público en tiempo real.",
-    category: "talk",
-    tags: ["Web", "IA"],
   },
   {
     repo: "agentic-web-starter",
@@ -100,22 +91,6 @@ export const projects: Project[] = [
     tags: ["Slides", "MCP"],
     demo: "https://vanessamarely.github.io/web-mcp-debugging/",
     talk: "GDG Barranquilla 2026",
-  },
-  {
-    repo: "webmcp-debugging-pre",
-    pendingPublic: true,
-    title: "WebMCP & Debugging: demo",
-    description: "Demo de la charla sobre WebMCP y debugging con Chrome DevTools asistido por IA.",
-    category: "talk",
-    tags: ["WebMCP", "DevTools"],
-  },
-  {
-    repo: "self-diagnosing-saas",
-    pendingPublic: true,
-    title: "Self-diagnosing SaaS",
-    description: "App de ejemplo que se diagnostica a sí misma con herramientas de IA y DevTools.",
-    category: "talk",
-    tags: ["IA", "DevTools"],
   },
   {
     repo: "hypercart-lab",
@@ -235,14 +210,6 @@ export const projects: Project[] = [
     demo: "https://token-calculator-pro.vercel.app",
   },
   {
-    repo: "bloom-journal-studio",
-    pendingPublic: true,
-    title: "Bloom Journal Studio",
-    description: "Estudio digital para crear páginas de journaling.",
-    category: "tool",
-    tags: ["Journaling", "Diseño"],
-  },
-  {
     repo: "buddy-writer",
     title: "Buddy Writer",
     description: "App para escribir y mantener al día documentación técnica.",
@@ -258,10 +225,9 @@ export const categoryLabel: Record<ProjectCategory, string> = {
   talk: "Charlas y talleres",
 };
 
-/** Projects to show, most recently updated first. Repos GitHub does not return (private) are hidden. */
+/** Projects to show, most recently updated first. Repos GitHub does not return are hidden. */
 export function visibleProjects(stats: Map<string, { pushedAt: string }>): Project[] {
-  const known = stats.size > 0;
   return projects
-    .filter((p) => (known ? stats.has(p.repo) : !p.pendingPublic))
+    .filter((p) => stats.size === 0 || stats.has(p.repo))
     .sort((a, b) => (stats.get(b.repo)?.pushedAt ?? "").localeCompare(stats.get(a.repo)?.pushedAt ?? ""));
 }
