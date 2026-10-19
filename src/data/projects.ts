@@ -1,6 +1,6 @@
 // Catálogo curado de repositorios: proyectos open source y código usado en charlas y talleres.
 // El orden en el sitio es por última actualización (pushed_at), leída de la API de GitHub en el build
-// (src/lib/github.ts). Solo se incluyen repos públicos; uno que GitHub no devuelva no se muestra.
+// (src/lib/github.ts). Solo se incluyen repos públicos y con demo funcionando; uno que GitHub no devuelva no se muestra.
 //
 // category: "open-source" (proyectos para la comunidad, abiertos a contribuciones)
 //           "tool"        (herramientas y apps)
@@ -100,13 +100,6 @@ export const projects: Project[] = [
     tags: ["DevTools", "Performance", "React"],
     demo: "https://hypercart-lab.vercel.app",
     talk: "Web MCP & Debugging · GDG Barranquilla 2026",
-  },
-  {
-    repo: "hypercart-lab-chrome",
-    title: "HyperCart Lab · Chrome",
-    description: "Variante de HyperCart Lab para demos en vivo de Core Web Vitals en Chrome DevTools durante conferencias.",
-    category: "talk",
-    tags: ["DevTools", "Core Web Vitals"],
   },
   {
     repo: "chrome-devtools-work",
