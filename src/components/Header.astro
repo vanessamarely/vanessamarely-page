@@ -21,7 +21,7 @@ const links = [
       </svg>
     </a>
     <nav aria-label="Principal">
-      <ul>
+      <ul id="navMenu">
         {
           links.map((l) => (
             <li>
@@ -36,6 +36,9 @@ const links = [
     <button class="theme" id="themeToggle" type="button" aria-label="Cambiar tema claro/oscuro">
       <span class="theme__sun"><Icon name="sun" size={20} /></span>
       <span class="theme__moon"><Icon name="moon" size={20} /></span>
+    </button>
+    <button class="burger" id="navToggle" type="button" aria-controls="navMenu" aria-expanded="false" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
     </button>
   </div>
 </header>
@@ -196,22 +199,133 @@ const links = [
     opacity: 1;
   }
 
-  @media (max-width: 640px) {
+  /* ---------- Hamburger menu (phones and small tablets) ---------- */
+  .burger {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
+    .nav {
+      padding-inline: 16px;
+    }
     .nav__inner {
+      width: 100%;
+      justify-content: space-between;
       padding-left: 14px;
     }
-    nav a {
-      padding: 8px 9px;
-      font-size: 0.85rem;
+    .brand {
+      margin-right: auto;
     }
-    li:first-child,
-    li:last-child {
-      display: none;
+
+    .burger {
+      display: grid;
+      place-content: center;
+      gap: 5px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: var(--surface);
+      cursor: pointer;
+    }
+    .burger span {
+      display: block;
+      width: 18px;
+      height: 2px;
+      border-radius: 2px;
+      background: var(--ink);
+      transition: transform 0.35s var(--ease), opacity 0.2s;
+    }
+    .nav.is-open .burger span:nth-child(1) {
+      transform: translateY(7px) rotate(45deg);
+    }
+    .nav.is-open .burger span:nth-child(2) {
+      opacity: 0;
+    }
+    .nav.is-open .burger span:nth-child(3) {
+      transform: translateY(-7px) rotate(-45deg);
+    }
+
+    .theme {
+      width: 44px;
+      height: 44px;
+    }
+
+    /* Dropdown panel under the bar */
+    #navMenu {
+      position: fixed;
+      top: 80px;
+      left: 16px;
+      right: 16px;
+      flex-direction: column;
+      gap: 4px;
+      padding: 10px;
+      border-radius: 24px;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow), 0 24px 60px -20px rgba(29, 23, 39, 0.35);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px) scale(0.98);
+      transform-origin: top center;
+      transition: opacity 0.25s var(--ease), transform 0.35s var(--ease), visibility 0s 0.35s;
+    }
+    .nav.is-open #navMenu {
+      opacity: 1;
+      visibility: visible;
+      transform: none;
+      transition: opacity 0.25s var(--ease), transform 0.35s var(--ease);
+    }
+    #navMenu a {
+      display: flex;
+      align-items: center;
+      min-height: 52px;
+      padding: 0 18px;
+      border-radius: 16px;
+      font-size: 1.15rem;
+      font-weight: 600;
+    }
+    #navMenu a::after {
+      content: "→";
+      margin-left: auto;
+      color: var(--muted);
+      font-weight: 400;
+    }
+  }
+
+  @media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+    #navMenu,
+    .burger span {
+      transition: none;
     }
   }
 </style>
 
 <script>
+  // Hamburger menu: toggle, close on link click, Escape or outside tap
+  const nav = document.querySelector<HTMLElement>(".nav")!;
+  const toggle = document.getElementById("navToggle")!;
+  const menu = document.getElementById("navMenu")!;
+  const setOpen = (open: boolean) => {
+    nav.classList.toggle("is-open", open);
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+  };
+  toggle.addEventListener("click", () => setOpen(!nav.classList.contains("is-open")));
+  menu.addEventListener("click", (e) => {
+    if ((e.target as HTMLElement).closest("a")) setOpen(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && nav.classList.contains("is-open")) {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  document.addEventListener("click", (e) => {
+    if (nav.classList.contains("is-open") && !nav.contains(e.target as Node)) setOpen(false);
+  });
+  matchMedia("(min-width: 761px)").addEventListener("change", (e) => e.matches && setOpen(false));
+
   const btn = document.getElementById("themeToggle")!;
   const root = document.documentElement;
 

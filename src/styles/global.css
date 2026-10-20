@@ -150,7 +150,7 @@ em.serif,
 }
 
 .section {
-  padding-block: clamp(72px, 10vw, 140px);
+  padding-block: clamp(56px, 10vw, 140px);
 }
 
 .section-head {
@@ -255,4 +255,22 @@ em.serif,
 ::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+
+/* ---------- Touch-friendly targets on phones ---------- */
+@media (max-width: 760px), (pointer: coarse) {
+  .res,
+  .tmap__years button,
+  .filters button,
+  .seg button,
+  .places__tabs button,
+  .post__also,
+  .proj footer a {
+    min-height: 40px;
+  }
+  .tmap__years button,
+  .filters button,
+  .seg button {
+    padding-inline: 14px;
+  }
 }
