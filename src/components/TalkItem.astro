@@ -1,20 +1,24 @@
 ---
-import { kindLabel, resourceLabel, type Talk } from "../data/talks";
-import { places } from "../data/places";
+import { kindLabel, resourceLabel, eventLabel, type Talk } from "../data/talks";
+import { placeName } from "../data/places";
+import { langOf, useT, dateLocale } from "../i18n";
 
 interface Props {
   talk: Talk;
 }
 const { talk } = Astro.props;
+const lang = langOf(Astro.currentLocale);
+const t = useT(lang);
+const resLabel = resourceLabel[lang];
 // Number repeated resource types ("Video 1", "Video 2")
 const totals = talk.resources.reduce<Record<string, number>>((acc, r) => ({ ...acc, [r.type]: (acc[r.type] ?? 0) + 1 }), {});
 const seen: Record<string, number> = {};
 const resources = talk.resources.map((r) => {
   seen[r.type] = (seen[r.type] ?? 0) + 1;
-  return { ...r, label: totals[r.type] > 1 ? `${resourceLabel[r.type]} ${seen[r.type]}` : resourceLabel[r.type] };
+  return { ...r, label: totals[r.type] > 1 ? `${resLabel[r.type]} ${seen[r.type]}` : resLabel[r.type] };
 });
-const place = talk.where && talk.where !== "online" ? places[talk.where] : null;
-const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short" }).format(new Date(`${talk.date}T12:00`));
+const place = talk.where && talk.where !== "online" ? placeName(lang, talk.where) : null;
+const date = new Intl.DateTimeFormat(dateLocale[lang], { day: "numeric", month: "short" }).format(new Date(`${talk.date}T12:00`));
 ---
 
 <li class="talk" data-kind={talk.kind} data-has-resources={talk.resources.some((r) => r.type !== "event") ? "1" : "0"}>
@@ -22,8 +26,8 @@ const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short" }
   <div class="talk__main">
     <h3>{talk.title}</h3>
     <p>
-      <span class={`kind kind--${talk.kind}`}>{kindLabel[talk.kind]}</span>
-      {talk.event}
+      <span class={`kind kind--${talk.kind}`}>{kindLabel[lang][talk.kind]}</span>
+      {eventLabel(lang, talk.event)}
       {
         place && (
           <span class="where">
@@ -32,7 +36,7 @@ const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short" }
           </span>
         )
       }
-      {talk.where === "online" && <span class="where where--online">Online</span>}
+      {talk.where === "online" && <span class="where where--online">{t("talks.online")}</span>}
     </p>
   </div>
   {

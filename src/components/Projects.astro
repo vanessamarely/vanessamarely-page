@@ -3,6 +3,10 @@ import Icon from "./Icon.astro";
 import ProjectCard from "./ProjectCard.astro";
 import { visibleProjects } from "../data/projects";
 import { getRepoStats } from "../lib/github";
+import { langOf, useT, localize } from "../i18n";
+
+const lang = langOf(Astro.currentLocale);
+const t = useT(lang);
 
 const stats = await getRepoStats();
 // The six most recently updated projects
@@ -14,12 +18,10 @@ const featured = visibleProjects(stats).slice(0, 6);
     <div class="section-head reveal">
       <div>
         <span class="eyebrow">Open source</span>
-        <h2 class="section-title">Proyectos <em class="serif">para compartir</em></h2>
-        <p class="intro">
-          Proyectos open source, herramientas y el código de mis charlas, listos para clonar, aprender y contribuir.
-        </p>
+        <h2 class="section-title" set:html={t("projects.title.html")} />
+        <p class="intro">{t("projects.intro")}</p>
       </div>
-      <a class="btn" href="/proyectos/">Ver todos los proyectos <Icon name="arrow" /></a>
+      <a class="btn" href={localize(lang, "/proyectos/")}>{t("projects.all")} <Icon name="arrow" /></a>
     </div>
 
     <div class="grid">

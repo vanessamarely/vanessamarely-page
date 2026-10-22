@@ -13,12 +13,27 @@ import Layout from "../layouts/Layout.astro";
       </g>
     </svg>
     <h1>404</h1>
+    <!-- One 404 page serves both languages -->
     <p>Esta página se perdió como una lechuza sin carta.</p>
-    <a class="btn btn--solid" href="/">Volver al inicio</a>
+    <p lang="en" class="lost__en">This page got lost like an owl without a letter.</p>
+    <div class="lost__ctas">
+      <a class="btn btn--solid" href="/">Volver al inicio</a>
+      <a class="btn" href="/en/" lang="en">Back to home</a>
+    </div>
   </section>
 </Layout>
 
 <style>
+  .lost__en {
+    color: var(--muted);
+    margin-top: -8px;
+  }
+  .lost__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
   .lost {
     min-height: 90svh;
     display: grid;

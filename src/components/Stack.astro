@@ -1,5 +1,7 @@
 ---
 // Orbit: the core technologies. Groups: full stack from the CV.
+import { langOf, useT } from "../i18n";
+const t = useT(langOf(Astro.currentLocale));
 const inner = [
   { id: "react", label: "React" },
   { id: "angular", label: "Angular" },
@@ -24,8 +26,8 @@ const groups = [
     items: ["React", "Next.js", "Angular", "Astro", "React Native", "TypeScript", "Storybook", "Styled Components", "Tailwind"],
   },
   { name: "Backend & APIs", items: ["Node.js", "Express", "NestJS", "GraphQL", "REST", "PHP", "Python", "Contentstack"] },
-  { name: "Testing & calidad", items: ["Jest", "React Testing Library", "Playwright", "Axe DevTools", "Lighthouse", "WCAG 2.2"] },
-  { name: "IA & herramientas", items: ["Claude Code", "GitHub Copilot", "Agentes de IA", "MCP", "Docker", "Git", "Webpack", "Vite"] },
+  { name: t("stack.testing"), items: ["Jest", "React Testing Library", "Playwright", "Axe DevTools", "Lighthouse", "WCAG 2.2"] },
+  { name: t("stack.ai"), items: ["Claude Code", "GitHub Copilot", t("stack.agents"), "MCP", "Docker", "Git", "Webpack", "Vite"] },
 ];
 ---
 
@@ -33,12 +35,8 @@ const groups = [
   <div class="wrap stack__grid">
     <div class="stack__copy reveal">
       <span class="eyebrow">Stack</span>
-      <h2 class="section-title">Mi caja de <em class="serif">herramientas</em></h2>
-      <p class="muted">
-        Más de 13 años construyendo aplicaciones web full-stack con foco en frontend: componentes reutilizables y
-        accesibles, APIs en Node.js, pruebas automatizadas y flujos de desarrollo asistidos por IA. Pasa el cursor por la
-        órbita para pausarla.
-      </p>
+      <h2 class="section-title" set:html={t("stack.title.html")} />
+      <p class="muted">{t("stack.text")}</p>
       <div class="stack__groups">
         {
           groups.map((g) => (

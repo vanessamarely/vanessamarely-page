@@ -3,48 +3,42 @@ interface Props {
   postCount: number;
 }
 const { postCount } = Astro.props;
+import { langOf, useT } from "../i18n";
+const t = useT(langOf(Astro.currentLocale));
 ---
 
 <section class="section" id="sobre-mi">
   <div class="wrap">
     <div class="section-head reveal">
       <div>
-        <span class="eyebrow">Sobre mí</span>
-        <h2 class="section-title">Código, comunidad <br /><em class="serif">y muchos lápices</em></h2>
+        <span class="eyebrow">{t("about.eyebrow")}</span>
+        <h2 class="section-title" set:html={t("about.title.html")} />
       </div>
     </div>
 
     <div class="bento">
       <!-- Intro -->
       <article class="card card--intro reveal">
-        <p class="lead">
-          Soy una programadora <strong>curiosa</strong>, apasionada por la tecnología y enamorada de la Web. Soy fullstack
-          con foco en frontend: construyo interfaces con <strong>Angular</strong> y <strong>React</strong>, y también
-          los servicios y APIs que las sostienen con <strong>Node.js</strong>. Me encanta compartir lo que aprendo en
-          artículos, charlas y mentorías.
-        </p>
-        <p class="muted">
-          Me interesan el desarrollo web, el diseño, la ilustración y la animación. Cuando no estoy programando, estoy
-          leyendo, viajando o volviendo a ver Harry Potter.
-        </p>
+        <p class="lead" set:html={t("about.lead.html")} />
+        <p class="muted">{t("about.more")}</p>
         <dl class="stats">
-          <div><dt>Repos públicos</dt><dd>190</dd></div>
-          <div><dt>Artículos</dt><dd>{postCount}</dd></div>
-          <div><dt>Base</dt><dd>MDE</dd></div>
+          <div><dt>{t("about.repos")}</dt><dd>190</dd></div>
+          <div><dt>{t("about.articles")}</dt><dd>{postCount}</dd></div>
+          <div><dt>{t("about.base")}</dt><dd>MDE</dd></div>
         </dl>
       </article>
 
       <!-- Places: born in Fredonia, live in Envigado, work in Medellín -->
       <article class="card card--city reveal" style="--i:1" id="places">
-        <div class="places__tabs" role="tablist" aria-label="Mis lugares">
+        <div class="places__tabs" role="tablist" aria-label={t("about.places")}>
           <button type="button" role="tab" id="tab-fredonia" aria-controls="place-fredonia" aria-selected="true">
-            <small>Nací</small>Fredonia
+            <small>{t("about.born")}</small>Fredonia
           </button>
           <button type="button" role="tab" id="tab-envigado" aria-controls="place-envigado" aria-selected="false" tabindex="-1">
-            <small>Vivo</small>Envigado
+            <small>{t("about.live")}</small>Envigado
           </button>
           <button type="button" role="tab" id="tab-medellin" aria-controls="place-medellin" aria-selected="false" tabindex="-1">
-            <small>Trabajo</small>Medellín
+            <small>{t("about.work")}</small>Medellín
           </button>
         </div>
 
@@ -120,9 +114,9 @@ const { postCount } = Astro.props;
               </g>
             </svg>
             <div class="card__label">
-              <span class="chip">05.93° N, 75.67° O</span>
-              <h3>Nací en Fredonia, Antioquia</h3>
-              <p class="muted">Tierra cafetera del suroeste antioqueño, con el Cerro Bravo en el paisaje.</p>
+              <span class="chip">05.93° N, 75.67° {t("about.coordsW")}</span>
+              <h3>{t("about.fredonia.title")}</h3>
+              <p class="muted">{t("about.fredonia.text")}</p>
             </div>
           </div>
 
@@ -179,9 +173,9 @@ const { postCount } = Astro.props;
               <path class="env__ripples" d="M10 162 C 35 156 60 168 95 161 M130 159 C 160 154 185 168 220 162 M240 160 C 260 156 280 163 300 159" />
             </svg>
             <div class="card__label">
-              <span class="chip">06.17° N, 75.59° O</span>
-              <h3>Vivo en Envigado</h3>
-              <p class="muted">Entre montañas y verde, a un paso de Medellín.</p>
+              <span class="chip">06.17° N, 75.59° {t("about.coordsW")}</span>
+              <h3>{t("about.envigado.title")}</h3>
+              <p class="muted">{t("about.envigado.text")}</p>
             </div>
           </div>
 
@@ -232,9 +226,9 @@ const { postCount } = Astro.props;
           </g>
         </svg>
             <div class="card__label">
-              <span class="chip">06.25° N, 75.56° O</span>
-              <h3>Trabajo en Medellín</h3>
-              <p class="muted">Donde construyo software y comunidad tech.</p>
+              <span class="chip">06.25° N, 75.56° {t("about.coordsW")}</span>
+              <h3>{t("about.medellin.title")}</h3>
+              <p class="muted">{t("about.medellin.text")}</p>
             </div>
           </div>
         </div>
@@ -261,7 +255,7 @@ const { postCount } = Astro.props;
           <path class="star__smile" d="M54 68 Q60 73 66 68" />
         </svg>
         <h3>GitHub Star</h3>
-        <p class="muted">Open source y comunidad</p>
+        <p class="muted">{t("about.star.sub")}</p>
       </article>
 
       <!-- Interests -->
@@ -291,8 +285,8 @@ const { postCount } = Astro.props;
           <!-- lightning -->
           <path class="bolt" d="M150 14 L140 34 L150 34 L142 52" />
         </svg>
-        <h3>Lectora, viajera y fan de Harry Potter</h3>
-        <p class="muted">También hago journaling viajero: dibujos, boletos y notas de cada viaje.</p>
+        <h3>{t("about.magic.title")}</h3>
+        <p class="muted">{t("about.magic.text")}</p>
       </article>
     </div>
   </div>

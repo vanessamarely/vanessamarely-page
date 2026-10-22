@@ -2,8 +2,21 @@
 // Travel map: cities where I gave in-person talks, filterable by year.
 // Arcs start at home (Medellín); dot size grows with the number of talks in that city.
 import { countries, project } from "../data/americas-map";
-import { places, HOME, type PlaceKey } from "../data/places";
+import { places, placeName, HOME, type PlaceKey } from "../data/places";
 import { sortedTalks } from "../data/talks";
+import { langOf, useT } from "../i18n";
+
+const lang = langOf(Astro.currentLocale);
+const tr = useT(lang);
+const name = (key: PlaceKey) => placeName(lang, key);
+// Map country names (the map data is in Spanish)
+const countryEn: Record<string, string> = {
+  "Estados Unidos": "United States", "Islas Georgias del Sur y Sandwich del Sur": "South Georgia and the South Sandwich Islands",
+  "Islas Malvinas": "Falkland Islands", "Trinidad y Tobago": "Trinidad and Tobago", Surinam: "Suriname", "Perú": "Peru",
+  "Panamá": "Panama", "México": "Mexico", "Haití": "Haiti", Francia: "France", "República Dominicana": "Dominican Republic",
+  Brasil: "Brazil", Belice: "Belize", "Antártida": "Antarctica",
+};
+const countryName = (n: string) => (lang === "en" ? (countryEn[n] ?? n) : n);
 
 type Stop = { key: PlaceKey; counts: Record<string, number>; total: number; x: number; y: number };
 
@@ -58,7 +71,7 @@ const payload = {
 <div class="tmap" id="talksMap">
   <div class="tmap__map">
     <svg viewBox="40 0 450 500" role="img" aria-labelledby="tmap-title">
-      <title id="tmap-title">Mapa de las ciudades donde Vanessa ha dado charlas presenciales</title>
+      <title id="tmap-title">{tr("map.title")}</title>
       <defs>
         <pattern id="tmap-dots" width="6" height="6" patternUnits="userSpaceOnUse">
           <circle cx="1" cy="1" r="0.8" class="tmap__grid" />
@@ -69,7 +82,7 @@ const payload = {
         {
           countries.map((c) => (
             <path d={c.d} data-code={c.code} data-years={(countryYears.get(c.code) ?? []).join(" ")} class={countryYears.has(c.code) ? "is-visited" : undefined}>
-              <title>{c.name}</title>
+              <title>{countryName(c.name)}</title>
             </path>
           ))
         }
@@ -88,9 +101,9 @@ const payload = {
               <circle class="stop__pulse" r={radius(s.total)} />
               <circle class="stop__dot" r={radius(s.total)} />
               <text class="stop__label" x={radius(s.total) + 4} y="4">
-                {places[s.key].city}
+                {name(s.key).city}
               </text>
-              <title>{`${places[s.key].city}, ${places[s.key].country}: ${s.total} ${s.total === 1 ? "charla" : "charlas"}`}</title>
+              <title>{`${name(s.key).city}, ${name(s.key).country}: ${s.total} ${s.total === 1 ? tr("map.talk") : tr("map.talks")}`}</title>
             </g>
           ))
         }
@@ -102,16 +115,19 @@ const payload = {
   </div>
 
   <aside class="tmap__panel">
-    <div class="tmap__years" role="group" aria-label="Filtrar por año">
-      <button type="button" data-year="all" aria-pressed="true">Todos</button>
+    <div class="tmap__years" role="group" aria-label={tr("map.byYear")}>
+      <button type="button" data-year="all" aria-pressed="true">{tr("map.all")}</button>
       {years.map((y) => <button type="button" data-year={y} aria-pressed="false">{y}</button>)}
     </div>
 
     <p class="tmap__summary" aria-live="polite">
-      <strong data-summary="talks">{list.reduce((n, s) => n + s.total, 0)}</strong> charlas presenciales en
-      <strong data-summary="cities">{list.length}</strong> ciudades de
-      <strong data-summary="countries">{visitedCountries("all").length}</strong> países
-      <span class="tmap__online">+ <span data-summary="online">{online}</span> online</span>
+      <Fragment
+        set:html={tr("map.summary.html")
+          .replace("{talks}", String(list.reduce((n, s) => n + s.total, 0)))
+          .replace("{cities}", String(list.length))
+          .replace("{countries}", String(visitedCountries("all").length))}
+      />
+      <span class="tmap__online">+ <span data-summary="online">{online}</span> {tr("map.online")}</span>
     </p>
 
     <ul class="tmap__list">
@@ -119,8 +135,8 @@ const payload = {
         list.map((s) => (
           <li data-key={s.key}>
             <span class="tmap__city">
-              {places[s.key].city}
-              <small>{places[s.key].country}</small>
+              {name(s.key).city}
+              <small>{name(s.key).country}</small>
             </span>
             <span class="tmap__count" data-count>{s.total}</span>
           </li>
@@ -129,7 +145,7 @@ const payload = {
     </ul>
     <p class="tmap__legend">
       <svg viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0 -9 L2.6 -2.8 9 -2.8 3.8 1.2 5.8 7.6 0 3.8 -5.8 7.6 -3.8 1.2 -9 -2.8 -2.6 -2.8 Z" /></svg>
-      Casa: Medellín · el tamaño del punto es el número de charlas
+      {tr("map.legend")}
     </p>
   </aside>
   <script type="application/json" id="talksMapData" set:html={JSON.stringify(payload)} />

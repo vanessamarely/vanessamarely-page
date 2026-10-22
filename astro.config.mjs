@@ -8,6 +8,11 @@ export default defineConfig({
   redirects: {
     "/posts": "/blog/",
   },
+  i18n: {
+    locales: ["es", "en"],
+    defaultLocale: "es",
+    routing: { prefixDefaultLocale: false },
+  },
   devToolbar: {
     enabled: false,
   },

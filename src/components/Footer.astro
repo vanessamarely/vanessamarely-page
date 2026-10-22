@@ -1,6 +1,8 @@
 ---
 import Icon from "./Icon.astro";
 import { social } from "../lib/social";
+import { langOf, useT } from "../i18n";
+const t = useT(langOf(Astro.currentLocale));
 
 const year = new Date().getFullYear();
 ---
@@ -8,9 +10,9 @@ const year = new Date().getFullYear();
 <footer class="footer" id="contacto">
   <div class="wrap">
     <div class="cta reveal">
-      <span class="eyebrow">Redes</span>
-      <h2 class="cta__title">Encuéntrame en <em class="serif">la comunidad</em></h2>
-      <p class="cta__lede">Comparto lo que aprendo en charlas, artículos, transmisiones en vivo y repositorios abiertos.</p>
+      <span class="eyebrow">{t("footer.eyebrow")}</span>
+      <h2 class="cta__title" set:html={t("footer.title.html")} />
+      <p class="cta__lede">{t("footer.lede")}</p>
     </div>
 
     <ul class="socials">

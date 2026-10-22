@@ -1,14 +1,17 @@
 ---
 import Icon from "./Icon.astro";
 import { sourceLabel, type Post } from "../lib/posts";
+import { langOf, useT, dateLocale } from "../i18n";
 
 interface Props {
   post: Post;
   index?: number;
 }
 const { post, index = 0 } = Astro.props;
+const lang = langOf(Astro.currentLocale);
+const t = useT(lang);
 
-const date = new Intl.DateTimeFormat("es-CO", { day: "numeric", month: "short", year: "numeric" }).format(
+const date = new Intl.DateTimeFormat(dateLocale[lang], { day: "numeric", month: "short", year: "numeric" }).format(
   new Date(post.date),
 );
 // Deterministic pattern for posts without a cover image
@@ -52,17 +55,17 @@ const searchText = `${post.title} ${post.tags.join(" ")}`.toLowerCase();
         {post.readingMinutes && <span>· {post.readingMinutes} min</span>}
         <span class="post__lang">{post.lang.toUpperCase()}</span>
       </div>
-      <h3>{post.title}</h3>
-      <p>{post.excerpt}</p>
+      <h3 lang={post.lang}>{post.title}</h3>
+      <p lang={post.lang}>{post.excerpt}</p>
       <span class="post__more">
-        Leer artículo <Icon name="arrow" size={18} />
+        {t("post.read")} <Icon name="arrow" size={18} />
       </span>
     </div>
   </a>
   {
     post.alsoOn && (
       <a class="post__also" href={post.alsoOn.url} target="_blank" rel="noopener">
-        También en {sourceLabel[post.alsoOn.source]}
+        {t("post.alsoOn")} {sourceLabel[post.alsoOn.source]}
       </a>
     )
   }

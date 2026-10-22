@@ -9,6 +9,7 @@
 // Solo las presenciales aparecen en el mapa. Las transmisiones en vivo (tipo "live") cuentan como online.
 
 import type { PlaceKey } from "./places";
+import type { Lang } from "../i18n";
 
 export type TalkKind = "charla" | "taller" | "panel" | "mentoría" | "live";
 export type ResourceType = "slides" | "video" | "event" | "post" | "repo" | "demo" | "codelab";
@@ -442,33 +443,43 @@ export const talks: Talk[] = [
 ];
 
 // Comunidades en las que participé (ya no soy parte activa). Años según GitHub Stars, el gist y Advocu.
-export const communities = [
-  { name: "GitTogether Medellín", role: "Co-organizadora · comunidad de GitHub", years: "2024 – 2025", url: "https://www.meetup.com/gittogether-medellin/" },
-  { name: "JSConf Colombia", role: "Co-organizadora", years: "2023", url: "https://www.jsconf.co/" },
-  { name: "GDG Medellín", role: "Organizadora", years: "2018 – 2023", url: "https://gdg.community.dev/gdg-medellin/" },
-  { name: "DevFest Medellín", role: "Organizadora", years: "2018 – 2022" },
-  { name: "She Codes Angular", role: "Organizadora y mentora", years: "2019 – 2020", url: "https://www.meetup.com/She-Codes-Angular/" },
-  { name: "Women Techmakers", role: "Embajadora · eventos con GDG Medellín", years: "2019 – 2025" },
-  { name: "NgGirls Colombia", role: "Organizadora y mentora", years: "2018" },
+export const communities: { name: string; role: Record<Lang, string>; years: string; url?: string }[] = [
+  { name: "GitTogether Medellín", role: { es: "Co-organizadora · comunidad de GitHub", en: "Co-organizer · GitHub community" }, years: "2024 – 2025", url: "https://www.meetup.com/gittogether-medellin/" },
+  { name: "JSConf Colombia", role: { es: "Co-organizadora", en: "Co-organizer" }, years: "2023", url: "https://www.jsconf.co/" },
+  { name: "GDG Medellín", role: { es: "Organizadora", en: "Organizer" }, years: "2018 – 2023", url: "https://gdg.community.dev/gdg-medellin/" },
+  { name: "DevFest Medellín", role: { es: "Organizadora", en: "Organizer" }, years: "2018 – 2022" },
+  { name: "She Codes Angular", role: { es: "Organizadora y mentora", en: "Organizer and mentor" }, years: "2019 – 2020", url: "https://www.meetup.com/She-Codes-Angular/" },
+  { name: "Women Techmakers", role: { es: "Embajadora · eventos con GDG Medellín", en: "Ambassador · events with GDG Medellín" }, years: "2019 – 2025" },
+  { name: "NgGirls Colombia", role: { es: "Organizadora y mentora", en: "Organizer and mentor" }, years: "2018" },
 ];
 
-export const resourceLabel: Record<ResourceType, string> = {
-  slides: "Slides",
-  video: "Video",
-  event: "Evento",
-  post: "Post",
-  repo: "Repo",
-  demo: "Demo",
-  codelab: "Codelab",
+export const resourceLabel: Record<Lang, Record<ResourceType, string>> = {
+  es: { slides: "Slides", video: "Video", event: "Evento", post: "Post", repo: "Repo", demo: "Demo", codelab: "Codelab" },
+  en: { slides: "Slides", video: "Video", event: "Event", post: "Post", repo: "Repo", demo: "Demo", codelab: "Codelab" },
 };
 
-export const kindLabel: Record<TalkKind, string> = {
-  charla: "Charla",
-  taller: "Taller",
-  panel: "Panel",
-  mentoría: "Mentoría",
-  live: "En vivo",
+export const kindLabel: Record<Lang, Record<TalkKind, string>> = {
+  es: { charla: "Charla", taller: "Taller", panel: "Panel", mentoría: "Mentoría", live: "En vivo" },
+  en: { charla: "Talk", taller: "Workshop", panel: "Panel", mentoría: "Mentoring", live: "Live" },
 };
+
+// Generic event names (used when the event has no proper name) in English. Real event names stay as they are.
+const genericEventEn: Record<string, string> = {
+  "Charla": "Talk",
+  "Charla online": "Online talk",
+  "Charla técnica": "Tech talk",
+  "Charla de comunidad": "Community talk",
+  "Conferencia de comunidad": "Community conference",
+  "Panel": "Panel",
+  "Panel online": "Online panel",
+  "Panel de expertos": "Expert panel",
+  "Mesa redonda": "Round table",
+  "Sesión virtual": "Virtual session",
+  "Taller": "Workshop",
+  "Taller online": "Online workshop",
+  "Mentoría": "Mentoring",
+};
+export const eventLabel = (lang: Lang, name: string) => (lang === "en" ? (genericEventEn[name] ?? name) : name);
 
 // Live streams are always online; everything else carries its own location (or none if unknown).
 const withPlace = (talk: Talk): Talk => (talk.where || talk.kind !== "live" ? talk : { ...talk, where: on });
@@ -476,9 +487,9 @@ const withPlace = (talk: Talk): Talk => (talk.where || talk.kind !== "live" ? ta
 export const sortedTalks = talks.map(withPlace).sort((a, b) => b.date.localeCompare(a.date));
 
 // Resumen de impacto tomado de Advocu (GDE). Actualízalo a mano cuando cambie.
-export const impact = [
-  { value: 77, label: "charlas", detail: "11.4k asistentes" },
-  { value: 21, label: "talleres", detail: "908 asistentes" },
-  { value: 16, label: "mentorías", detail: "186 personas" },
-  { value: 122, label: "contenidos", detail: "72.8k lectores" },
+export const impact: { value: number; label: Record<Lang, string>; detail: Record<Lang, string> }[] = [
+  { value: 77, label: { es: "charlas", en: "talks" }, detail: { es: "11.4k asistentes", en: "11.4k attendees" } },
+  { value: 21, label: { es: "talleres", en: "workshops" }, detail: { es: "908 asistentes", en: "908 attendees" } },
+  { value: 16, label: { es: "mentorías", en: "mentoring sessions" }, detail: { es: "186 personas", en: "186 people" } },
+  { value: 122, label: { es: "contenidos", en: "pieces of content" }, detail: { es: "72.8k lectores", en: "72.8k readers" } },
 ];

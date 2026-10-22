@@ -43,15 +43,25 @@ const frame = (inner) => `<svg xmlns="http://www.w3.org/2000/svg" width="1200" h
 const t = (x, y, txt, font, size, fill, extra = "") =>
   `<text x="${x}" y="${y}" font-family="${font}" font-size="${size}" fill="${fill}" ${extra}>${txt}</text>`;
 
+// Text of each card in Spanish and English
+const copy = {
+  es: { hello: "Hola, soy", roles: "GitHub Star · Speaker · Mentora · Ilustradora", eyebrow: "SPEAKER · CHARLAS &amp; COMUNIDAD",
+    h1: "Charlas &amp;", h2: "recursos", total: (n) => `${n} charlas, talleres y mentorías desde 2018`,
+    where: (n, c, k) => `${n} presenciales en ${c} ciudades de ${k} países`, res: "Slides, videos, repos y demos de cada charla", url: "vanessamarely.dev/charlas" },
+  en: { hello: "Hi, I'm", roles: "GitHub Star · Speaker · Mentor · Illustrator", eyebrow: "SPEAKER · TALKS &amp; COMMUNITY",
+    h1: "Talks &amp;", h2: "resources", total: (n) => `${n} talks, workshops and mentoring sessions since 2018`,
+    where: (n, c, k) => `${n} in person, in ${c} cities across ${k} countries`, res: "Slides, videos, repos and demos for each talk", url: "vanessamarely.dev/en/charlas" },
+};
+
 // ---------- Home ----------
-const home = frame(`
+const home = (L) => frame(`
   <image href="data:image/svg+xml;base64,${b64(portrait)}" x="690" y="40" width="500" height="550"/>
-  ${t(80, 150, "Hola, soy", "JetBrains Mono", 24, C.muted, 'font-weight="500"')}
+  ${t(80, 150, L.hello, "JetBrains Mono", 24, C.muted, 'font-weight="500"')}
   ${t(80, 245, "Vanessa", "Bricolage Grotesque", 92, C.ink, 'font-weight="700" letter-spacing="-3"')}
   ${t(80, 335, "Marely", "Instrument Serif", 104, C.violet, 'font-style="italic"')}
   ${t(80, 418, "Aristizábal Ángel", "Bricolage Grotesque", 68, C.ink, 'font-weight="700" letter-spacing="-2"')}
   ${t(80, 472, "Fullstack developer · GDE Angular &amp; Web", "Bricolage Grotesque", 28, C.muted)}
-  ${t(80, 510, "GitHub Star · Speaker · Mentora · Ilustradora", "Bricolage Grotesque", 28, C.muted)}
+  ${t(80, 510, L.roles, "Bricolage Grotesque", 28, C.muted)}
   ${t(148, 576, "vanessamarely.dev", "JetBrains Mono", 26, C.ink, 'font-weight="500"')}
 `);
 
@@ -76,20 +86,21 @@ const mapSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="40 0 450 500">
   }).join("")}
   <path transform="translate(${home0.x} ${home0.y})" d="M0 -9 L2.6 -2.8 9 -2.8 3.8 1.2 5.8 7.6 0 3.8 -5.8 7.6 -3.8 1.2 -9 -2.8 -2.6 -2.8 Z" fill="${C.sun}" stroke="${C.ink}" stroke-width="1.4"/>
 </svg>`;
-const charlas = frame(`
+const charlas = (L) => frame(`
   <image href="data:image/svg+xml;base64,${b64(mapSvg)}" x="700" y="40" width="470" height="522"/>
-  ${t(80, 140, "SPEAKER · CHARLAS &amp; COMUNIDAD", "JetBrains Mono", 22, C.muted, 'font-weight="500" letter-spacing="2"')}
-  ${t(80, 240, "Charlas &amp;", "Bricolage Grotesque", 96, C.ink, 'font-weight="700" letter-spacing="-3"')}
-  ${t(80, 335, "recursos", "Instrument Serif", 110, C.coral, 'font-style="italic"')}
-  ${t(80, 405, `${sortedTalks.length} charlas, talleres y mentorías desde 2018`, "Bricolage Grotesque", 28, C.ink, 'font-weight="700"')}
-  ${t(80, 445, `${inPerson.length} presenciales en ${cities.size} ciudades de ${countriesCount} países`, "Bricolage Grotesque", 28, C.muted)}
-  ${t(80, 483, "Slides, videos, repos y demos de cada charla", "Bricolage Grotesque", 28, C.muted)}
-  ${t(148, 576, "vanessamarely.dev/charlas", "JetBrains Mono", 26, C.ink, 'font-weight="500"')}
+  ${t(80, 140, L.eyebrow, "JetBrains Mono", 22, C.muted, 'font-weight="500" letter-spacing="2"')}
+  ${t(80, 240, L.h1, "Bricolage Grotesque", 96, C.ink, 'font-weight="700" letter-spacing="-3"')}
+  ${t(80, 335, L.h2, "Instrument Serif", 110, C.coral, 'font-style="italic"')}
+  ${t(80, 405, L.total(sortedTalks.length), "Bricolage Grotesque", 28, C.ink, 'font-weight="700"')}
+  ${t(80, 445, L.where(inPerson.length, cities.size, countriesCount), "Bricolage Grotesque", 28, C.muted)}
+  ${t(80, 483, L.res, "Bricolage Grotesque", 28, C.muted)}
+  ${t(148, 576, L.url, "JetBrains Mono", 26, C.ink, 'font-weight="500"')}
 `);
 
 const fonts = Object.keys(fontFiles).map((f) => join(fontDir, f));
 mkdirSync(join(project, "public/og"), { recursive: true });
-for (const [name, svg] of [["home", home], ["charlas", charlas]]) {
+const cards = [["home", home(copy.es)], ["charlas", charlas(copy.es)], ["home-en", home(copy.en)], ["charlas-en", charlas(copy.en)]];
+for (const [name, svg] of cards) {
   const png = new Resvg(svg, { font: { fontFiles: fonts, loadSystemFonts: false, defaultFontFamily: "Bricolage Grotesque" }, fitTo: { mode: "width", value: 1200 } }).render().asPng();
   writeFileSync(join(project, `public/og/${name}.png`), png);
   console.log(name, png.length, "bytes");

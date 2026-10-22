@@ -1,0 +1,128 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import { visibleProjects, categoryLabel, type ProjectCategory } from "../data/projects";
+import { getRepoStats } from "../lib/github";
+import { langOf, useT } from "../i18n";
+
+const lang = langOf(Astro.currentLocale);
+const t = useT(lang);
+
+const stats = await getRepoStats();
+const categories = Object.keys(categoryLabel[lang]) as ProjectCategory[];
+// Most recently updated first; private repos stay hidden
+const ordered = visibleProjects(stats);
+---
+
+<Layout
+  title={t("projectsPage.title")}
+  description={t("projectsPage.description")}
+>
+  <section class="page">
+    <div class="wrap">
+      <header class="head">
+        <span class="eyebrow">GitHub</span>
+        <h1 set:html={t("projectsPage.h1.html")} />
+        <p class="muted" set:html={t("projectsPage.lede.html")} />
+      </header>
+
+      <div class="filters" role="group" aria-label={t("projectsPage.filter")}>
+        <button type="button" data-cat="all" aria-pressed="true">{t("projectsPage.all")} <small>{ordered.length}</small></button>
+        {
+          categories.map((c) => (
+            <button type="button" data-cat={c} aria-pressed="false">
+              {categoryLabel[lang][c]} <small>{ordered.filter((p) => p.category === c).length}</small>
+            </button>
+          ))
+        }
+      </div>
+
+      <div class="grid">
+        {ordered.map((p, i) => <ProjectCard project={p} stats={stats.get(p.repo)} index={i} />)}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page {
+    padding: 150px 0 100px;
+  }
+  .head {
+    max-width: 780px;
+    margin-bottom: 40px;
+  }
+  .head h1 {
+    font-size: clamp(3rem, 8vw, 6rem);
+    margin: 14px 0 18px;
+    letter-spacing: -0.05em;
+  }
+  .head em {
+    color: var(--mint);
+  }
+  .muted {
+    color: var(--muted);
+    font-size: 1.15rem;
+  }
+
+  .filters {
+    position: sticky;
+    top: 80px;
+    z-index: 10;
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 6px;
+    margin-bottom: 28px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--surface) 80%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  .filters button {
+    font: 500 0.9rem var(--font-sans);
+    border: 0;
+    background: transparent;
+    color: var(--ink);
+    padding: 8px 14px;
+    border-radius: 999px;
+    cursor: pointer;
+  }
+  .filters small {
+    font-family: var(--font-mono);
+    opacity: 0.6;
+  }
+  .filters button[aria-pressed="true"] {
+    background: var(--ink);
+    color: var(--bg);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+    gap: 20px;
+  }
+
+  @media (max-width: 640px) {
+    .filters {
+      top: 72px;
+      border-radius: 20px;
+    }
+  }
+</style>
+
+<script>
+  const cards = [...document.querySelectorAll<HTMLElement>(".grid > [data-category]")];
+  document.querySelectorAll<HTMLButtonElement>("button[data-cat]").forEach((btn) =>
+    btn.addEventListener("click", () => {
+      const cat = btn.dataset.cat;
+      document.querySelectorAll("button[data-cat]").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      for (const c of cards) {
+        c.hidden = cat !== "all" && c.dataset.category !== cat;
+        if (!c.hidden) c.classList.add("is-in");
+      }
+    }),
+  );
+</script>

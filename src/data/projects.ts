@@ -212,11 +212,44 @@ export const projects: Project[] = [
   },
 ];
 
-export const categoryLabel: Record<ProjectCategory, string> = {
-  "open-source": "Open source",
-  tool: "Herramientas",
-  talk: "Charlas y talleres",
+export const categoryLabel: Record<"es" | "en", Record<ProjectCategory, string>> = {
+  es: { "open-source": "Open source", tool: "Herramientas", talk: "Charlas y talleres" },
+  en: { "open-source": "Open source", tool: "Tools", talk: "Talks & workshops" },
 };
+
+// English text for each project (title only when it changes). Event names stay as they are.
+const projectEn: Record<string, { title?: string; description: string; talk?: string }> = {
+  "fluid-generative-ui": { description: "Two apps for the talk on AI-generated UI without layout shifts or latency: performance, structured outputs and WebMCP." },
+  "webmcp-action": { description: "A WebMCP demo, the proposed standard that lets a page expose its features as tools for AI agents." },
+  "agentic-web-starter": { title: "Agentic Web Starter · GoFest codelabs", description: "Monorepo with every GoFest Bogotá codelab: an offline-first client with Gemini Nano, a multi-agent orchestrator with Gemini Flash and a codelab-style presentation app." },
+  "multi-agent-workflow": { description: "Full-stack travel planner built with Google's Agent Development Kit in TypeScript: parallel and sequential agents." },
+  "travel-planner-multiagent": { title: "Multi-agent Travel Planner", description: "A version using the Gemini API and ADK-inspired orchestration patterns (ParallelAgent + SequentialAgent)." },
+  "contextual-ai-panel": { title: "Contextual help panel with Built-in AI", description: "A panel that summarizes the page and generates FAQs with the browser's Summarizer and Prompt APIs, plus View Transitions and Anchor Positioning." },
+  "build-with-ai-santa-cruz": { description: "Web slides for the workshop on Built-in AI and modern CSS standards." },
+  "web-mcp-debugging": { description: "A 22-slide web presentation on Web MCP and modern AI-assisted debugging." },
+  "hypercart-lab": { description: "A React e-commerce app with performance problems you can switch on to practice debugging with Chrome DevTools." },
+  "chrome-devtools-work": { title: "DevTools + AI in Action", description: "An app built with GitHub Spark to practice Chrome DevTools and its new AI features." },
+  "github-workshop-guid": { title: "Hands-on guide to GitHub and Copilot", description: "Repositories, branches, pull requests, issues, workflows and GitHub Copilot, explained with exercises.", talk: "Mentoring: Invima & Google AI Hackathon · GoFest Bogotá 2026" },
+  "taller-github-copilot": { title: "GitHub Copilot workshop", description: "Step-by-step modules to boost your productivity with generative AI: from autocomplete to agents." },
+  "angular-kanban-workshop": { title: "Angular Kanban Board", description: "A workshop to build a Kanban board while reviewing components, directives, modules, services, routing and the CDK." },
+  "recursos-frontend": { title: "Frontend Resources", description: "A collaborative guide with resources to learn frontend: courses, docs, tools, communities and more. Open to contributions." },
+  "profile-generator": { description: "Create READMEs for your GitHub profile with a drag & drop interface and live preview, no Markdown needed." },
+  "ai-playbook-reposito": { description: "A reference guide and sample package for structuring agents, skills, prompts, commands and policies in a repository." },
+  "vscode-checksemantic": { description: "A VS Code extension that finds and helps fix HTML semantics and accessibility issues based on WCAG 2.2." },
+  "metamorfosis-angular": { title: "Angular Metamorphosis", description: "Leveled workshops (caterpillar, chrysalis, butterfly) for people getting started with Angular. Part of Hacktoberfest." },
+  "angular-challenges": { description: "A Gitbook with Angular concepts and hands-on challenges in mini apps to learn by doing." },
+  "job-tracker": { description: "A job application tracker (Next.js + Drizzle) that doubles as a reference for an advanced GitHub Copilot setup: agents, prompts, skills and specs." },
+  "token-calculator-pro": { description: "A token estimator for AI model prompts and responses." },
+  "buddy-writer": { description: "An app to write and keep technical documentation up to date." },
+};
+const tagEn: Record<string, string> = { IA: "AI", Agentes: "Agents", "Documentación": "Docs", Comunidad: "Community", Talleres: "Workshops", Accesibilidad: "Accessibility" };
+
+/** A project with its text in the given language. */
+export function localizeProject(p: Project, lang: "es" | "en"): Project {
+  if (lang === "es") return p;
+  const en = projectEn[p.repo];
+  return { ...p, ...en, title: en?.title ?? p.title, talk: en?.talk ?? p.talk, tags: p.tags.map((t) => tagEn[t] ?? t) };
+}
 
 /** Projects to show, most recently updated first. Repos GitHub does not return are hidden. */
 export function visibleProjects(stats: Map<string, { pushedAt: string }>): Project[] {

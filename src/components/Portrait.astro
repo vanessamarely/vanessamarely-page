@@ -1,12 +1,14 @@
 ---
 // Illustrated portrait: on load each shape is "inked" (stroke-dashoffset) and then painted (fill).
 // The eyes follow the cursor and blink; clicking reveals the real photo.
+import { langOf, useT } from "../i18n";
+const t = useT(langOf(Astro.currentLocale));
 ---
 
 <figure class="portrait" id="portrait">
-  <button class="portrait__stage" type="button" aria-pressed="false" aria-label="Alternar entre ilustración y foto de Vanessa">
+  <button class="portrait__stage" type="button" aria-pressed="false" aria-label={t("portrait.toggle")}>
     <svg class="art" viewBox="0 0 400 440" role="img" aria-labelledby="portrait-title">
-      <title id="portrait-title">Ilustración de Vanessa: cabello largo castaño, labios rojos y blazer azul</title>
+      <title id="portrait-title">{t("portrait.title")}</title>
       <defs>
         <!-- userSpaceOnUse: shade by position in the portrait, so every hair shape is dark at the top -->
         <linearGradient id="hair" gradientUnits="userSpaceOnUse" x1="0" y1="90" x2="0" y2="440">
@@ -124,11 +126,11 @@
       </g>
     </svg>
 
-    <img class="photo" src="/images/vanessa.jpg" alt="Foto de Vanessa Marely" width="400" height="400" loading="lazy" />
+    <img class="photo" src="/images/vanessa.jpg" alt={t("portrait.photo")} width="400" height="400" loading="lazy" />
   </button>
   <figcaption class="portrait__hint">
     <svg viewBox="0 0 60 40" aria-hidden="true"><path d="M4 30 C 18 6, 38 4, 54 18 M54 18 l-10 -1 M54 18 l-3 -9" /></svg>
-    <span>toca para ver la foto real</span>
+    <span>{t("portrait.hint")}</span>
   </figcaption>
 </figure>
 

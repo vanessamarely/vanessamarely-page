@@ -3,6 +3,10 @@ import Icon from "./Icon.astro";
 import TalkItem from "./TalkItem.astro";
 import TalksMap from "./TalksMap.astro";
 import { sortedTalks, impact, communities } from "../data/talks";
+import { langOf, useT, localize } from "../i18n";
+
+const lang = langOf(Astro.currentLocale);
+const tr = useT(lang);
 
 // Latest talks (no live streams) from the last two years, up to 5 per year
 const PER_YEAR = 5;
@@ -22,12 +26,9 @@ const latestByYear = Object.entries(grouped)
   <div class="wrap">
     <div class="talks__top">
       <div class="reveal">
-        <span class="eyebrow">Charlas &amp; comunidad</span>
-        <h2 class="section-title">En el escenario <br /><em class="serif">y detrás de él</em></h2>
-        <p class="muted intro">
-          Desde 2018 comparto en conferencias, meetups y talleres por toda Latinoamérica: Angular, rendimiento web,
-          DevTools, accesibilidad y desarrollo con IA.
-        </p>
+        <span class="eyebrow" set:html={tr("talks.eyebrow")} />
+        <h2 class="section-title" set:html={tr("talks.title.html")} />
+        <p class="muted intro">{tr("talks.intro")}</p>
       </div>
 
       <svg class="mic reveal" style="--i:1" viewBox="0 0 260 240" aria-hidden="true">
@@ -51,8 +52,8 @@ const latestByYear = Object.entries(grouped)
           <div class="impact__item reveal" style={`--i:${i}`}>
             <dd data-count={s.value}>{s.value}</dd>
             <dt>
-              {s.label}
-              <small>{s.detail}</small>
+              {s.label[lang]}
+              <small>{s.detail[lang]}</small>
             </dt>
           </div>
         ))
@@ -60,21 +61,21 @@ const latestByYear = Object.entries(grouped)
     </dl>
 
     <div class="map-block reveal">
-      <h3 class="sub">Dónde he compartido</h3>
+      <h3 class="sub">{tr("talks.where")}</h3>
       <TalksMap />
     </div>
 
     <div class="talks__grid">
       <div class="reveal">
-        <h3 class="sub">Charlas recientes</h3>
+        <h3 class="sub">{tr("talks.recent")}</h3>
         {
           latestByYear.map(([year, items, total]) => (
             <div class="yr">
               <h4 class="yr__label">
                 <span>{year}</span>
                 <small>
-                  {total} {total === 1 ? "actividad" : "actividades"}
-                  {total > items.length && ` · mostrando ${items.length}`}
+                  {total} {total === 1 ? tr("talks.activity") : tr("talks.activities")}
+                  {total > items.length && ` · ${tr("talks.showing")} ${items.length}`}
                 </small>
               </h4>
               <ul class="list">
@@ -85,11 +86,11 @@ const latestByYear = Object.entries(grouped)
             </div>
           ))
         }
-        <a class="btn" href="/charlas/">Ver todo el historial ({sortedTalks.length}) con recursos <Icon name="arrow" /></a>
+        <a class="btn" href={localize(lang, "/charlas/")}>{tr("talks.all").replace("{n}", String(sortedTalks.length))} <Icon name="arrow" /></a>
       </div>
 
       <aside class="community reveal" style="--i:1">
-        <h3 class="sub">Comunidades en las que participé</h3>
+        <h3 class="sub">{tr("talks.communities")}</h3>
         <ul>
           {
             communities.map((c) => (
@@ -104,7 +105,7 @@ const latestByYear = Object.entries(grouped)
                   )}
                 </strong>
                 <span>
-                  {c.role} · <time>{c.years}</time>
+                  {c.role[lang]} · <time>{c.years}</time>
                 </span>
               </li>
             ))

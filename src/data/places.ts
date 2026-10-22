@@ -23,3 +23,14 @@ export const places = {
 } as const;
 
 export const HOME: PlaceKey = "medellin";
+
+// Country and city names in English (only the ones that change).
+const countryEn: Record<string, string> = { PER: "Peru", MEX: "Mexico", DOM: "Dominican Republic", BRA: "Brazil" };
+const cityEn: Partial<Record<PlaceKey, string>> = { guatemala: "Guatemala City" };
+
+/** City and country of a place in the given language. */
+export function placeName(lang: "es" | "en", key: PlaceKey): { city: string; country: string } {
+  const p = places[key];
+  if (lang === "es") return { city: p.city, country: p.country };
+  return { city: cityEn[key] ?? p.city, country: countryEn[p.code] ?? p.country };
+}
