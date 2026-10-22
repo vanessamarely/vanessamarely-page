@@ -313,11 +313,13 @@ const { postCount } = Astro.props;
     padding: clamp(22px, 3vw, 32px);
     box-shadow: var(--shadow);
     overflow: hidden;
-    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+    transition: box-shadow 0.4s var(--ease), border-color 0.4s var(--ease);
   }
 
+  /* Hover without moving the card: a moving card slips out from under the cursor and flickers */
   .card:hover {
-    transform: translateY(-4px);
+    border-color: color-mix(in srgb, var(--violet) 35%, var(--line));
+    box-shadow: var(--shadow), 0 0 0 3px color-mix(in srgb, var(--violet) 14%, transparent);
   }
 
   .card h3 {

@@ -24,6 +24,9 @@ const searchText = `${post.title} ${post.tags.join(" ")}`.toLowerCase();
   data-lang={post.lang}
   data-search={searchText}
 >
+  <!-- The outer <article> is the hover target and never moves; only .post__card lifts.
+       Moving the hovered element itself made the cursor fall off its edge and flicker. -->
+  <div class="post__card">
   <a class="post__link" href={post.url} target="_blank" rel="noopener">
     <div class="post__media">
       {
@@ -63,11 +66,17 @@ const searchText = `${post.title} ${post.tags.join(" ")}`.toLowerCase();
       </a>
     )
   }
+  </div>
 </article>
 
 <style>
   .post {
+    display: flex;
+    flex-direction: column;
+  }
+  .post__card {
     position: relative;
+    flex: 1;
     display: flex;
     flex-direction: column;
     background: var(--surface);
@@ -75,9 +84,12 @@ const searchText = `${post.title} ${post.tags.join(" ")}`.toLowerCase();
     border-radius: var(--radius);
     overflow: hidden;
     box-shadow: var(--shadow);
-    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), opacity 0.9s var(--ease);
+    /* own compositing layer: avoids repaint flashes of the rounded, clipped image while it moves */
+    isolation: isolate;
+    transform: translateZ(0);
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
   }
-  .post.is-in:hover {
+  .post.is-in:hover .post__card {
     transform: translateY(-6px) rotate(-0.4deg);
     box-shadow: 8px 8px 0 var(--violet);
   }

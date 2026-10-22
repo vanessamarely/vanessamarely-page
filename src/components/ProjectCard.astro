@@ -16,6 +16,8 @@ const updated = stats?.pushedAt
 ---
 
 <article class={`proj proj--${p.category} reveal`} style={`--i:${index % 3}`} data-category={p.category}>
+  <!-- Outer element is the stable hover target; only .proj__card lifts (avoids hover flicker at the edges) -->
+  <div class="proj__card">
   <header>
     <span class="proj__cat">
       <svg viewBox="0 0 24 24" aria-hidden="true">
@@ -55,11 +57,17 @@ const updated = stats?.pushedAt
     {p.demo && <a href={p.demo} target="_blank" rel="noopener">Demo <Icon name="arrow" size={16} /></a>}
     {p.docs && <a href={p.docs} target="_blank" rel="noopener">Slides <Icon name="arrow" size={16} /></a>}
   </footer>
+  </div>
 </article>
 
 <style>
   .proj {
+    display: flex;
+    flex-direction: column;
+  }
+  .proj__card {
     position: relative;
+    flex: 1;
     display: flex;
     flex-direction: column;
     gap: 12px;
@@ -68,12 +76,13 @@ const updated = stats?.pushedAt
     background: var(--surface);
     border: 1px solid var(--line);
     box-shadow: var(--shadow);
-    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease), opacity 0.9s var(--ease);
+    transform: translateZ(0);
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
   }
   .proj[hidden] {
     display: none;
   }
-  .proj.is-in:hover {
+  .proj.is-in:hover .proj__card {
     transform: translateY(-5px);
     box-shadow: 6px 6px 0 var(--accent);
   }
