@@ -22,6 +22,15 @@ export type Project = {
 export const projects: Project[] = [
   // ---------- Charlas y talleres ----------
   {
+    repo: "web-performance-gen-ui",
+    title: "Web performance en la era de la UI generativa",
+    description: "Deck interactivo con consola de presentadora y app para asistentes, más Mercadito: un asistente de compras con UI generativa en streaming y un laboratorio de performance.",
+    category: "talk",
+    tags: ["Performance", "IA", "Core Web Vitals"],
+    docs: "https://web-performance-gen-ui-slides.web.app/?presenter=1&screen=event#1",
+    talk: "DevFest Guatemala City 2026",
+  },
+  {
     repo: "fluid-generative-ui",
     title: "Fast AI, Fluid UI",
     description: "Dos apps para la charla sobre UI generada por IA sin layout shifts ni latencia: performance, salidas estructuradas y WebMCP.",
@@ -219,6 +228,7 @@ export const categoryLabel: Record<"es" | "en", Record<ProjectCategory, string>>
 
 // English text for each project (title only when it changes). Event names stay as they are.
 const projectEn: Record<string, { title?: string; description: string; talk?: string }> = {
+  "web-performance-gen-ui": { title: "Web performance in the era of generative UI", description: "An interactive deck with a presenter console and an attendee app, plus Mercadito: a shopping assistant with streaming generative UI and a performance lab." },
   "fluid-generative-ui": { description: "Two apps for the talk on AI-generated UI without layout shifts or latency: performance, structured outputs and WebMCP." },
   "webmcp-action": { description: "A WebMCP demo, the proposed standard that lets a page expose its features as tools for AI agents." },
   "agentic-web-starter": { title: "Agentic Web Starter · GoFest codelabs", description: "Monorepo with every GoFest Bogotá codelab: an offline-first client with Gemini Nano, a multi-agent orchestrator with Gemini Flash and a codelab-style presentation app." },
