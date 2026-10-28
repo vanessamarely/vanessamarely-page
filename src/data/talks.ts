@@ -58,10 +58,13 @@ export const talks: Talk[] = [
   t("2026-10-24", "charla", "Web performance en la era de la UI generativa", "DevFest Guatemala City", ["Performance", "IA", "Core Web Vitals"], [
     slides("https://web-performance-gen-ui-slides.web.app/?presenter=1&screen=event#1"),
     repo("web-performance-gen-ui"),
+    demo("https://web-performance-gen-ui-demo.web.app"),
     gdg("google-gdg-cloud-guatemala-presents-devfest-guatemala-city-2026-1/cohost-gdg-guatemala"),
   ], "guatemala"),
   t("2026-10-10", "charla", "Fast AI, Fluid UI", "DevFest Santo Domingo", ["IA", "Performance", "WebMCP", "DevTools"], [
+    slides("https://fluid-generative-ui-slides.web.app"),
     repo("fluid-generative-ui"),
+    demo("https://fluid-generative-ui-demo.web.app"),
     gdg("google-gdg-santo-domingo-presents-devfest-santo-domingo-2026"),
   ], "santodomingo"),
   t("2026-10-07", "live", "IA fuera del mundo de tecnología", "YouTube Live", ["IA"], [video("Y2aR76Yuheo")]),

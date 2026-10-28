@@ -15,7 +15,8 @@ export type Project = {
   category: ProjectCategory;
   tags: string[];
   demo?: string;
-  docs?: string;
+  docs?: string; // slides
+  codelab?: string;
   talk?: string; // charla o taller donde se usó
 };
 
@@ -27,6 +28,7 @@ export const projects: Project[] = [
     description: "Deck interactivo con consola de presentadora y app para asistentes, más Mercadito: un asistente de compras con UI generativa en streaming y un laboratorio de performance.",
     category: "talk",
     tags: ["Performance", "IA", "Core Web Vitals"],
+    demo: "https://web-performance-gen-ui-demo.web.app",
     docs: "https://web-performance-gen-ui-slides.web.app/?presenter=1&screen=event#1",
     talk: "DevFest Guatemala City 2026",
   },
@@ -36,6 +38,8 @@ export const projects: Project[] = [
     description: "Dos apps para la charla sobre UI generada por IA sin layout shifts ni latencia: performance, salidas estructuradas y WebMCP.",
     category: "talk",
     tags: ["IA", "Performance", "WebMCP"],
+    demo: "https://fluid-generative-ui-demo.web.app",
+    docs: "https://fluid-generative-ui-slides.web.app",
     talk: "DevFest Santo Domingo 2026",
   },
   {
@@ -54,6 +58,8 @@ export const projects: Project[] = [
       "Monorepo con todos los codelabs de GoFest Bogotá: cliente offline-first con Gemini Nano, orquestador multi-agente con Gemini Flash y una app de presentación tipo codelab.",
     category: "talk",
     tags: ["Gemini", "Agentes", "Codelab"],
+    demo: "https://agentic-web-starter-client.web.app",
+    codelab: "https://agentic-web-starter-codelab.web.app",
     talk: "GoFest Bogotá 2026",
   },
   {
@@ -62,6 +68,7 @@ export const projects: Project[] = [
     description: "Planificador de viajes full-stack con Google Agent Development Kit en TypeScript: agentes en paralelo y en secuencia.",
     category: "talk",
     tags: ["Gemini ADK", "React", "Node.js"],
+    demo: "https://vanessamarely.github.io/multi-agent-workflow/",
     docs: "https://vanessamarely.github.io/multi-agent-workflow/slides/",
     talk: "Build with AI · GDG Quito 2026",
   },
@@ -89,16 +96,17 @@ export const projects: Project[] = [
     description: "Presentación web del taller sobre Built-in AI y estándares modernos de CSS.",
     category: "talk",
     tags: ["Slides", "Built-in AI"],
-    demo: "https://vanessamarely.github.io/build-with-ai-santa-cruz/",
+    docs: "https://vanessamarely.github.io/build-with-ai-santa-cruz/",
     talk: "Build with AI · GDG Santa Cruz 2026",
   },
   {
     repo: "web-mcp-debugging",
     title: "Web MCP & Debugging (slides)",
-    description: "Presentación web de 22 diapositivas sobre Web MCP y debugging moderno con IA.",
+    description: "Presentación web de 22 diapositivas sobre Web MCP y debugging moderno con IA, con un dashboard SaaS que se diagnostica solo como demo.",
     category: "talk",
     tags: ["Slides", "MCP"],
-    demo: "https://vanessamarely.github.io/web-mcp-debugging/",
+    demo: "https://self-diagnosing-saas.vercel.app",
+    docs: "https://vanessamarely.github.io/web-mcp-debugging/",
     talk: "GDG Barranquilla 2026",
   },
   {
@@ -141,6 +149,7 @@ export const projects: Project[] = [
     description: "Workshop para crear un tablero Kanban repasando componentes, directivas, módulos, servicios, routing y CDK.",
     category: "talk",
     tags: ["Angular", "CDK"],
+    demo: "https://vanessamarely.github.io/angular-kanban-workshop/",
     talk: "ngConf Honduras 2021",
   },
 
@@ -236,7 +245,7 @@ const projectEn: Record<string, { title?: string; description: string; talk?: st
   "travel-planner-multiagent": { title: "Multi-agent Travel Planner", description: "A version using the Gemini API and ADK-inspired orchestration patterns (ParallelAgent + SequentialAgent)." },
   "contextual-ai-panel": { title: "Contextual help panel with Built-in AI", description: "A panel that summarizes the page and generates FAQs with the browser's Summarizer and Prompt APIs, plus View Transitions and Anchor Positioning." },
   "build-with-ai-santa-cruz": { description: "Web slides for the workshop on Built-in AI and modern CSS standards." },
-  "web-mcp-debugging": { description: "A 22-slide web presentation on Web MCP and modern AI-assisted debugging." },
+  "web-mcp-debugging": { description: "A 22-slide web presentation on Web MCP and modern AI-assisted debugging, with a self-diagnosing SaaS dashboard as the demo." },
   "hypercart-lab": { description: "A React e-commerce app with performance problems you can switch on to practice debugging with Chrome DevTools." },
   "chrome-devtools-work": { title: "DevTools + AI in Action", description: "An app built with GitHub Spark to practice Chrome DevTools and its new AI features." },
   "github-workshop-guid": { title: "Hands-on guide to GitHub and Copilot", description: "Repositories, branches, pull requests, issues, workflows and GitHub Copilot, explained with exercises.", talk: "Mentoring: Invima & Google AI Hackathon · GoFest Bogotá 2026" },

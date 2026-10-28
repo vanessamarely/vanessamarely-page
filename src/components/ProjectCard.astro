@@ -60,6 +60,7 @@ const updated = stats?.pushedAt
     <a href={repoUrl} target="_blank" rel="noopener"><Icon name="github" size={16} /> {t("project.code")}</a>
     {p.demo && <a href={p.demo} target="_blank" rel="noopener">Demo <Icon name="arrow" size={16} /></a>}
     {p.docs && <a href={p.docs} target="_blank" rel="noopener">Slides <Icon name="arrow" size={16} /></a>}
+    {p.codelab && <a href={p.codelab} target="_blank" rel="noopener">Codelab <Icon name="arrow" size={16} /></a>}
   </footer>
   </div>
 </article>
@@ -190,6 +191,7 @@ const updated = stats?.pushedAt
     margin-top: auto;
     padding-top: 6px;
     display: flex;
+    flex-wrap: wrap;
     gap: 8px;
   }
   footer a {
