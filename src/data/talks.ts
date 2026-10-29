@@ -162,6 +162,7 @@ export const talks: Talk[] = [
   t("2025-10-11", "taller", "DevTools + AI in Action", "MedellinJS · UPB", ["DevTools", "GitHub Spark", "IA"], [
     slides("https://www.canva.com/design/DAG1KUC0n_g/wIEPplcjRvVfBWbVA78b_Q/view"),
     repo("dev-tools-workshop"),
+    demo("https://chrome-devtools-work.vercel.app/"),
     event("https://www.meetup.com/medellinjs/events/311361059/"),
   ], "medellin"),
   t("2025-08-05", "panel", "Frontend status", "Código Facilito", ["Frontend"], [video("5cPktTcbHPY")], on),
