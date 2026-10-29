@@ -476,7 +476,7 @@ export const communities: { name: string; role: Record<Lang, string>; years: str
   { name: "JSConf Colombia", role: { es: "Co-organizadora", en: "Co-organizer" }, years: "2023", url: "https://www.jsconf.co/" },
   { name: "GDG Medellín", role: { es: "Organizadora", en: "Organizer" }, years: "2018 – 2023", url: "https://gdg.community.dev/gdg-medellin/" },
   { name: "DevFest Medellín", role: { es: "Organizadora", en: "Organizer" }, years: "2018 – 2022" },
-  { name: "She Codes Angular", role: { es: "Organizadora y mentora", en: "Organizer and mentor" }, years: "2019 – 2020", url: "https://www.meetup.com/She-Codes-Angular/" },
+  { name: "She Codes Angular", role: { es: "Organizadora y mentora", en: "Organizer and mentor" }, years: "2019 – 2020", url: "https://shecodes.gitbook.io/she-codes-angular" },
   { name: "Women Techmakers", role: { es: "Embajadora · eventos con GDG Medellín", en: "Ambassador · events with GDG Medellín" }, years: "2019 – 2025" },
   { name: "NgGirls Colombia", role: { es: "Organizadora y mentora", en: "Organizer and mentor" }, years: "2018" },
 ];
