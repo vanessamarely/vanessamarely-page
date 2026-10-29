@@ -3,7 +3,7 @@ const es = {
   // Layout / SEO
   "meta.title": "Vanessa Marely · Fullstack developer, Angular & Web",
   "meta.description":
-    "Vanessa Marely Aristizábal — fullstack developer con foco en frontend en Medellín, Google Developer Expert en Angular y Web, GitHub Star, escritora, mentora, speaker e ilustradora.",
+    "Vanessa Marely Aristizábal — fullstack developer con foco en frontend, Google Developer Expert en Angular y Web, GitHub Star, escritora, mentora, speaker e ilustradora.",
   "meta.imageAlt": "Vanessa Marely Aristizábal Ángel · Fullstack developer, GDE Angular & Web, GitHub Star · vanessamarely.dev",
   "a11y.skip": "Saltar al contenido",
 
@@ -23,7 +23,7 @@ const es = {
   // Hero
   "hero.hello": "Hola, soy",
   "hero.lede.html":
-    "Fullstack developer con foco en frontend, desde Medellín. <strong>Google Developer Expert</strong> en Angular y Web, <strong>GitHub Star</strong>, escritora, mentora, speaker e ilustradora.",
+    "Fullstack developer con foco en frontend. <strong>Google Developer Expert</strong> en Angular y Web, <strong>GitHub Star</strong>, escritora, mentora, speaker e ilustradora.",
   "hero.create": "creo",
   "hero.roles": "interfaces web|componentes en Angular|APIs y backends en Node.js|apps con agentes de IA|artículos técnicos|ilustraciones|comunidad",
   "hero.ctaArticles": "Leer mis artículos",
@@ -159,7 +159,7 @@ export type UIKey = keyof typeof es;
 const en: Record<UIKey, string> = {
   "meta.title": "Vanessa Marely · Fullstack developer, Angular & Web",
   "meta.description":
-    "Vanessa Marely Aristizábal — frontend-focused fullstack developer from Medellín, Colombia. Google Developer Expert in Angular and Web, GitHub Star, writer, mentor, speaker and illustrator.",
+    "Vanessa Marely Aristizábal — frontend-focused fullstack developer. Google Developer Expert in Angular and Web, GitHub Star, writer, mentor, speaker and illustrator.",
   "meta.imageAlt": "Vanessa Marely Aristizábal Ángel · Fullstack developer, GDE Angular & Web, GitHub Star · vanessamarely.dev",
   "a11y.skip": "Skip to content",
 
@@ -177,7 +177,7 @@ const en: Record<UIKey, string> = {
 
   "hero.hello": "Hi, I'm",
   "hero.lede.html":
-    "Frontend-focused fullstack developer from Medellín, Colombia. <strong>Google Developer Expert</strong> in Angular and Web, <strong>GitHub Star</strong>, writer, mentor, speaker and illustrator.",
+    "Frontend-focused fullstack developer. <strong>Google Developer Expert</strong> in Angular and Web, <strong>GitHub Star</strong>, writer, mentor, speaker and illustrator.",
   "hero.create": "I build",
   "hero.roles": "web interfaces|Angular components|Node.js APIs and backends|AI agent apps|technical articles|illustrations|community",
   "hero.ctaArticles": "Read my articles",
