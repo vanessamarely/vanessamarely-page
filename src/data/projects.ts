@@ -118,6 +118,15 @@ export const projects: Project[] = [
     category: "talk",
     tags: ["DevTools", "Performance", "React"],
     demo: "https://hypercart-lab.vercel.app",
+    talk: "JSConf México 2025 · Web MCP & Debugging · GDG Barranquilla 2026",
+  },
+  {
+    repo: "self-diagnosing-saas",
+    title: "Self-Diagnosing SaaS Dashboard",
+    description: "Dashboard en React que expone su contexto interno con WebMCP para que un agente de IA diagnostique bugs desde el navegador.",
+    category: "talk",
+    tags: ["WebMCP", "React", "Debugging"],
+    demo: "https://self-diagnosing-saas.vercel.app",
     talk: "Web MCP & Debugging · GDG Barranquilla 2026",
   },
   {
@@ -247,6 +256,7 @@ const projectEn: Record<string, { title?: string; description: string; talk?: st
   "travel-planner-multiagent": { title: "Multi-agent Travel Planner", description: "A version using the Gemini API and ADK-inspired orchestration patterns (ParallelAgent + SequentialAgent)." },
   "contextual-ai-panel": { title: "Contextual help panel with Built-in AI", description: "A panel that summarizes the page and generates FAQs with the browser's Summarizer and Prompt APIs, plus View Transitions and Anchor Positioning." },
   "build-with-ai-santa-cruz": { description: "Web slides for the workshop on Built-in AI and modern CSS standards." },
+  "self-diagnosing-saas": { description: "A React dashboard that exposes its internal context through WebMCP so an AI agent can diagnose bugs from the browser." },
   "web-mcp-debugging": { description: "A 22-slide web presentation on Web MCP and modern AI-assisted debugging, with a self-diagnosing SaaS dashboard as the demo." },
   "hypercart-lab": { description: "A React e-commerce app with performance problems you can switch on to practice debugging with Chrome DevTools." },
   "chrome-devtools-work": { title: "DevTools + AI in Action", description: "An app built with GitHub Spark to practice Chrome DevTools and its new AI features." },

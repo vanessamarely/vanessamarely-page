@@ -119,6 +119,7 @@ export const talks: Talk[] = [
     slides("https://vanessamarely.github.io/web-mcp-debugging/"),
     repo("hypercart-lab"),
     demo("https://hypercart-lab.vercel.app"),
+    repo("self-diagnosing-saas"),
     demo("https://self-diagnosing-saas.vercel.app/"),
     gdg("google-gdg-barranquilla-presents-hackaton-barranqui-ia-build-with-ai"),
   ], "barranquilla"),
@@ -146,6 +147,8 @@ export const talks: Talk[] = [
   ], "medellin"),
   t("2025-10-31", "charla", "Debugging Performance in a Galaxy Far, Far Away", "JSConf México", ["Performance", "DevTools", "JavaScript"], [
     slides("https://www.canva.com/design/DAGz2phzQIg/z7QUMLgtDDbHLhigWvWABw/view"),
+    repo("hypercart-lab"),
+    demo("https://hypercart-lab.vercel.app"),
     event("https://jsconfmx.org/speaker/x2fBU"),
   ], "guadalajara"),
   t("2025-10-31", "charla", "Debugging Performance", "Charla online", ["Performance", "DevTools"], [
