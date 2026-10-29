@@ -98,7 +98,7 @@ export const talks: Talk[] = [
     repo("github-workshop-guid"),
     gdg("google-gdg-bogota-presents-hackathon-impulsando-la-innovacion-con-colsubsidio-oportunidades-y-desafios"),
   ], "bogota"),
-  t("2026-07-24", "live", "GitHub Copilot: harness, loop engineering y agentes", "Live stream", ["GitHub Copilot", "IA"]),
+  t("2026-07-26", "charla", "GitHub Copilot: harness, loop engineering y agentes", "30X AI Devs", ["GitHub Copilot", "IA"], [video("P63s1uQkcCI")], on),
   t("2026-06-27", "charla", "Building Multi-Agent Workflows in the Web", "Build with AI · GDG Quito", ["IA", "Gemini ADK", "Node.js"], [
     slides("https://vanessamarely.github.io/multi-agent-workflow/slides/"),
     repo("multi-agent-workflow"),
