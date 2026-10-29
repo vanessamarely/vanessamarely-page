@@ -119,6 +119,7 @@ export const talks: Talk[] = [
     slides("https://vanessamarely.github.io/web-mcp-debugging/"),
     repo("hypercart-lab"),
     demo("https://hypercart-lab.vercel.app"),
+    demo("https://self-diagnosing-saas.vercel.app/"),
     gdg("google-gdg-barranquilla-presents-hackaton-barranqui-ia-build-with-ai"),
   ], "barranquilla"),
   t("2026-04-16", "live", "Web MCP", "YouTube Live", ["WebMCP"], [video("3_t9I00HksQ")]),
