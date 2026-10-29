@@ -13,7 +13,7 @@ import type { Lang } from "../i18n";
 
 export type TalkKind = "charla" | "taller" | "panel" | "mentoría" | "live";
 export type ResourceType = "slides" | "video" | "event" | "post" | "repo" | "demo" | "codelab";
-export type Resource = { type: ResourceType; url: string };
+export type Resource = { type: ResourceType; url: string; label?: string }; // label replaces the default button text
 
 export type Talk = {
   title: string;
@@ -38,11 +38,12 @@ const codelab = (url: string): Resource => ({ type: "codelab", url });
 
 // GoFest Bogotá 2026 (August): every session shares the agentic-web-starter repo, its codelab and the demos app.
 // Each session has its own deck on the codelab site; demos open on their tab (#nano, #flash, #gemma).
+// The codelab has no per-section URLs, so the button names the section that covers the session.
 const gofestSite = "https://agentic-web-starter-codelab.web.app";
 const gofestDemos = "https://agentic-web-starter-client.web.app";
-const gofest = (deck?: string, tab = ""): Resource[] => [
+const gofest = (deck?: string, tab = "", section?: string): Resource[] => [
   ...(deck ? [slides(`${gofestSite}/${deck}`)] : []),
-  codelab(gofestSite),
+  { type: "codelab", url: gofestSite, label: section ? `Codelab · ${section}` : undefined },
   demo(`${gofestDemos}/${tab}`),
   repo("agentic-web-starter"),
   event("https://gofest.com.co/"),
@@ -86,9 +87,9 @@ export const talks: Talk[] = [
   t("2026-09-21", "live", "Cómo destacar y conseguir tu primer empleo como desarrollador", "YouTube Live", ["Carrera"], [video("buh8YUnFC9c")]),
   t("2026-09-14", "live", "3D, WebXR y Web3: la nueva era", "YouTube Live", ["WebXR", "3D"], [video("jlL55PsHCo4")]),
   t("2026-08-28", "charla", "Effective Prompting & Workflows with Gemini", "GoFest Bogotá", ["Gemini", "Prompting"], gofest(), "bogota"),
-  t("2026-08-27", "charla", "Orchestrating Multi-Agent Workflows with Gemini Flash", "GoFest Bogotá", ["Agentes", "Gemini"], gofest("slides-orquestacion.html", "#flash"), "bogota"),
-  t("2026-08-27", "charla", "Interactive Web Apps with Gemini Nano & WebMCP", "GoFest Bogotá", ["Gemini Nano", "WebMCP"], gofest("slides-demo-1.html", "#nano"), "bogota"),
-  t("2026-08-26", "charla", "Local Agents with Gemma, Gemini Nano and WebMCP", "GoFest Bogotá", ["Gemma", "Gemini Nano", "WebMCP"], gofest("slides-agentes-locales.html", "#gemma"), "bogota"),
+  t("2026-08-27", "charla", "Orchestrating Multi-Agent Workflows with Gemini Flash", "GoFest Bogotá", ["Agentes", "Gemini"], gofest("slides-orquestacion.html", "#flash", "Orchestrating Multi-Agent Workflows + Demo 2"), "bogota"),
+  t("2026-08-27", "charla", "Interactive Web Apps with Gemini Nano & WebMCP", "GoFest Bogotá", ["Gemini Nano", "WebMCP"], gofest("slides-demo-1.html", "#nano", "Demo 1 · Gemini Nano + WebMCP"), "bogota"),
+  t("2026-08-26", "charla", "Local Agents with Gemma, Gemini Nano and WebMCP", "GoFest Bogotá", ["Gemma", "Gemini Nano", "WebMCP"], gofest("slides-agentes-locales.html", "#gemma", "Local Agents + Demo 3"), "bogota"),
   t("2026-08-26", "charla", "Building Agentic Apps with Gemini Flash and Nano", "GoFest Bogotá", ["IA", "Gemini", "Agentes"], gofest("slides.html"), "bogota"),
   t("2026-08-26", "mentoría", "Mentoría técnica: Invima & Google AI Hackathon", "GoFest Bogotá", ["IA", "Hackathon"], gofest(), "bogota"),
   t("2026-08-21", "charla", "Rapid Web Prototyping & Interactive Visuals with Google AI Studio", "GoFest Bogotá", ["AI Studio"], gofest(), "bogota"),

@@ -15,7 +15,7 @@ const totals = talk.resources.reduce<Record<string, number>>((acc, r) => ({ ...a
 const seen: Record<string, number> = {};
 const resources = talk.resources.map((r) => {
   seen[r.type] = (seen[r.type] ?? 0) + 1;
-  return { ...r, label: totals[r.type] > 1 ? `${resLabel[r.type]} ${seen[r.type]}` : resLabel[r.type] };
+  return { ...r, label: r.label ?? (totals[r.type] > 1 ? `${resLabel[r.type]} ${seen[r.type]}` : resLabel[r.type]) };
 });
 const place = talk.where && talk.where !== "online" ? placeName(lang, talk.where) : null;
 const date = new Intl.DateTimeFormat(dateLocale[lang], { day: "numeric", month: "short" }).format(new Date(`${talk.date}T12:00`));
