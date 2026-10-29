@@ -36,8 +36,17 @@ const repo = (name: string): Resource => ({ type: "repo", url: `https://github.c
 const demo = (url: string): Resource => ({ type: "demo", url });
 const codelab = (url: string): Resource => ({ type: "codelab", url });
 
-// Codelabs used across all GoFest Bogotá 2026 sessions
-const gofestCodelab = codelab("https://github.com/vanessamarely/agentic-web-starter");
+// GoFest Bogotá 2026 (August): every session shares the agentic-web-starter repo, its codelab and the demos app.
+// Each session has its own deck on the codelab site; demos open on their tab (#nano, #flash, #gemma).
+const gofestSite = "https://agentic-web-starter-codelab.web.app";
+const gofestDemos = "https://agentic-web-starter-client.web.app";
+const gofest = (deck?: string, tab = ""): Resource[] => [
+  ...(deck ? [slides(`${gofestSite}/${deck}`)] : []),
+  codelab(gofestSite),
+  demo(`${gofestDemos}/${tab}`),
+  repo("agentic-web-starter"),
+  event("https://gofest.com.co/"),
+];
 
 const t = (
   date: string,
@@ -56,7 +65,7 @@ const gdg = (slug: string) => event(`https://gdg.community.dev/events/details/${
 export const talks: Talk[] = [
   // ---------- 2026 ----------
   t("2026-10-24", "charla", "Web performance en la era de la UI generativa", "DevFest Guatemala City", ["Performance", "IA", "Core Web Vitals"], [
-    slides("https://web-performance-gen-ui-slides.web.app/?presenter=1&screen=event#1"),
+    slides("https://web-performance-gen-ui-slides.web.app/"),
     repo("web-performance-gen-ui"),
     demo("https://web-performance-gen-ui-demo.web.app"),
     gdg("google-gdg-cloud-guatemala-presents-devfest-guatemala-city-2026-1/cohost-gdg-guatemala"),
@@ -69,22 +78,24 @@ export const talks: Talk[] = [
   ], "santodomingo"),
   t("2026-10-07", "live", "IA fuera del mundo de tecnología", "YouTube Live", ["IA"], [video("Y2aR76Yuheo")]),
   t("2026-09-26", "charla", "WebMCP in Action", "DevFest Quito", ["WebMCP", "IA"], [
+    slides("https://web-two-xi-71.vercel.app/slides/"),
     repo("webmcp-action"),
     demo("https://web-two-xi-71.vercel.app"),
     gdg("google-gdg-quito-presents-devfest-2026-innovating-together"),
   ], "quito"),
-  t("2026-09-26", "charla", "Building Agentic Apps with Gemini Flash and Nano", "GoFest Bogotá", ["IA", "Gemini", "Agentes"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
   t("2026-09-21", "live", "Cómo destacar y conseguir tu primer empleo como desarrollador", "YouTube Live", ["Carrera"], [video("buh8YUnFC9c")]),
   t("2026-09-14", "live", "3D, WebXR y Web3: la nueva era", "YouTube Live", ["WebXR", "3D"], [video("jlL55PsHCo4")]),
-  t("2026-08-28", "charla", "Effective Prompting & Workflows with Gemini", "GoFest Bogotá", ["Gemini", "Prompting"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
-  t("2026-08-27", "charla", "Orchestrating Multi-Agent Workflows with Gemini Flash", "GoFest Bogotá", ["Agentes", "Gemini"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
-  t("2026-08-27", "charla", "Interactive Web Apps with Gemini Nano & WebMCP", "GoFest Bogotá", ["Gemini Nano", "WebMCP"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
-  t("2026-08-26", "charla", "Local Agents with Gemma, Gemini Nano and WebMCP", "GoFest Bogotá", ["Gemma", "Gemini Nano", "WebMCP"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
-  t("2026-08-26", "mentoría", "Mentoría técnica: Invima & Google AI Hackathon", "GoFest Bogotá", ["IA", "Hackathon"], [slides("https://github-workshop-guid.vercel.app"), repo("github-workshop-guid"), gofestCodelab, event("https://gofest.com.co/")], "bogota"),
-  t("2026-08-21", "charla", "Rapid Web Prototyping & Interactive Visuals with Google AI Studio", "GoFest Bogotá", ["AI Studio"], [gofestCodelab, event("https://gofest.com.co/")], "bogota"),
+  t("2026-08-28", "charla", "Effective Prompting & Workflows with Gemini", "GoFest Bogotá", ["Gemini", "Prompting"], gofest(), "bogota"),
+  t("2026-08-27", "charla", "Orchestrating Multi-Agent Workflows with Gemini Flash", "GoFest Bogotá", ["Agentes", "Gemini"], gofest("slides-orquestacion.html", "#flash"), "bogota"),
+  t("2026-08-27", "charla", "Interactive Web Apps with Gemini Nano & WebMCP", "GoFest Bogotá", ["Gemini Nano", "WebMCP"], gofest("slides-demo-1.html", "#nano"), "bogota"),
+  t("2026-08-26", "charla", "Local Agents with Gemma, Gemini Nano and WebMCP", "GoFest Bogotá", ["Gemma", "Gemini Nano", "WebMCP"], gofest("slides-agentes-locales.html", "#gemma"), "bogota"),
+  t("2026-08-26", "charla", "Building Agentic Apps with Gemini Flash and Nano", "GoFest Bogotá", ["IA", "Gemini", "Agentes"], gofest("slides.html"), "bogota"),
+  t("2026-08-26", "mentoría", "Mentoría técnica: Invima & Google AI Hackathon", "GoFest Bogotá", ["IA", "Hackathon"], gofest(), "bogota"),
+  t("2026-08-21", "charla", "Rapid Web Prototyping & Interactive Visuals with Google AI Studio", "GoFest Bogotá", ["AI Studio"], gofest(), "bogota"),
   t("2026-08-04", "live", "Software Factories y agentes de IA", "YouTube Live", ["IA", "Agentes"], [video("Wr51o9bK26M")]),
-  t("2026-07-25", "charla", "Orchestrating Multi-Agent", "Hackathon Colsubsidio · GDG Bogotá", ["Agentes", "IA"], [
-    repo("multi-agent-workflow"),
+  t("2026-07-25", "charla", "Guía práctica de GitHub y GitHub Copilot", "Hackathon Colsubsidio · GDG Bogotá", ["GitHub", "GitHub Copilot"], [
+    slides("https://github-workshop-guid.vercel.app/"),
+    repo("github-workshop-guid"),
     gdg("google-gdg-bogota-presents-hackathon-impulsando-la-innovacion-con-colsubsidio-oportunidades-y-desafios"),
   ], "bogota"),
   t("2026-07-24", "live", "GitHub Copilot: harness, loop engineering y agentes", "Live stream", ["GitHub Copilot", "IA"]),
