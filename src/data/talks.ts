@@ -421,6 +421,7 @@ export const talks: Talk[] = [
 
   // ---------- 2019 ----------
   t("2019-11-09", "taller", "She Codes Angular Workshop", "She Codes Angular", ["Angular"], [
+    { type: "codelab", url: "https://shecodes.gitbook.io/she-codes-angular", label: "GitBook" },
     event("https://www.meetup.com/She-Codes-Angular/events/264380822/"),
   ], "medellin"),
   t("2019-11-09", "charla", "Intro to Angular", "She Codes Angular", ["Angular"], [event("https://www.meetup.com/She-Codes-Angular/events/264380822/")], "medellin"),
