@@ -90,7 +90,7 @@ const es = {
   "map.summary.html":
     '<strong data-summary="talks">{talks}</strong> charlas presenciales en <strong data-summary="cities">{cities}</strong> ciudades de <strong data-summary="countries">{countries}</strong> países',
   "map.online": "online",
-  "map.legend": "Casa: Medellín · el tamaño del punto es el número de charlas",
+  "map.legend": "Punto de partida: Medellín · el tamaño del punto es el número de charlas",
   "map.talk": "charla",
   "map.talks": "charlas",
 
@@ -238,7 +238,7 @@ const en: Record<UIKey, string> = {
   "map.summary.html":
     '<strong data-summary="talks">{talks}</strong> in-person talks in <strong data-summary="cities">{cities}</strong> cities across <strong data-summary="countries">{countries}</strong> countries',
   "map.online": "online",
-  "map.legend": "Home: Medellín · dot size is the number of talks",
+  "map.legend": "Starting point: Medellín · dot size is the number of talks",
   "map.talk": "talk",
   "map.talks": "talks",
 
