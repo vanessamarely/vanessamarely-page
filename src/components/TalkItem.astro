@@ -64,11 +64,13 @@ const date = new Intl.DateTimeFormat(dateLocale[lang], { day: "numeric", month: 
 </li>
 
 <style>
+  /* Date | text, with the resource buttons on their own row under the text,
+     so many buttons never squeeze the title into a narrow column */
   .talk {
     display: grid;
-    grid-template-columns: 70px 1fr auto;
-    align-items: center;
-    gap: 18px;
+    grid-template-columns: 70px 1fr;
+    align-items: start;
+    gap: 10px 18px;
     padding: 18px 8px;
     border-bottom: 1px solid var(--line);
     transition: background 0.3s, padding 0.4s var(--ease);
@@ -83,6 +85,7 @@ const date = new Intl.DateTimeFormat(dateLocale[lang], { day: "numeric", month: 
   }
 
   time {
+    padding-top: 3px;
     font: 500 0.85rem var(--font-mono);
     color: var(--muted);
     text-transform: uppercase;
@@ -153,7 +156,7 @@ const date = new Intl.DateTimeFormat(dateLocale[lang], { day: "numeric", month: 
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    justify-content: end;
+    grid-column: 2;
   }
 
   .res {
@@ -186,10 +189,6 @@ const date = new Intl.DateTimeFormat(dateLocale[lang], { day: "numeric", month: 
   @media (max-width: 720px) {
     .talk {
       grid-template-columns: 56px 1fr;
-    }
-    .talk__res {
-      grid-column: 2;
-      justify-content: start;
     }
   }
 </style>
