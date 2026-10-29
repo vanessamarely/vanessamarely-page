@@ -391,6 +391,7 @@ export const talks: Talk[] = [
   ], on),
   t("2021-08-24", "charla", "Aplicaciones web: ¿librería o framework?", "Conexión SV", ["Web"], [event("https://www.conexion.sv/")], on),
   t("2021-06-01", "charla", "Angular in the Wonderland of the Best Practices", "Angular Global Summit 21", ["Angular"], [
+    slides("https://docs.google.com/presentation/d/108B1TAGtVfgEsDJwiLxm31eZBXDeNTceY9jXmkkdkis/view"),
     repo("angular-best-practices"),
     video("https://youtu.be/NTGtbbFG2SM?t=18938"),
   ], on),
