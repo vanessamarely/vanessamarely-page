@@ -96,12 +96,12 @@ export const talks: Talk[] = [
   t("2026-08-26", "mentoría", "Mentoría técnica: Invima & Google AI Hackathon", "GoFest Bogotá", ["IA", "Hackathon"], gofest(undefined, "", { id: "cierre", name: "Dónde desplegar esto" }), "bogota"),
   t("2026-08-21", "charla", "Rapid Web Prototyping & Interactive Visuals with Google AI Studio", "GoFest Bogotá", ["AI Studio"], gofest(undefined, "", { id: "requisitos/2", name: "Google AI Studio, paso a paso" }), "bogota"),
   t("2026-08-04", "live", "Software Factories y agentes de IA", "YouTube Live", ["IA", "Agentes"], [video("Wr51o9bK26M")]),
-  t("2026-07-25", "charla", "Guía práctica de GitHub y GitHub Copilot", "Hackathon Colsubsidio · GDG Bogotá", ["GitHub", "GitHub Copilot"], [
+  t("2026-07-25", "charla", "GitHub y GitHub Copilot", "Hackathon Colsubsidio · GDG Bogotá", ["GitHub", "GitHub Copilot"], [
     slides("https://github-workshop-guid.vercel.app/"),
+    video("P63s1uQkcCI"),
     repo("github-workshop-guid"),
     gdg("google-gdg-bogota-presents-hackathon-impulsando-la-innovacion-con-colsubsidio-oportunidades-y-desafios"),
   ], "bogota"),
-  t("2026-07-26", "charla", "GitHub Copilot: harness, loop engineering y agentes", "30X AI Devs", ["GitHub Copilot", "IA"], [video("P63s1uQkcCI")], on),
   t("2026-06-27", "charla", "Building Multi-Agent Workflows in the Web", "Build with AI · GDG Quito", ["IA", "Gemini ADK", "Node.js"], [
     slides("https://vanessamarely.github.io/multi-agent-workflow/slides/"),
     repo("multi-agent-workflow"),
