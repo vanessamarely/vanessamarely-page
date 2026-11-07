@@ -207,7 +207,7 @@ const kinds = Object.keys(kindLabel[lang]) as TalkKind[];
 <script>
   let kind = "all";
   const only = document.getElementById("onlyRes") as HTMLInputElement;
-  const items = [...document.querySelectorAll<HTMLElement>(".talk")];
+  const items = [...document.querySelectorAll<HTMLElement>(".timeline .talk")]; // not the ones under the map
   const years = [...document.querySelectorAll<HTMLElement>(".year")];
 
   function apply() {

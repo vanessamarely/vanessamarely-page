@@ -4,6 +4,7 @@
 import { countries, project } from "../data/americas-map";
 import { places, placeName, HOME, type PlaceKey } from "../data/places";
 import { sortedTalks } from "../data/talks";
+import TalkItem from "./TalkItem.astro";
 import { langOf, useT } from "../i18n";
 
 const lang = langOf(Astro.currentLocale);
@@ -61,6 +62,18 @@ for (const s of list) {
   countryYears.set(code, [...new Set([...(countryYears.get(code) ?? []), ...Object.keys(s.counts)])]);
 }
 
+// Cities grouped by country (most talks first) for the list next to the map
+const groups = [...list.reduce((m, s) => {
+  const code = places[s.key].code;
+  const g = m.get(code) ?? { code, country: name(s.key).country, total: 0, cities: [] as Stop[] };
+  g.total += s.total;
+  g.cities.push(s);
+  return m.set(code, g);
+}, new Map<string, { code: string; country: string; total: number; cities: Stop[] }>()).values()].sort((a, b) => b.total - a.total);
+
+// In-person talks, newest first, for the list under the map (filtered by city/country and year)
+const inPerson = sortedTalks.filter((t) => t.where && t.where !== "online") as (typeof sortedTalks[number] & { where: PlaceKey })[];
+
 const payload = {
   stops: Object.fromEntries(list.map((s) => [s.key, s.counts])),
   online: onlineByYear,
@@ -81,7 +94,13 @@ const payload = {
       <g class="tmap__countries">
         {
           countries.map((c) => (
-            <path d={c.d} data-code={c.code} data-years={(countryYears.get(c.code) ?? []).join(" ")} class={countryYears.has(c.code) ? "is-visited" : undefined}>
+            <path
+              d={c.d}
+              data-code={c.code}
+              data-name={countryName(c.name)}
+              data-years={(countryYears.get(c.code) ?? []).join(" ")}
+              class={countryYears.has(c.code) ? "is-visited" : undefined}
+            >
               <title>{countryName(c.name)}</title>
             </path>
           ))
@@ -97,7 +116,15 @@ const payload = {
       <g class="tmap__stops">
         {
           list.map((s) => (
-            <g class="stop" data-key={s.key} data-years={Object.keys(s.counts).join(" ")} transform={`translate(${s.x.toFixed(1)} ${s.y.toFixed(1)})`}>
+            <g
+              class="stop"
+              data-key={s.key}
+              data-years={Object.keys(s.counts).join(" ")}
+              transform={`translate(${s.x.toFixed(1)} ${s.y.toFixed(1)})`}
+              tabindex="0"
+              role="button"
+              aria-label={`${name(s.key).city}, ${name(s.key).country}`}
+            >
               <circle class="stop__pulse" r={radius(s.total)} />
               <circle class="stop__dot" r={radius(s.total)} />
               <text class="stop__label" x={radius(s.total) + 4} y="4">
@@ -132,22 +159,57 @@ const payload = {
 
     <ul class="tmap__list">
       {
-        list.map((s) => (
-          <li data-key={s.key}>
-            <span class="tmap__city">
-              {name(s.key).city}
-              <small>{name(s.key).country}</small>
-            </span>
-            <span class="tmap__count" data-count>{s.total}</span>
+        groups.map((g) => (
+          <li class="tmap__country" data-code={g.code}>
+            <button type="button" class="tmap__pick tmap__pick--country" data-code={g.code} data-country={g.country} aria-pressed="false">
+              {g.country}
+              <span class="tmap__count" data-count>{g.total}</span>
+            </button>
+            <ul class="tmap__cities">
+              {g.cities.map((c) => (
+                <li data-key={c.key}>
+                  <button
+                    type="button"
+                    class="tmap__pick tmap__pick--city"
+                    data-key={c.key}
+                    data-city={name(c.key).city}
+                    data-country={g.country}
+                    data-code={g.code}
+                    aria-pressed="false"
+                  >
+                    {name(c.key).city}
+                    <span class="tmap__count" data-count>{c.total}</span>
+                  </button>
+                </li>
+              ))}
+            </ul>
           </li>
         ))
       }
     </ul>
+    <p class="tmap__hint">{tr("map.hint")}</p>
     <p class="tmap__legend">
       <svg viewBox="-10 -10 20 20" aria-hidden="true"><path d="M0 -9 L2.6 -2.8 9 -2.8 3.8 1.2 5.8 7.6 0 3.8 -5.8 7.6 -3.8 1.2 -9 -2.8 -2.6 -2.8 Z" /></svg>
       {tr("map.legend")}
     </p>
   </aside>
+  <!-- Talks of the selected city or country -->
+  <section class="tmap__results" hidden aria-live="polite" data-one={tr("map.talk")} data-many={tr("map.talks")}>
+    <header class="tmap__results-head">
+      <h4 data-results-title></h4>
+      <div class="tmap__results-actions">
+        <button type="button" class="tmap__chip" data-see-country hidden data-template={tr("map.seeCountry")}></button>
+        <button type="button" class="tmap__chip" data-clear>{tr("map.clear")} ✕</button>
+      </div>
+    </header>
+    <ul class="tmap__talks">
+      {
+        inPerson.map((t) => (
+          <TalkItem talk={t} attrs={{ "data-place": t.where, "data-code": places[t.where].code, "data-year": t.date.slice(0, 4) }} />
+        ))
+      }
+    </ul>
+  </section>
   <script type="application/json" id="talksMapData" set:html={JSON.stringify(payload)} />
 </div>
 
@@ -289,49 +351,84 @@ const payload = {
     color: var(--muted);
   }
 
+  /* Cities grouped by country, each with a count bubble */
   .tmap__list {
     list-style: none;
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px 16px;
-    max-height: 300px;
-    overflow: auto;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 170px), 1fr));
+    align-items: start;
+    gap: 10px;
   }
-  .tmap__list li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 4px;
-    border-bottom: 1px solid var(--line);
-    cursor: default;
+  .tmap__list ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
-  .tmap__list li[hidden] {
+  .tmap__country {
+    padding: 8px;
+    border-radius: 14px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+  }
+  .tmap__country[hidden],
+  .tmap__cities li[hidden] {
     display: none;
   }
-  .tmap__list li:hover,
-  .tmap__list li.is-focus {
+  .tmap__cities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .tmap__pick {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 0;
+    border-radius: 999px;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+  }
+  .tmap__pick--country {
+    width: 100%;
+    justify-content: space-between;
+    padding: 4px 6px;
+    font: 700 0.92rem var(--font-sans);
+  }
+  .tmap__pick--city {
+    padding: 4px 4px 4px 10px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font: 500 0.82rem var(--font-sans);
+  }
+  .tmap__pick:hover,
+  .tmap__cities li.is-focus .tmap__pick {
     color: var(--coral);
   }
-  .tmap__city {
-    display: grid;
-    font-weight: 600;
-    font-size: 0.92rem;
-    line-height: 1.2;
+  .tmap__pick[aria-pressed="true"] {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: #1d1727;
   }
-  .tmap__city small {
-    font: 400 0.72rem var(--font-mono);
-    color: var(--muted);
-  }
+  /* the bubble */
   .tmap__count {
-    font: 600 0.85rem var(--font-mono);
-    min-width: 26px;
-    text-align: center;
-    padding: 2px 6px;
+    display: inline-grid;
+    place-items: center;
+    min-width: 22px;
+    height: 22px;
+    padding: 0 6px;
     border-radius: 999px;
-    background: color-mix(in srgb, var(--coral) 18%, transparent);
+    background: color-mix(in srgb, var(--coral) 18%, var(--surface));
+    color: var(--ink);
+    font: 600 0.72rem var(--font-mono);
+  }
+  .tmap__pick[aria-pressed="true"] .tmap__count {
+    background: var(--surface);
   }
 
   .tmap__legend {
@@ -362,6 +459,79 @@ const payload = {
       transform: scale(2.4);
       opacity: 0;
     }
+  }
+
+  /* Clickable map: dots and visited countries */
+  .stop,
+  .tmap__countries path.is-visited {
+    cursor: pointer;
+  }
+  .stop:focus-visible {
+    outline: none;
+  }
+  .stop:focus-visible .stop__dot,
+  .stop.is-selected .stop__dot {
+    stroke: var(--ink);
+    stroke-width: 2.5;
+  }
+  .tmap__countries path.is-selected {
+    fill: color-mix(in srgb, var(--coral) 35%, var(--surface));
+  }
+
+  .tmap__hint {
+    margin: 0;
+    font-size: 0.85rem;
+    color: var(--muted);
+  }
+
+  /* Talks of the selected place, under the map */
+  .tmap__results {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+  .tmap__results[hidden] {
+    display: none;
+  }
+  .tmap__results-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px 16px;
+    margin-bottom: 6px;
+  }
+  .tmap__results-head h4 {
+    margin: 0;
+    font-size: 1.2rem;
+    letter-spacing: -0.02em;
+  }
+  .tmap__results-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tmap__chip {
+    min-height: 36px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+    font: 500 0.82rem var(--font-sans);
+    cursor: pointer;
+  }
+  .tmap__chip:hover {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .tmap__chip[hidden] {
+    display: none;
+  }
+  .tmap__talks {
+    list-style: none;
+    margin: 0;
+    padding: 0;
   }
 
   @media (max-width: 860px) {
@@ -416,10 +586,17 @@ const payload = {
         p.classList.toggle("is-dim", !on);
         if (on) visited.add(p.dataset.code!);
       });
-      $<HTMLLIElement>(".tmap__list li").forEach((li) => {
-        const n = count(li.dataset.key!);
-        li.hidden = n === 0;
-        li.querySelector("[data-count]")!.textContent = String(n);
+      // City bubbles, then each country's total
+      $<HTMLLIElement>(".tmap__country").forEach((group) => {
+        let total = 0;
+        group.querySelectorAll<HTMLLIElement>(".tmap__cities li").forEach((li) => {
+          const n = count(li.dataset.key!);
+          total += n;
+          li.hidden = n === 0;
+          li.querySelector("[data-count]")!.textContent = String(n);
+        });
+        group.hidden = total === 0;
+        group.querySelector(".tmap__pick--country [data-count]")!.textContent = String(total);
       });
 
       summary("talks").textContent = String(talks);
@@ -433,10 +610,97 @@ const payload = {
       root!.classList.add("is-drawn");
     }
 
+    // ---------- Selected city or country: its talks show under the map ----------
+    type Selection = { by: "place" | "code"; value: string; label: string; code: string; country: string } | null;
+    let year = "all";
+    let selection: Selection = null;
+    const results = root.querySelector<HTMLElement>(".tmap__results")!;
+    const resultsTitle = results.querySelector<HTMLElement>("[data-results-title]")!;
+    const seeCountry = results.querySelector<HTMLButtonElement>("[data-see-country]")!;
+    const talkItems = [...results.querySelectorAll<HTMLLIElement>(".talk")];
+
+    function renderSelection(scroll = false) {
+      $<HTMLButtonElement>(".tmap__pick--city").forEach((b) =>
+        b.setAttribute("aria-pressed", String(selection?.by === "place" && b.dataset.key === selection.value)),
+      );
+      $<HTMLButtonElement>(".tmap__pick--country").forEach((b) =>
+        b.setAttribute("aria-pressed", String(selection?.by === "code" && b.dataset.code === selection.value)),
+      );
+      $<SVGGElement>(".stop").forEach((g) =>
+        g.classList.toggle("is-selected", selection?.by === "place" && g.dataset.key === selection.value),
+      );
+      $<SVGPathElement>(".tmap__countries path").forEach((p) =>
+        p.classList.toggle("is-selected", selection?.by === "code" && p.dataset.code === selection.value),
+      );
+      if (!selection) {
+        results.hidden = true;
+        return;
+      }
+      let n = 0;
+      for (const li of talkItems) {
+        const match =
+          (selection.by === "place" ? li.dataset.place : li.dataset.code) === selection.value &&
+          (year === "all" || li.dataset.year === year);
+        li.hidden = !match;
+        if (match) n++;
+      }
+      // Nothing in this place for the chosen year: close the panel
+      if (n === 0) {
+        selection = null;
+        renderSelection();
+        return;
+      }
+      const word = n === 1 ? results.dataset.one : results.dataset.many;
+      resultsTitle.textContent = `${selection.label} · ${n} ${word}${year === "all" ? "" : ` · ${year}`}`;
+      seeCountry.hidden = selection.by !== "place";
+      seeCountry.textContent = (seeCountry.dataset.template ?? "").replace("{country}", selection.country);
+      results.hidden = false;
+      if (scroll) results.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+
+    const pickPlace = (key: string, scroll = true) => {
+      const b = root.querySelector<HTMLButtonElement>(`.tmap__pick--city[data-key="${key}"]`);
+      if (!b) return;
+      const same = selection?.by === "place" && selection.value === key;
+      selection = same
+        ? null
+        : { by: "place", value: key, label: `${b.dataset.city}, ${b.dataset.country}`, code: b.dataset.code!, country: b.dataset.country! };
+      renderSelection(scroll);
+    };
+    const pickCountry = (code: string, country: string, scroll = true) => {
+      const same = selection?.by === "code" && selection.value === code;
+      selection = same ? null : { by: "code", value: code, label: country, code, country };
+      renderSelection(scroll);
+    };
+
+    $<HTMLButtonElement>(".tmap__pick--city").forEach((b) => b.addEventListener("click", () => pickPlace(b.dataset.key!)));
+    $<HTMLButtonElement>(".tmap__pick--country").forEach((b) =>
+      b.addEventListener("click", () => pickCountry(b.dataset.code!, b.dataset.country!)),
+    );
+    $<SVGGElement>(".stop").forEach((g) => {
+      g.addEventListener("click", () => pickPlace(g.dataset.key!));
+      g.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          pickPlace(g.dataset.key!);
+        }
+      });
+    });
+    $<SVGPathElement>(".tmap__countries path.is-visited").forEach((p) =>
+      p.addEventListener("click", () => pickCountry(p.dataset.code!, p.dataset.name!)),
+    );
+    seeCountry.addEventListener("click", () => selection && pickCountry(selection.code, selection.country));
+    results.querySelector("[data-clear]")!.addEventListener("click", () => {
+      selection = null;
+      renderSelection();
+    });
+
     $<HTMLButtonElement>("[data-year]").forEach((b) =>
       b.addEventListener("click", () => {
         $("[data-year]").forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-        show(b.dataset.year!);
+        year = b.dataset.year!;
+        show(year);
+        renderSelection();
       }),
     );
 
@@ -445,7 +709,7 @@ const payload = {
       if (!key) return;
       root.querySelectorAll(`[data-key="${key}"]`).forEach((el) => el.classList.toggle("is-focus", on));
     };
-    $<HTMLElement>(".tmap__list li, .stop").forEach((el) => {
+    $<HTMLElement>(".tmap__cities li, .stop").forEach((el) => {
       el.addEventListener("pointerenter", () => focus(el.dataset.key, true));
       el.addEventListener("pointerleave", () => focus(el.dataset.key, false));
     });

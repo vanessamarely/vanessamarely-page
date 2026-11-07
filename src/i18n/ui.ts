@@ -93,6 +93,9 @@ const es = {
   "map.legend": "Punto de partida: Medellín · el tamaño del punto es el número de charlas",
   "map.talk": "charla",
   "map.talks": "charlas",
+  "map.hint": "Toca una ciudad o un país para ver sus charlas.",
+  "map.seeCountry": "Ver todo {country}",
+  "map.clear": "Cerrar",
 
   // Talks page
   "talksPage.title": "Charlas · Vanessa Marely",
@@ -241,6 +244,9 @@ const en: Record<UIKey, string> = {
   "map.legend": "Starting point: Medellín · dot size is the number of talks",
   "map.talk": "talk",
   "map.talks": "talks",
+  "map.hint": "Tap a city or a country to see its talks.",
+  "map.seeCountry": "See all of {country}",
+  "map.clear": "Close",
 
   "talksPage.title": "Talks · Vanessa Marely",
   "talksPage.description":

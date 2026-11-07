@@ -5,8 +5,10 @@ import { langOf, useT, dateLocale } from "../i18n";
 
 interface Props {
   talk: Talk;
+  /** Extra data-* attributes for filtering (e.g. on the travel map). */
+  attrs?: Record<string, string>;
 }
-const { talk } = Astro.props;
+const { talk, attrs = {} } = Astro.props;
 const lang = langOf(Astro.currentLocale);
 const t = useT(lang);
 const resLabel = resourceLabel[lang];
@@ -21,7 +23,7 @@ const place = talk.where && talk.where !== "online" ? placeName(lang, talk.where
 const date = new Intl.DateTimeFormat(dateLocale[lang], { day: "numeric", month: "short" }).format(new Date(`${talk.date}T12:00`));
 ---
 
-<li class="talk" data-kind={talk.kind} data-has-resources={talk.resources.some((r) => r.type !== "event") ? "1" : "0"}>
+<li class="talk" {...attrs} data-kind={talk.kind} data-has-resources={talk.resources.some((r) => r.type !== "event") ? "1" : "0"}>
   <time datetime={talk.date}>{date}</time>
   <div class="talk__main">
     <h3>{talk.title}</h3>
