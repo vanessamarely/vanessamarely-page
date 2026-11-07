@@ -10,6 +10,7 @@ export const places = {
   pereira: { city: "Pereira", country: "Colombia", code: "COL", lat: 4.81, lon: -75.69 },
   quito: { city: "Quito", country: "Ecuador", code: "ECU", lat: -0.18, lon: -78.47 },
   lima: { city: "Lima", country: "Perú", code: "PER", lat: -12.05, lon: -77.04 },
+  cusco: { city: "Cusco", country: "Perú", code: "PER", lat: -13.53, lon: -71.97 },
   ica: { city: "Ica", country: "Perú", code: "PER", lat: -14.07, lon: -75.73 },
   santacruz: { city: "Santa Cruz", country: "Bolivia", code: "BOL", lat: -17.78, lon: -63.18 },
   hermosillo: { city: "Hermosillo", country: "México", code: "MEX", lat: 29.07, lon: -110.96 },

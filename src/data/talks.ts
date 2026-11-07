@@ -67,6 +67,13 @@ const gdg = (slug: string) => event(`https://gdg.community.dev/events/details/${
 
 export const talks: Talk[] = [
   // ---------- 2026 ----------
+  t("2026-11-07", "charla", "WebMCP en acción", "DevFest Cusco", ["WebMCP", "IA", "Agentes"], [
+    slides("https://webmcp-cusco-slides.web.app"),
+    repo("web-mcp-devfest26-cusco"),
+    demo("https://webmcp-cusco-demo.web.app"),
+    { type: "codelab", url: "https://github.com/vanessamarely/web-mcp-devfest26-cusco/tree/main/skills/webmcp-agentic-web", label: "Guía WebMCP" },
+    gdg("google-gdg-cusco-presents-devfest-cusco-2026"),
+  ], "cusco"),
   t("2026-10-24", "charla", "Web performance en la era de la UI generativa", "DevFest Guatemala City", ["Performance", "IA", "Core Web Vitals"], [
     slides("https://web-performance-gen-ui-slides.web.app/"),
     repo("web-performance-gen-ui"),

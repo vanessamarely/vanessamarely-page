@@ -23,6 +23,16 @@ export type Project = {
 export const projects: Project[] = [
   // ---------- Charlas y talleres ----------
   {
+    repo: "web-mcp-devfest26-cusco",
+    title: "WebMCP en acción",
+    description: "Ruta Chasqui, un marketplace de experiencias en Cusco con 8 tools de WebMCP, más el deck interactivo y una guía para que tu agente de código vuelva agéntica tu web.",
+    category: "talk",
+    tags: ["WebMCP", "IA", "Agentes"],
+    demo: "https://webmcp-cusco-demo.web.app",
+    docs: "https://webmcp-cusco-slides.web.app",
+    talk: "DevFest Cusco 2026",
+  },
+  {
     repo: "web-performance-gen-ui",
     title: "Web performance en la era de la UI generativa",
     description: "Deck interactivo con consola de presentadora y app para asistentes, más Mercadito: un asistente de compras con UI generativa en streaming y un laboratorio de performance.",
@@ -248,6 +258,7 @@ export const categoryLabel: Record<"es" | "en", Record<ProjectCategory, string>>
 
 // English text for each project (title only when it changes). Event names stay as they are.
 const projectEn: Record<string, { title?: string; description: string; talk?: string }> = {
+  "web-mcp-devfest26-cusco": { title: "WebMCP in action", description: "Ruta Chasqui, a marketplace of experiences in Cusco with 8 WebMCP tools, plus the interactive deck and a guide so your coding agent can make your site agentic." },
   "web-performance-gen-ui": { title: "Web performance in the era of generative UI", description: "An interactive deck with a presenter console and an attendee app, plus Mercadito: a shopping assistant with streaming generative UI and a performance lab." },
   "fluid-generative-ui": { description: "Two apps for the talk on AI-generated UI without layout shifts or latency: performance, structured outputs and WebMCP." },
   "webmcp-action": { description: "A WebMCP demo, the proposed standard that lets a page expose its features as tools for AI agents." },
