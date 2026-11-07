@@ -10,6 +10,7 @@
     "og": "node --experimental-strip-types scripts/og-image.mjs"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
     "astro": "^5.1.1"
   },
   "devDependencies": {

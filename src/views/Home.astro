@@ -9,6 +9,7 @@ import PostCard from "../components/PostCard.astro";
 import Icon from "../components/Icon.astro";
 import { getPosts } from "../lib/posts";
 import { langOf, useT, localize } from "../i18n";
+import { SITE, PERSON_ID, WEBSITE_ID } from "../lib/seo";
 
 const lang = langOf(Astro.currentLocale);
 const t = useT(lang);
@@ -18,9 +19,17 @@ const posts = lang === "en" ? [...all.filter((p) => p.lang === "en"), ...all.fil
 const latest = posts.slice(0, 6);
 const roles = t("hero.roles").split("|");
 const marquee = t("hero.marquee").split("|");
+const profilePage = {
+  "@type": "ProfilePage",
+  url: `${SITE}${localize(lang, "/")}`,
+  name: t("meta.title"),
+  inLanguage: lang,
+  isPartOf: { "@id": WEBSITE_ID },
+  mainEntity: { "@id": PERSON_ID },
+};
 ---
 
-<Layout>
+<Layout jsonLd={[profilePage]}>
   <section class="hero">
     <div class="aurora" aria-hidden="true"><span></span><span></span><span></span></div>
     <div class="wrap hero__grid">

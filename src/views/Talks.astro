@@ -2,8 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import TalkItem from "../components/TalkItem.astro";
 import TalksMap from "../components/TalksMap.astro";
-import { sortedTalks, impact, kindLabel, type TalkKind } from "../data/talks";
-import { langOf, useT } from "../i18n";
+import { sortedTalks, impact, kindLabel, eventLabel, isGenericEvent, type TalkKind } from "../data/talks";
+import { places, placeName } from "../data/places";
+import { langOf, useT, localize } from "../i18n";
+import { SITE, PERSON_ID } from "../lib/seo";
 
 const lang = langOf(Astro.currentLocale);
 const tr = useT(lang);
@@ -14,6 +16,41 @@ for (const t of sortedTalks) {
   byYear.set(y, [...(byYear.get(y) ?? []), t]);
 }
 const kinds = Object.keys(kindLabel[lang]) as TalkKind[];
+
+// Each talk with a known place becomes a schema.org Event, so search engines can tie it to Vanessa
+const iso2: Record<string, string> = { COL: "CO", ECU: "EC", PER: "PE", BOL: "BO", MEX: "MX", CHL: "CL", GTM: "GT", DOM: "DO", BRA: "BR", ARG: "AR" };
+const pageUrl = `${SITE}${localize(lang, "/charlas/")}`;
+const events = sortedTalks.flatMap((talk) => {
+  if (!talk.where) return [];
+  const eventUrl = talk.resources.find((r) => r.type === "event")?.url;
+  const online = talk.where === "online";
+  const place = online ? null : placeName(lang, talk.where);
+  const generic = isGenericEvent(talk.event);
+  return [
+    {
+      "@type": "Event",
+      name: generic || talk.title === talk.event ? talk.title : `${talk.title} · ${eventLabel(lang, talk.event)}`,
+      startDate: talk.date,
+      eventStatus: "https://schema.org/EventScheduled",
+      eventAttendanceMode: `https://schema.org/${online ? "Online" : "Offline"}EventAttendanceMode`,
+      location: online
+        ? { "@type": "VirtualLocation", url: eventUrl ?? pageUrl }
+        : {
+            "@type": "Place",
+            name: `${place!.city}, ${place!.country}`,
+            address: {
+              "@type": "PostalAddress",
+              addressLocality: place!.city,
+              addressCountry: iso2[places[talk.where].code] ?? places[talk.where].code,
+            },
+          },
+      performer: { "@id": PERSON_ID },
+      ...(!generic && { organizer: { "@type": "Organization", name: talk.event, ...(eventUrl && { url: eventUrl }) } }),
+      ...(eventUrl && { url: eventUrl }),
+      keywords: talk.tags.join(", "),
+    },
+  ];
+});
 ---
 
 <Layout
@@ -21,6 +58,7 @@ const kinds = Object.keys(kindLabel[lang]) as TalkKind[];
   imageAlt={tr("talksPage.imageAlt")}
   title={tr("talksPage.title")}
   description={tr("talksPage.description")}
+  jsonLd={events}
 >
   <section class="page">
     <div class="wrap">

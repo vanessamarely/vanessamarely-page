@@ -515,6 +515,7 @@ const genericEventEn: Record<string, string> = {
   "Taller online": "Online workshop",
   "Mentoría": "Mentoring",
 };
+export const isGenericEvent = (name: string) => name in genericEventEn;
 export const eventLabel = (lang: Lang, name: string) => (lang === "en" ? (genericEventEn[name] ?? name) : name);
 
 // Live streams are always online; everything else carries its own location (or none if unknown).

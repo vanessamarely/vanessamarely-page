@@ -1,9 +1,9 @@
 // Interface text in Spanish and English. Keys marked "html" contain inline markup and are rendered with set:html.
 const es = {
   // Layout / SEO
-  "meta.title": "Vanessa Marely · Fullstack developer, Angular & Web",
+  "meta.title": "Vanessa Marely · Fullstack developer, GDE Angular & Web",
   "meta.description":
-    "Vanessa Marely Aristizábal — fullstack developer con foco en frontend, Google Developer Expert en Angular y Web, GitHub Star, escritora, mentora, speaker e ilustradora.",
+    "Vanessa Marely Aristizábal, fullstack developer con foco en frontend, Google Developer Expert en Angular y Web y GitHub Star. Charlas, artículos y proyectos.",
   "meta.imageAlt": "Vanessa Marely Aristizábal Ángel · Fullstack developer, GDE Angular & Web, GitHub Star · vanessamarely.dev",
   "a11y.skip": "Saltar al contenido",
 
@@ -100,7 +100,7 @@ const es = {
   // Talks page
   "talksPage.title": "Charlas · Vanessa Marely",
   "talksPage.description":
-    "Charlas, talleres, paneles y mentorías de Vanessa Marely sobre Angular, rendimiento web, DevTools, accesibilidad e IA, con slides, videos y enlaces a cada evento.",
+    "Charlas, talleres y mentorías de Vanessa Marely sobre Angular, rendimiento web, DevTools, accesibilidad e IA, con slides, videos y enlaces a cada evento.",
   "talksPage.imageAlt": "Charlas y recursos de Vanessa Marely: mapa de las ciudades donde ha dado charlas presenciales",
   "talksPage.h1.html": 'Charlas &amp; <em class="serif">recursos</em>',
   "talksPage.lede":
@@ -159,9 +159,9 @@ const es = {
 export type UIKey = keyof typeof es;
 
 const en: Record<UIKey, string> = {
-  "meta.title": "Vanessa Marely · Fullstack developer, Angular & Web",
+  "meta.title": "Vanessa Marely · Fullstack developer, GDE Angular & Web",
   "meta.description":
-    "Vanessa Marely Aristizábal — frontend-focused fullstack developer. Google Developer Expert in Angular and Web, GitHub Star, writer, mentor, speaker and illustrator.",
+    "Vanessa Marely Aristizábal, frontend-focused fullstack developer, Google Developer Expert in Angular and Web and GitHub Star. Talks, articles and projects.",
   "meta.imageAlt": "Vanessa Marely Aristizábal Ángel · Fullstack developer, GDE Angular & Web, GitHub Star · vanessamarely.dev",
   "a11y.skip": "Skip to content",
 
@@ -250,7 +250,7 @@ const en: Record<UIKey, string> = {
 
   "talksPage.title": "Talks · Vanessa Marely",
   "talksPage.description":
-    "Talks, workshops, panels and mentoring sessions by Vanessa Marely on Angular, web performance, DevTools, accessibility and AI, with slides, videos and links to every event.",
+    "Talks, workshops and mentoring by Vanessa Marely on Angular, web performance, DevTools, accessibility and AI, with slides, videos and links to each event.",
   "talksPage.imageAlt": "Talks and resources by Vanessa Marely: map of the cities where she has given in-person talks",
   "talksPage.h1.html": 'Talks &amp; <em class="serif">resources</em>',
   "talksPage.lede":
