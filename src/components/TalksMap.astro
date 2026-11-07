@@ -406,14 +406,24 @@ const payload = {
     background: var(--surface);
     font: 500 0.82rem var(--font-sans);
   }
+  /* Hover tints the background only; the text keeps full contrast */
   .tmap__pick:hover,
   .tmap__cities li.is-focus .tmap__pick {
-    color: var(--coral);
+    background: color-mix(in srgb, var(--coral) 16%, var(--surface));
+    border-color: color-mix(in srgb, var(--coral) 55%, var(--line));
+    color: var(--ink);
   }
-  .tmap__pick[aria-pressed="true"] {
+  /* Selected: solid coral with dark text, also while hovered */
+  .tmap__pick[aria-pressed="true"],
+  .tmap__pick[aria-pressed="true"]:hover,
+  .tmap__cities li.is-focus .tmap__pick[aria-pressed="true"] {
     background: var(--coral);
     border-color: var(--coral);
     color: #1d1727;
+  }
+  .tmap__pick:focus-visible {
+    outline: 2px solid var(--violet);
+    outline-offset: 2px;
   }
   /* the bubble */
   .tmap__count {
