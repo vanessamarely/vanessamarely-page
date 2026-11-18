@@ -119,6 +119,7 @@ const payload = {
             <g
               class="stop"
               data-key={s.key}
+              data-city={name(s.key).city}
               data-years={Object.keys(s.counts).join(" ")}
               transform={`translate(${s.x.toFixed(1)} ${s.y.toFixed(1)})`}
               tabindex="0"
@@ -127,9 +128,6 @@ const payload = {
             >
               <circle class="stop__pulse" r={radius(s.total)} />
               <circle class="stop__dot" r={radius(s.total)} />
-              <text class="stop__label" x={radius(s.total) + 4} y="4">
-                {name(s.key).city}
-              </text>
               <title>{`${name(s.key).city}, ${name(s.key).country}: ${s.total} ${s.total === 1 ? tr("map.talk") : tr("map.talks")}`}</title>
             </g>
           ))
@@ -138,6 +136,8 @@ const payload = {
       <g class="tmap__home" transform={`translate(${home.x.toFixed(1)} ${home.y.toFixed(1)})`}>
         <path d="M0 -9 L2.6 -2.8 9 -2.8 3.8 1.2 5.8 7.6 0 3.8 -5.8 7.6 -3.8 1.2 -9 -2.8 -2.6 -2.8 Z" />
       </g>
+      <!-- City name: one label drawn last, so neighbouring dots never cover it -->
+      <text class="tmap__tip" aria-hidden="true"></text>
     </svg>
   </div>
 
@@ -286,18 +286,18 @@ const payload = {
     transform-origin: center;
     animation: pulse-dot 2.4s ease-out infinite;
   }
-  .stop__label {
-    font: 600 10px var(--font-sans);
+  .tmap__tip {
+    font: 700 12px var(--font-sans);
     fill: var(--ink);
     paint-order: stroke;
     stroke: var(--surface);
-    stroke-width: 3px;
+    stroke-width: 4px;
+    stroke-linejoin: round;
     opacity: 0;
-    transition: opacity 0.2s;
+    transition: opacity 0.15s;
     pointer-events: none;
   }
-  .stop:hover .stop__label,
-  .stop.is-focus .stop__label {
+  .tmap__tip.is-on {
     opacity: 1;
   }
 
@@ -476,13 +476,26 @@ const payload = {
   .tmap__countries path.is-visited {
     cursor: pointer;
   }
+  /* Only the solid dots and countries react to the cursor. The pulse ring grows and shrinks,
+     so catching the pointer there made the hover jump between cities on its own. */
+  .stop__pulse,
+  .tmap__arcs,
+  .tmap__home {
+    pointer-events: none;
+  }
+  /* No browser box around a clicked dot; the keyboard gets a violet ring on the dot itself */
+  .stop,
+  .stop:focus,
   .stop:focus-visible {
     outline: none;
   }
-  .stop:focus-visible .stop__dot,
   .stop.is-selected .stop__dot {
     stroke: var(--ink);
     stroke-width: 2.5;
+  }
+  .stop:focus-visible .stop__dot {
+    stroke: var(--violet);
+    stroke-width: 3;
   }
   .tmap__countries path.is-selected {
     fill: color-mix(in srgb, var(--coral) 35%, var(--surface));
@@ -581,7 +594,6 @@ const payload = {
           talks += n;
           cities++;
           g.querySelectorAll("circle").forEach((c) => c.setAttribute("r", String(radius(n))));
-          g.querySelector("text")!.setAttribute("x", String(radius(n) + 4));
         }
       });
       let i = 0;
@@ -629,7 +641,29 @@ const payload = {
     const seeCountry = results.querySelector<HTMLButtonElement>("[data-see-country]")!;
     const talkItems = [...results.querySelectorAll<HTMLLIElement>(".talk")];
 
+    // City name on the map: the hovered or keyboard-focused dot first, then the selected one
+    const tip = root.querySelector<SVGTextElement>(".tmap__tip")!;
+    let hovered: SVGGElement | null = null;
+    let focused: SVGGElement | null = null;
+    const stopOf = (key: string) => root.querySelector<SVGGElement>(`.stop[data-key="${key}"]`);
+
+    function renderTip() {
+      const selected = selection?.by === "place" ? stopOf(selection.value) : null;
+      const g = hovered ?? focused ?? selected;
+      tip.classList.toggle("is-on", !!g);
+      if (!g) return;
+      tip.textContent = g.dataset.city ?? "";
+      const { e: x, f: y } = g.transform.baseVal.getItem(0).matrix;
+      const gap = Number(g.querySelector(".stop__dot")!.getAttribute("r")) + 5;
+      // Flip to the left of the dot when the name would leave the map
+      const flip = x + gap + tip.getComputedTextLength() > 486;
+      tip.setAttribute("text-anchor", flip ? "end" : "start");
+      tip.setAttribute("x", String(flip ? x - gap : x + gap));
+      tip.setAttribute("y", String(y + 4));
+    }
+
     function renderSelection(scroll = false) {
+      renderTip();
       $<HTMLButtonElement>(".tmap__pick--city").forEach((b) =>
         b.setAttribute("aria-pressed", String(selection?.by === "place" && b.dataset.key === selection.value)),
       );
@@ -689,6 +723,14 @@ const payload = {
     );
     $<SVGGElement>(".stop").forEach((g) => {
       g.addEventListener("click", () => pickPlace(g.dataset.key!));
+      g.addEventListener("focus", () => {
+        focused = g.matches(":focus-visible") ? g : null;
+        renderTip();
+      });
+      g.addEventListener("blur", () => {
+        focused = null;
+        renderTip();
+      });
       g.addEventListener("keydown", (e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
@@ -718,7 +760,15 @@ const payload = {
     const focus = (key: string | undefined, on: boolean) => {
       if (!key) return;
       root.querySelectorAll(`[data-key="${key}"]`).forEach((el) => el.classList.toggle("is-focus", on));
+      if (on) hovered = stopOf(key);
+      else if (hovered?.dataset.key === key) hovered = null;
+      renderTip();
     };
+    // Safety net: leaving the map always clears the hovered city
+    root.addEventListener("pointerleave", () => {
+      hovered = null;
+      renderTip();
+    });
     $<HTMLElement>(".tmap__cities li, .stop").forEach((el) => {
       el.addEventListener("pointerenter", () => focus(el.dataset.key, true));
       el.addEventListener("pointerleave", () => focus(el.dataset.key, false));
