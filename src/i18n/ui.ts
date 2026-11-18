@@ -96,6 +96,7 @@ const es = {
   "map.hint": "Toca una ciudad o un país para ver sus charlas.",
   "map.seeCountry": "Ver todo {country}",
   "map.clear": "Cerrar",
+  "map.see": "Ver",
 
   // Talks page
   "talksPage.title": "Charlas · Vanessa Marely",
@@ -247,6 +248,7 @@ const en: Record<UIKey, string> = {
   "map.hint": "Tap a city or a country to see its talks.",
   "map.seeCountry": "See all of {country}",
   "map.clear": "Close",
+  "map.see": "See",
 
   "talksPage.title": "Talks · Vanessa Marely",
   "talksPage.description":

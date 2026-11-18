@@ -210,6 +210,8 @@ const payload = {
       }
     </ul>
   </section>
+  <!-- Shortcut to the talks; the page never scrolls by itself, so the map stays under the cursor -->
+  <button type="button" class="tmap__jump" hidden data-see={tr("map.see")}></button>
   <script type="application/json" id="talksMapData" set:html={JSON.stringify(payload)} />
 </div>
 
@@ -512,6 +514,30 @@ const payload = {
     grid-column: 1 / -1;
     border-top: 1px solid var(--line);
     padding-top: 18px;
+    scroll-margin-top: 90px;
+  }
+  .tmap__jump {
+    position: fixed;
+    left: 50%;
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: 40;
+    transform: translateX(-50%);
+    max-width: calc(100vw - 32px);
+    min-height: 44px;
+    padding: 10px 20px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 999px;
+    background: var(--ink);
+    color: var(--bg);
+    box-shadow: var(--shadow), 0 12px 30px -10px rgba(29, 23, 39, 0.5);
+    font: 600 0.92rem var(--font-sans);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .tmap__jump[hidden] {
+    display: none;
   }
   .tmap__results[hidden] {
     display: none;
@@ -551,10 +577,14 @@ const payload = {
   .tmap__chip[hidden] {
     display: none;
   }
+  /* Fixed maximum height: a city with many talks scrolls inside the panel */
   .tmap__talks {
     list-style: none;
     margin: 0;
     padding: 0;
+    max-height: min(70vh, 560px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
   }
 
   @media (max-width: 860px) {
@@ -662,7 +692,26 @@ const payload = {
       tip.setAttribute("y", String(y + 4));
     }
 
-    function renderSelection(scroll = false) {
+    // Floating shortcut, only while the talks are out of view
+    const jump = root.querySelector<HTMLButtonElement>(".tmap__jump")!;
+    const talksList = results.querySelector<HTMLElement>(".tmap__talks")!;
+    let resultsInView = false;
+    const updateJump = () => {
+      jump.hidden = !selection || resultsInView;
+    };
+    new IntersectionObserver(
+      ([e]) => {
+        resultsInView = e.isIntersecting;
+        updateJump();
+      },
+      { rootMargin: "0px 0px -60px 0px" },
+    ).observe(results);
+    jump.addEventListener("click", () => {
+      const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+      results.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    });
+
+    function renderSelection() {
       renderTip();
       $<HTMLButtonElement>(".tmap__pick--city").forEach((b) =>
         b.setAttribute("aria-pressed", String(selection?.by === "place" && b.dataset.key === selection.value)),
@@ -678,6 +727,7 @@ const payload = {
       );
       if (!selection) {
         results.hidden = true;
+        updateJump();
         return;
       }
       let n = 0;
@@ -699,22 +749,24 @@ const payload = {
       seeCountry.hidden = selection.by !== "place";
       seeCountry.textContent = (seeCountry.dataset.template ?? "").replace("{country}", selection.country);
       results.hidden = false;
-      if (scroll) results.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      talksList.scrollTop = 0;
+      jump.textContent = `${jump.dataset.see} ${n} ${word} · ${selection.label} ↓`;
+      updateJump();
     }
 
-    const pickPlace = (key: string, scroll = true) => {
+    const pickPlace = (key: string) => {
       const b = root.querySelector<HTMLButtonElement>(`.tmap__pick--city[data-key="${key}"]`);
       if (!b) return;
       const same = selection?.by === "place" && selection.value === key;
       selection = same
         ? null
         : { by: "place", value: key, label: `${b.dataset.city}, ${b.dataset.country}`, code: b.dataset.code!, country: b.dataset.country! };
-      renderSelection(scroll);
+      renderSelection();
     };
-    const pickCountry = (code: string, country: string, scroll = true) => {
+    const pickCountry = (code: string, country: string) => {
       const same = selection?.by === "code" && selection.value === code;
       selection = same ? null : { by: "code", value: code, label: country, code, country };
-      renderSelection(scroll);
+      renderSelection();
     };
 
     $<HTMLButtonElement>(".tmap__pick--city").forEach((b) => b.addEventListener("click", () => pickPlace(b.dataset.key!)));
