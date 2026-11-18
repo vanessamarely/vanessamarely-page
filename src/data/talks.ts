@@ -13,7 +13,7 @@ import type { Lang } from "../i18n";
 
 export type TalkKind = "charla" | "taller" | "panel" | "mentoría" | "live";
 export type ResourceType = "slides" | "video" | "event" | "post" | "repo" | "demo" | "codelab";
-export type Resource = { type: ResourceType; url: string; label?: string }; // label replaces the default button text
+export type Resource = { type: ResourceType; url: string; label?: string | Record<Lang, string> }; // label replaces the default button text
 
 export type Talk = {
   title: string;
@@ -67,6 +67,23 @@ const gdg = (slug: string) => event(`https://gdg.community.dev/events/details/${
 
 export const talks: Talk[] = [
   // ---------- 2026 ----------
+  t("2026-11-14", "charla", "Chrome DevTools para agentes", "DevFest Lima", ["DevTools", "IA", "Agentes", "WebMCP"], [
+    slides("https://devfest-lima-slides.web.app/agentes-breve/"),
+    { type: "demo", url: "https://devfest-lima-mesa.web.app", label: "Demo Mesa" },
+    { type: "demo", url: "https://devfest-lima-slides.web.app/live/?talk=agentes&breve=1", label: { es: "Seguir en el celular", en: "Follow on your phone" } },
+    { type: "codelab", url: "https://github.com/vanessamarely/web-devfest26-lima/tree/main/skills/devtools-for-agents", label: { es: "Guía para tu agente", en: "Guide for your agent" } },
+    repo("web-devfest26-lima"),
+    gdg("google-gdg-lima-presents-devfest-lima-2026-dia-ii"),
+  ], "lima"),
+  t("2026-11-13", "charla", "Web performance en la era de la UI generativa", "DevFest Lima", ["Performance", "IA", "Core Web Vitals"], [
+    slides("https://devfest-lima-slides.web.app/genui/"),
+    { type: "demo", url: "https://devfest-lima-nido.web.app", label: "Demo Nido" },
+    { type: "demo", url: "https://devfest-lima-nido.web.app/compare", label: { es: "Comparador", en: "Comparison" } },
+    { type: "demo", url: "https://devfest-lima-slides.web.app/live/?talk=genui", label: { es: "Seguir en el celular", en: "Follow on your phone" } },
+    { type: "codelab", url: "https://github.com/vanessamarely/web-devfest26-lima/tree/main/skills/genui-performance", label: { es: "Guía para tu agente", en: "Guide for your agent" } },
+    repo("web-devfest26-lima"),
+    gdg("google-gdg-lima-presents-devfest-lima-2026-dia-i"),
+  ], "lima"),
   t("2026-11-07", "charla", "WebMCP en acción", "DevFest Cusco", ["WebMCP", "IA", "Agentes"], [
     slides("https://webmcp-cusco-slides.web.app"),
     repo("web-mcp-devfest26-cusco"),

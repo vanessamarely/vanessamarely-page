@@ -23,6 +23,16 @@ export type Project = {
 export const projects: Project[] = [
   // ---------- Charlas y talleres ----------
   {
+    repo: "web-devfest26-lima",
+    title: "DevFest Lima 2026: UI generativa y DevTools para agentes",
+    description: "Código, demos y guías de dos charlas: Nido, un buscador de departamentos con UI generativa, y Mesa, reservas de restaurantes con un panel para depurar agentes.",
+    category: "talk",
+    tags: ["Performance", "DevTools", "Agentes"],
+    demo: "https://devfest-lima-nido.web.app",
+    docs: "https://devfest-lima-slides.web.app",
+    talk: "DevFest Lima 2026",
+  },
+  {
     repo: "web-mcp-devfest26-cusco",
     title: "WebMCP en acción",
     description: "Ruta Chasqui, un marketplace de experiencias en Cusco con 8 tools de WebMCP, más el deck interactivo y una guía para que tu agente de código vuelva agéntica tu web.",
@@ -258,6 +268,7 @@ export const categoryLabel: Record<"es" | "en", Record<ProjectCategory, string>>
 
 // English text for each project (title only when it changes). Event names stay as they are.
 const projectEn: Record<string, { title?: string; description: string; talk?: string }> = {
+  "web-devfest26-lima": { title: "DevFest Lima 2026: generative UI and DevTools for agents", description: "Code, demos and guides from two talks: Nido, an apartment finder with generative UI, and Mesa, restaurant bookings with a panel for debugging agents." },
   "web-mcp-devfest26-cusco": { title: "WebMCP in action", description: "Ruta Chasqui, a marketplace of experiences in Cusco with 8 WebMCP tools, plus the interactive deck and a guide so your coding agent can make your site agentic." },
   "web-performance-gen-ui": { title: "Web performance in the era of generative UI", description: "An interactive deck with a presenter console and an attendee app, plus Mercadito: a shopping assistant with streaming generative UI and a performance lab." },
   "fluid-generative-ui": { description: "Two apps for the talk on AI-generated UI without layout shifts or latency: performance, structured outputs and WebMCP." },
