@@ -577,14 +577,11 @@ const payload = {
   .tmap__chip[hidden] {
     display: none;
   }
-  /* Fixed maximum height: a city with many talks scrolls inside the panel */
+  /* Part of the page on purpose: an inner scroll area here swallows the mouse wheel */
   .tmap__talks {
     list-style: none;
     margin: 0;
     padding: 0;
-    max-height: min(70vh, 560px);
-    overflow-y: auto;
-    overscroll-behavior: contain;
   }
 
   @media (max-width: 860px) {
@@ -692,20 +689,13 @@ const payload = {
       tip.setAttribute("y", String(y + 4));
     }
 
-    // Floating shortcut, only while the talks are out of view
+    // Floating shortcut, only while the talks are still below the visible area
     const jump = root.querySelector<HTMLButtonElement>(".tmap__jump")!;
-    const talksList = results.querySelector<HTMLElement>(".tmap__talks")!;
-    let resultsInView = false;
+    const JUMP_MARGIN = 60;
     const updateJump = () => {
-      jump.hidden = !selection || resultsInView;
+      jump.hidden = !selection || results.getBoundingClientRect().top < innerHeight - JUMP_MARGIN;
     };
-    new IntersectionObserver(
-      ([e]) => {
-        resultsInView = e.isIntersecting;
-        updateJump();
-      },
-      { rootMargin: "0px 0px -60px 0px" },
-    ).observe(results);
+    new IntersectionObserver(updateJump, { rootMargin: `0px 0px -${JUMP_MARGIN}px 0px` }).observe(results);
     jump.addEventListener("click", () => {
       const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
       results.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
@@ -749,7 +739,6 @@ const payload = {
       seeCountry.hidden = selection.by !== "place";
       seeCountry.textContent = (seeCountry.dataset.template ?? "").replace("{country}", selection.country);
       results.hidden = false;
-      talksList.scrollTop = 0;
       jump.textContent = `${jump.dataset.see} ${n} ${word} · ${selection.label} ↓`;
       updateJump();
     }
